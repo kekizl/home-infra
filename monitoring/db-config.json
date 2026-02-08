@@ -1,0 +1,10 @@
+{
+    "type": "sqlite",
+    "port": 3306,
+    "hostname": "",
+    "username": "",
+    "password": "",
+    "dbName": "kuma",
+    "ssl": false,
+    "ca": ""
+}

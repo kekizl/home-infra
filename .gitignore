@@ -1,0 +1,16 @@
+# Secrets
+.env
+
+# Volumes
+data/
+prometheus_data/
+grafana_data/
+
+# Logs
+*.log
+
+# Local overrides if any
+docker-compose.override.yml
+
+# OS junk
+.DS_Store
