@@ -1,0 +1,7 @@
+{
+  "extends": ["config:base"],
+  "enabledManagers": ["docker-compose"],
+  "timezone": "Europe/Stockholm",
+  "dependencyDashboard": true
+}
+
