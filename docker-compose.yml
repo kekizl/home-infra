@@ -2,7 +2,7 @@ version: "3.9"
 
 services:
   uptime-kuma:
-    image: louislam/uptime-kuma:1.23.13
+    image: louislam/uptime-kuma:2.1.0
     container_name: uptime-kuma
     ports:
       - "1111:1111"
