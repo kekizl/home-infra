@@ -51,7 +51,7 @@ services:
     restart: unless-stopped
 
   graphite-exporter:
-    image: prom/graphite-exporter:v0.15.0
+    image: prom/graphite-exporter:v0.16.0
     container_name: graphite-exporter
     ports:
       - "9108:9108"
