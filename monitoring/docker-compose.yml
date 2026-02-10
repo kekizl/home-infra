@@ -2,7 +2,7 @@ version: "3.8"
 
 services:
   prometheus:
-    image: prom/prometheus:v2.52.0
+    image: prom/prometheus:v3.9.1
     container_name: prometheus
     volumes:
       - ./prometheus.yml:/etc/prometheus/prometheus.yml:ro
@@ -14,7 +14,7 @@ services:
     restart: unless-stopped
 
   grafana:
-    image: grafana/grafana:11.2.0
+    image: grafana/grafana:12.3.2
     container_name: grafana
     ports:
       - "3000:3000"
@@ -23,7 +23,7 @@ services:
     restart: unless-stopped
 
   cadvisor:
-    image: gcr.io/cadvisor/cadvisor:v0.49.1
+    image: gcr.io/cadvisor/cadvisor:v0.55.1
     container_name: cadvisor
     privileged: true
     ports:
@@ -36,7 +36,7 @@ services:
     restart: unless-stopped
 
   node-exporter:
-    image: prom/node-exporter:v1.8.1
+    image: prom/node-exporter:v1.10.2
     container_name: node-exporter
     ports:
       - "9100:9100"
@@ -51,7 +51,7 @@ services:
     restart: unless-stopped
 
   graphite-exporter:
-    image: prom/graphite-exporter:v0.15.0
+    image: prom/graphite-exporter:v0.16.0
     container_name: graphite-exporter
     ports:
       - "9108:9108"
@@ -60,7 +60,7 @@ services:
     restart: unless-stopped
 
   uptime-kuma:
-    image: louislam/uptime-kuma:2.0.1
+    image: louislam/uptime-kuma:2.1.0
     container_name: uptime-kuma
     volumes:
       - ./data:/app/data
