@@ -2,6 +2,25 @@
   "extends": ["config:base"],
   "enabledManagers": ["docker-compose"],
   "timezone": "Europe/Stockholm",
-  "dependencyDashboard": true
+  "dependencyDashboard": true,
+
+  "packageRules": [
+    {
+      "matchDatasources": ["docker"],
+      "matchUpdateTypes": ["minor", "patch"],
+      "groupName": "Docker minor & patch updates",
+      "automerge": true,
+      "automergeType": "branch",
+      "platformAutomerge": true
+    },
+    {
+      "matchDatasources": ["docker"],
+      "matchUpdateTypes": ["major"],
+      "groupName": "Docker major updates",
+      "automerge": false
+    }
+  ],
+
+  "schedule": ["every weekend"]
 }
 
