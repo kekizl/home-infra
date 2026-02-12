@@ -1,0 +1,24 @@
+version: "3.9"
+
+x-poll-config: &poll-config
+  POLL_CONFIG: |   
+    - url: https://github.com/kekizl/home-infra.git
+      reference: main  # Optional: specify the branch or tag to poll, defaults to 'main'
+      interval: 1800  # Optional: specify the interval in seconds to poll the repository, defaults to 180 seconds (3 minutes)
+      target: ".doco-cd.yml"  # Optional: use to target a specific deployment config file, e.g., "test" -> .doco-cd.test.yaml
+
+services:
+  doco-cd:
+    image: ghcr.io/kimdre/doco-cd:0.64.0
+    container_name: doco-cd
+    restart: unless-stopped
+    env_file:
+      - .env
+    volumes:
+      - ./doco-cd-data:/app/data       # persistent logs/cache
+      - /var/run/docker.sock:/var/run/docker.sock  # needed for docker-compose deploys
+    ports:
+      - "9080:9080"  # optional health/metrics endpoint
+    environment: 
+      <<: *poll-config  # Uncomment this line to use the poll configuration from above (the `x-poll-config` section).
+

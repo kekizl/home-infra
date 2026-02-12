@@ -1,0 +1,4 @@
+working_dir: .
+auto_discover: true
+auto_discover_opts:
+  depth: 1
