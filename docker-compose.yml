@@ -13,7 +13,6 @@ services:
     ports:
       - "9080:9080"  # optional health/metrics endpoint
     environment: 
-      <<: *poll-config  # Uncomment this line to use the poll configuration from above (the `x-poll-config` section).
       POLL_CONFIG: |   
         - url: https://github.com/kekizl/home-infra.git
           reference: main  # Optional: specify the branch or tag to poll, defaults to 'main'
