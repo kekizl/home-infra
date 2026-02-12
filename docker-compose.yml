@@ -1,11 +1,5 @@
 version: "3.9"
 
-x-poll-config: &poll-config
-  POLL_CONFIG: |   
-    - url: https://github.com/kekizl/home-infra.git
-      reference: main  # Optional: specify the branch or tag to poll, defaults to 'main'
-      interval: 1800  # Optional: specify the interval in seconds to poll the repository, defaults to 180 seconds (3 minutes)
-
 services:
   doco-cd:
     image: ghcr.io/kimdre/doco-cd:0.64.0
@@ -20,4 +14,7 @@ services:
       - "9080:9080"  # optional health/metrics endpoint
     environment: 
       <<: *poll-config  # Uncomment this line to use the poll configuration from above (the `x-poll-config` section).
-
+      POLL_CONFIG: |   
+        - url: https://github.com/kekizl/home-infra.git
+          reference: main  # Optional: specify the branch or tag to poll, defaults to 'main'
+          interval: 1800  # Optional: specify the interval in seconds to poll the repository, defaults to 180 seconds (3 minutes)
