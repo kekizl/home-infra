@@ -5,7 +5,6 @@ x-poll-config: &poll-config
     - url: https://github.com/kekizl/home-infra.git
       reference: main  # Optional: specify the branch or tag to poll, defaults to 'main'
       interval: 1800  # Optional: specify the interval in seconds to poll the repository, defaults to 180 seconds (3 minutes)
-      target: ".doco-cd.yaml"  # Optional: use to target a specific deployment config file, e.g., "test" -> .doco-cd.test.yaml
 
 services:
   doco-cd:
