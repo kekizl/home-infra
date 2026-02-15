@@ -16,4 +16,5 @@ services:
       POLL_CONFIG: |   
         - url: https://github.com/kekizl/home-infra.git
           reference: main  # Optional: specify the branch or tag to poll, defaults to 'main'
-          interval: 1800  # Optional: specify the interval in seconds to poll the repository, defaults to 180 seconds (3 minutes)
+          interval: 180  # Optional: specify the interval in seconds to poll the repository, defaults to 180 seconds (3 minutes)
+          target: ${DOCO_CD_TARGET}

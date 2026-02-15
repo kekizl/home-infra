@@ -1,4 +1,4 @@
-working_dir: .
+working_dir: mac-mini
 auto_discover: true
 auto_discover_opts:
-  depth: 1
+  depth: 3
