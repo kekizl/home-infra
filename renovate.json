@@ -10,17 +10,15 @@
       "matchUpdateTypes": ["minor", "patch"],
       "groupName": "Docker minor & patch updates",
       "automerge": true,
-      "automergeType": "branch",
-      "platformAutomerge": true
+      "automergeType": "pr",
+      "schedule": ["every weekend"]
     },
     {
       "matchDatasources": ["docker"],
       "matchUpdateTypes": ["major"],
       "groupName": "Docker major updates",
-      "automerge": false
+      "automerge": false,
+      "schedule": ["every weekend"]
     }
-  ],
-
-  "schedule": ["every weekend"]
+  ]
 }
-
