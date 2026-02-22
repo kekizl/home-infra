@@ -7,8 +7,6 @@ services:
     volumes:
       - /mnt/Pool/App_Storage/immich/data:/usr/src/app/upload
       - /etc/localtime:/etc/localtime:ro
-    env_file:
-      - .env
     ports:
       - 2283:3001
     depends_on:
@@ -21,8 +19,6 @@ services:
     image: ghcr.io/immich-app/immich-machine-learning:v1.117.0
     volumes:
       - model-cache:/cache
-    env_file:
-      - .env
     restart: always
 
   redis:
