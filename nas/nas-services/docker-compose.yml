@@ -22,7 +22,7 @@ services:
     volumes:
       - model-cache:/cache
     env_file:
-      - .env
+      - /mnt/Pool/home-infra/home-infra/nas/nas-services/.env
     restart: always
 
   redis:
