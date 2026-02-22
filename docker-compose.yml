@@ -10,6 +10,8 @@ services:
     volumes:
       - ./doco-cd-data:/app/data       # persistent logs/cache
       - /var/run/docker.sock:/var/run/docker.sock  # needed for docker-compose deploys
+      - /mnt/Pool/home-infra/home-infra/nas/nas-services:/mnt/Pool/home-infra/home-infra/nas/nas-services:ro
+
     ports:
       - "9080:9080"  # optional health/metrics endpoint
     environment: 
