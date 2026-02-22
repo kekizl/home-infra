@@ -44,5 +44,19 @@ services:
       - /mnt/Pool/App_Storage/immich/immich_postgres:/var/lib/postgresql/data
     restart: always
 
+  audiobookshelf:
+    container_name: audiobookshelf
+    image: ghcr.io/advplyr/audiobookshelf:2.32.1
+    ports:
+      - 30067:80
+    volumes:
+      - /mnt/Pool/App_Storage/Audiobookshelf/audiobooks:/audiobooks
+      - /mnt/Pool/App_Storage/Audiobookshelf/podcasts:/podcasts
+      - /mnt/Pool/App_Storage/Audiobookshelf/config:/config
+      - /mnt/Pool/App_Storage/Audiobookshelf/metadata:/metadata
+    environment:
+      - TZ=Europe/Stockholm
+    restart: unless-stopped
+
 volumes:
   model-cache:

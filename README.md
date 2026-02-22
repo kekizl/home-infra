@@ -63,5 +63,4 @@ Planned services and improvements to be added to the infrastructure:
 | Service | Host | Notes |
 |---|---|---|
 | Tailscale | NAS | Containerized VPN for secure remote access |
-| Audiobookshelf | NAS | Self-hosted audiobook and podcast server |
 | Bitwarden (Vaultwarden) | NAS | Self-hosted password manager, requires a local domain and SSL cert |
