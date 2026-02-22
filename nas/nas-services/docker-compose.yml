@@ -8,7 +8,7 @@ services:
       - /mnt/Pool/App_Storage/immich/data:/usr/src/app/upload
       - /etc/localtime:/etc/localtime:ro
     env_file:
-      - /mnt/Pool/home-infra/home-infra/nas/nas-services/.env
+      - .env
     ports:
       - 2283:3001
     depends_on:
@@ -22,7 +22,7 @@ services:
     volumes:
       - model-cache:/cache
     env_file:
-      - /mnt/Pool/home-infra/home-infra/nas/nas-services/.env
+      - .env
     restart: always
 
   redis:
