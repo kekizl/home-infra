@@ -7,6 +7,8 @@ services:
     volumes:
       - /mnt/Pool/App_Storage/immich/data:/usr/src/app/upload
       - /etc/localtime:/etc/localtime:ro
+    env_file:
+      - /mnt/Pool/home-infra/home-infra/nas/nas-services/.env
     ports:
       - 2283:3001
     depends_on:
@@ -17,6 +19,8 @@ services:
   immich-machine-learning:
     container_name: immich_machine_learning
     image: ghcr.io/immich-app/immich-machine-learning:v1.117.0
+    env_file:
+      - /mnt/Pool/home-infra/home-infra/nas/nas-services/.env
     volumes:
       - model-cache:/cache
     restart: always

@@ -2,6 +2,3 @@ working_dir: nas
 auto_discover: true
 auto_discover_opts:
   depth: 3
-
-env_files:
-  - /mnt/Pool/home-infra/home-infra/nas/nas-services/.env
