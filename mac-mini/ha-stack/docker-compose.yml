@@ -18,6 +18,5 @@ services:
       - "10200:10200"
     volumes:
       - ./data/piper:/data
-    command: --voice en_US-ryan-low
+    command: --voice en_US-glados-medium
     restart: unless-stopped
-
