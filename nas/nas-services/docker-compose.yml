@@ -27,7 +27,7 @@ services:
 
   redis:
     container_name: immich_redis
-    image: docker.io/valkey/valkey:9.0.0
+    image: docker.io/valkey/valkey:9.0.3
     restart: always
 
   database:
