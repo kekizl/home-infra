@@ -63,7 +63,7 @@ services:
     image: louislam/uptime-kuma:2.1.3
     container_name: uptime-kuma
     volumes:
-      - /Users/keki/home-infra/mac-mini/data:/app/data
+      - ${INFRA_ROOT}/mac-mini/data:/app/data
       - /var/run/docker.sock:/var/run/docker.sock
     ports:
       - "3001:3001"
