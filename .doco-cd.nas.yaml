@@ -1,7 +1,4 @@
-deployments:
-  - working_dir: nas
-    auto_discover: true
-    auto_discover_opts:
-      depth: 3
-    env_files:
-      - ../../.env
+working_dir: nas
+auto_discover: true
+auto_discover_opts:
+  depth: 3
