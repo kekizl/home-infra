@@ -7,7 +7,7 @@ services:
     ports:
       - "10300:10300"
     volumes:
-      - ./data/whisper:/data
+      - $HomeInfra/mac-mini/ha-stack/data/whisper:/data
     command: --model medium-int8 --language en
     restart: unless-stopped
 
@@ -17,6 +17,6 @@ services:
     ports:
       - "10200:10200"
     volumes:
-      - ./data/piper:/data
+      - $HomeInfra/mac-mini/ha-stack/data/piper:/data
     command: --voice en_US-glados-medium
     restart: unless-stopped
