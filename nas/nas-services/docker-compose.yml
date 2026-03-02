@@ -5,7 +5,7 @@ services:
     container_name: immich_server
     image: ghcr.io/immich-app/immich-server:v2.5.6
     volumes:
-      - ${INFRA_ROOT}/immich/data:/usr/src/app/upload
+      - ${APPSTORAGE_ROOT}/immich/data:/usr/src/app/upload
       - /etc/localtime:/etc/localtime:ro
     env_file:
       - ${INFRA_ROOT}/nas/nas-services/.env
