@@ -3,4 +3,4 @@ auto_discover: true
 auto_discover_opts:
   depth: 3
 env_files:
-  ../../.env
+  - ../../.env
