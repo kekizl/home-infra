@@ -2,7 +2,7 @@ version: "3.9"
 
 services:
   openwebui:
-    image: ghcr.io/open-webui/open-webui:v0.8.7
+    image: ghcr.io/open-webui/open-webui:v0.8.8
     container_name: openwebui
     restart: unless-stopped
 
