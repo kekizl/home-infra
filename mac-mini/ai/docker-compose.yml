@@ -11,9 +11,19 @@ services:
 
     environment:
       OLLAMA_BASE_URL: http://host.docker.internal:11434
-      WEBUI_SECRET_KEY: thor-dell-klutten-treo 
+      WEBUI_SECRET_KEY: ${WEBUI_SECRET_KEY}
     volumes:
       - openwebui-data:/app/backend/data
- 
+  router:
+    build: ./router
+    container_name: llm-router
+    ports:
+      - "11000:11000"
+    environment:
+      - OLLAMA_HOST=http://host.docker.internal:11434
+      - OPENWEBUI_HOST=http://host.docker.internal:2000
+      - OPENWEBUI_API_KEY=${OPENWEBUI_API_KEY}
+    restart: unless-stopped
+
 volumes:
   openwebui-data:

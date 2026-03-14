@@ -6,7 +6,10 @@ services:
       - "3333:3000"
     volumes:
       - ${INFRA_ROOT}/mac-mini/services/homepage/config:/app/config
+      - ./homepage/config:/app/config
+
     restart: unless-stopped
     environment:
       HOMEPAGE_ALLOWED_HOSTS: 192.168.0.38:3333
       PGHOMEPAGE_VAR_YOURVAR: value # optional env vars for secrets
+

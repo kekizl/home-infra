@@ -5,6 +5,8 @@
 data/
 prometheus_data/
 grafana_data/
+homepage/
+vw-data/
 
 # Logs
 *.log
