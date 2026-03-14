@@ -14,7 +14,7 @@ services:
     restart: unless-stopped
 
   grafana:
-    image: grafana/grafana:12.4.0
+    image: grafana/grafana:12.4.1
     container_name: grafana
     ports:
       - "3000:3000"
@@ -60,7 +60,7 @@ services:
     restart: unless-stopped
 
   uptime-kuma:
-    image: louislam/uptime-kuma:2.2.0
+    image: louislam/uptime-kuma:2.2.1
     container_name: uptime-kuma
     volumes:
       - ${INFRA_ROOT}/mac-mini/data:/app/data
