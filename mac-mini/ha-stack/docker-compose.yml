@@ -22,7 +22,7 @@ services:
     restart: unless-stopped
 
   openwakeword:
-    image: rhasspy/wyoming-openwakeword:1.9.0
+    image: rhasspy/wyoming-openwakeword:2.1.0
     container_name: openwakeword
     ports:
       - "10400:10400"
