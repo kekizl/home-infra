@@ -10,16 +10,22 @@ Services running on TrueNAS via Docker. This is the primary storage and media ho
 | Service | Description |
 |---|---|
 | Immich | Self-hosted photo and video library |
+| Audiobookshelf| Self-hosted audiobook and epub library |
+
 
 ### `mac-mini/`
 Services running on a Mac Mini.
 
 | Service | Stack | Description |
 |---|---|---|
-| Home Assistant Accessories| `ha-stack` | Piper (TTS) and Whisper (STT) voice assistants |
+| Home Assistant Accessories| `ha-stack` | Piper (TTS), Whisper (STT) and OpenWakeWord for voice assistants |
 | Uptime Kuma | `monitoring` | Service uptime monitoring and status pages |
 | Prometheus | `monitoring` | Metrics collection and alerting |
-| Grfana | `monitoring` | Data Displaying for cool dashboards |
+| Grafana | `monitoring` | Data Displaying for cool dashboards |
+| Homepage | `services` | Cool homepage for all self-hosted apps |
+| OpenWebUI | `ai` | Chat interface for AI models |
+
+
 
 ## How it works
 
