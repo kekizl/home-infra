@@ -7,6 +7,9 @@ prometheus_data/
 grafana_data/
 homepage/
 vw-data/
+conf/
+caddy_data/
+caddy_config/
 
 # Logs
 *.log

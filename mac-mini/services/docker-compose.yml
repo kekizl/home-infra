@@ -2,12 +2,34 @@ services:
   homepage:
     image: ghcr.io/gethomepage/homepage:v1.11.0
     container_name: homepage
-    ports:
-      - "3333:3000"
     volumes:
       - ${INFRA_ROOT}/mac-mini/services/homepage/config:/app/config
-
     restart: unless-stopped
     environment:
-      HOMEPAGE_ALLOWED_HOSTS: 192.168.0.38:3333
+      HOMEPAGE_ALLOWED_HOSTS: ${TAILSCALE_MAC_MINI}
       PGHOMEPAGE_VAR_YOURVAR: value # optional env vars for secrets
+    networks:
+      - proxy
+ 
+  caddy:
+    image: caddy:2.11.2-alpine
+    container_name: caddy
+    restart: unless-stopped
+    ports:
+      - "443:443"
+      - "443:443/udp"                     # HTTP/3 (optional)
+      - "80:80"
+    volumes:
+      - ${INFRA_ROOT}/mac-mini/services/conf:/etc/caddy
+      # Use named volumes for persistent data (certificates, etc.)
+      - caddy_data:/data
+      - caddy_config:/config
+      # Tailscale socket (required for certificates)
+      - /var/run/tailscale/tailscaled.sock:/var/run/tailscale/tailscaled.sock:ro
+    user: root
+    networks:
+      - proxy
+
+networks:
+  proxy:
+    external: true
