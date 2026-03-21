@@ -30,6 +30,10 @@ services:
     networks:
       - proxy
 
+volumes:
+  caddy_data:
+  caddy_config:
+
 networks:
   proxy:
     external: true
