@@ -23,7 +23,7 @@ services:
     container_name: homepage
     network_mode: service:ts-homepage
     depends_on:
-      - ts_homepage
+      - ts-homepage
     volumes:
       - ${INFRA_ROOT}/mac-mini/services/homepage/config:/app/config
     restart: unless-stopped
