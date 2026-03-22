@@ -10,6 +10,7 @@ Services running on TrueNAS via Docker. This is the primary storage and media ho
 | Service | Description |
 |---|---|
 | Immich | Self-hosted photo and video library |
+| Audiobookshelf | Self-hosted (audio)book library |
 
 ### `mac-mini/`
 Services running on a Mac Mini.

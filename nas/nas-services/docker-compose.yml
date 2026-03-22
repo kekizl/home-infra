@@ -1,17 +1,35 @@
 version: '3.8'
 
 services:
+  ts-immich:
+    image: tailscale/tailscale:v1.94.2
+    container_name: ts-immich
+    hostname: immich
+    environment:
+      - TS_AUTHKEY=${TS_AUTHKEY}
+      - TS_STATE_DIR=/var/lib/tailscale
+      - TS_SERVE_CONFIG=/config/serve.json
+      - TS_USERSPACE=true
+    volumes:
+      - tailscale-data-immich:/var/lib/tailscale
+      - ${INFRA_ROOT}/nas/nas-services/ts-immich-config:/config
+    cap_add:
+      - NET_ADMIN
+    restart: unless-stopped
+
   immich-server:
     container_name: immich_server
     image: ghcr.io/immich-app/immich-server:v2.5.6
     volumes:
       - ${APPSTORAGE_ROOT}/immich/data:/usr/src/app/upload
       - /etc/localtime:/etc/localtime:ro
+    environment:
+      - IMMICH_SERVER_EXTERNAL_DOMAIN=https://immich.${TS_TAILNET}.ts.net
     env_file:
       - ${INFRA_ROOT}/nas/nas-services/.env
-    ports:
-      - 2283:2283
+    network_mode: service:ts-immich
     depends_on:
+      - ts-immich
       - redis
       - database
     restart: always
@@ -41,14 +59,31 @@ services:
       POSTGRES_DB: ${DB_DATABASE_NAME}
       POSTGRES_INITDB_ARGS: '--data-checksums'
     volumes:
-      - ${APPSTORAGE_ROOT}/immich/immich_postgres:/var/lib/postgresql/data
+      - ${APPSTORAGE_ROOT}/immich/immich_postgres16:/var/lib/postgresql/data
     restart: always
+
+  ts-audiobookshelf:
+    image: tailscale/tailscale:v1.94.2
+    container_name: ts-audiobookshelf
+    hostname: audiobookshelf
+    environment:
+      - TS_AUTHKEY=${TS_AUTHKEY}
+      - TS_STATE_DIR=/var/lib/tailscale
+      - TS_SERVE_CONFIG=/config/serve.json
+      - TS_USERSPACE=true
+    volumes:
+      - tailscale-data-audiobookshelf:/var/lib/tailscale
+      - ${INFRA_ROOT}/nas/nas-services/ts-audiobookshelf-config:/config
+    cap_add:
+      - NET_ADMIN
+    restart: unless-stopped
 
   audiobookshelf:
     container_name: audiobookshelf
     image: ghcr.io/advplyr/audiobookshelf:2.32.1
-    ports:
-      - 30067:80
+    network_mode: service:ts-audiobookshelf
+    depends_on:
+      - ts-audiobookshelf
     volumes:
       - ${APPSTORAGE_ROOT}/Audiobookshelf/audiobooks:/audiobooks
       - ${APPSTORAGE_ROOT}/Audiobookshelf/podcasts:/podcasts
@@ -56,7 +91,10 @@ services:
       - ${APPSTORAGE_ROOT}/Audiobookshelf/metadata:/metadata
     environment:
       - TZ=Europe/Stockholm
+      - PUBLIC_URL=https://audiobookshelf.${TS_TAILNET}.ts.net
     restart: unless-stopped
 
 volumes:
   model-cache:
+  tailscale-data-immich:
+  tailscale-data-audiobookshelf:
