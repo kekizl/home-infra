@@ -8,10 +8,7 @@ grafana_data/
 homepage/
 vw-data/
 conf/
-caddy_data/
-caddy_config/
-ts-homepage-config/
-ts-openwebui-config/
+**/ts-*-config/
 
 # Logs
 *.log
