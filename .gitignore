@@ -10,6 +10,7 @@ vw-data/
 conf/
 caddy_data/
 caddy_config/
+ts-homepage-config/
 
 # Logs
 *.log

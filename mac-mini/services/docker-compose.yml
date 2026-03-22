@@ -1,39 +1,36 @@
 services:
+
+  ts-homepage:
+    image: tailscale/tailscale:v1.94.2
+    container_name: ts-homepage
+    hostname: homepage                     # becomes homepage.<tailnet>.ts.net
+    environment:
+      - TS_AUTHKEY=${TS_AUTHKEY}
+      - TS_STATE_DIR=/var/lib/tailscale
+      - TS_SERVE_CONFIG=/config/serve.json   # optional, enables HTTPS
+      - TS_USERSPACE = 
+    volumes:
+      - tailscale-data-homepage:/var/lib/tailscale
+      - ${INFRA_ROOT}/mac-mini/services/ts-homepage-config:/config          # mount folder for serve.json
+    devices:
+      - /dev/net/tun:/dev/net/tun
+    cap_add:
+      - NET_ADMIN
+    restart: unless-stopped
+
   homepage:
     image: ghcr.io/gethomepage/homepage:v1.11.0
     container_name: homepage
+    network_mode: service:ts-homepage
+    depends_on:
+      - ts_homepage
     volumes:
       - ${INFRA_ROOT}/mac-mini/services/homepage/config:/app/config
     restart: unless-stopped
     environment:
-      HOMEPAGE_ALLOWED_HOSTS: ${TAILSCALE_MAC_MINI}
+      HOMEPAGE_ALLOWED_HOSTS: homepage.${TS_TAILNET}.ts.net
       PGHOMEPAGE_VAR_YOURVAR: value # optional env vars for secrets
-    networks:
-      - proxy
- 
-  caddy:
-    image: caddy:2.11.2-alpine
-    container_name: caddy
-    restart: unless-stopped
-    ports:
-      - "443:443"
-      - "443:443/udp"                     # HTTP/3 (optional)
-      - "80:80"
-    volumes:
-      - ${INFRA_ROOT}/mac-mini/services/conf:/etc/caddy
-      # Use named volumes for persistent data (certificates, etc.)
-      - caddy_data:/data
-      - caddy_config:/config
-      # Tailscale socket (required for certificates)
-      - /var/run/tailscale/tailscaled.sock:/var/run/tailscale/tailscaled.sock:ro
-    user: root
-    networks:
-      - proxy
-
+  
 volumes:
-  caddy_data:
-  caddy_config:
-
-networks:
-  proxy:
-    external: true
+  tailscale-data-homepage:
+    driver: local 
