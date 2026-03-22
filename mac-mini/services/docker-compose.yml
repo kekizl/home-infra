@@ -8,7 +8,7 @@ services:
       - TS_AUTHKEY=${TS_AUTHKEY}
       - TS_STATE_DIR=/var/lib/tailscale
       - TS_SERVE_CONFIG=/config/serve.json   # optional, enables HTTPS
-      - TS_USERSPACE = 
+      - TS_USERSPACE=true 
     volumes:
       - tailscale-data-homepage:/var/lib/tailscale
       - ${INFRA_ROOT}/mac-mini/services/ts-homepage-config:/config          # mount folder for serve.json
