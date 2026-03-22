@@ -11,6 +11,7 @@ conf/
 caddy_data/
 caddy_config/
 ts-homepage-config/
+ts-openwebui-config/
 
 # Logs
 *.log
