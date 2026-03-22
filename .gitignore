@@ -5,6 +5,10 @@
 data/
 prometheus_data/
 grafana_data/
+homepage/
+vw-data/
+conf/
+**/ts-*-config/
 
 # Logs
 *.log

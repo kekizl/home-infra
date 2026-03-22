@@ -1,0 +1,36 @@
+services:
+
+  ts-homepage:
+    image: tailscale/tailscale:v1.94.2
+    container_name: ts-homepage
+    hostname: homepage                     # becomes homepage.<tailnet>.ts.net
+    environment:
+      - TS_AUTHKEY=${TS_AUTHKEY}
+      - TS_STATE_DIR=/var/lib/tailscale
+      - TS_SERVE_CONFIG=/config/serve.json   # optional, enables HTTPS
+      - TS_USERSPACE=true 
+    volumes:
+      - tailscale-data-homepage:/var/lib/tailscale
+      - ${INFRA_ROOT}/mac-mini/services/ts-homepage-config:/config          # mount folder for serve.json
+    devices:
+      - /dev/net/tun:/dev/net/tun
+    cap_add:
+      - NET_ADMIN
+    restart: unless-stopped
+
+  homepage:
+    image: ghcr.io/gethomepage/homepage:v1.11.0
+    container_name: homepage
+    network_mode: service:ts-homepage
+    depends_on:
+      - ts-homepage
+    volumes:
+      - ${INFRA_ROOT}/mac-mini/services/homepage/config:/app/config
+    restart: unless-stopped
+    environment:
+      HOMEPAGE_ALLOWED_HOSTS: homepage.${TS_TAILNET}.ts.net
+      PGHOMEPAGE_VAR_YOURVAR: value # optional env vars for secrets
+  
+volumes:
+  tailscale-data-homepage:
+    driver: local 

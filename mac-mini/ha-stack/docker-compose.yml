@@ -8,7 +8,7 @@ services:
       - "10300:10300"
     volumes:
       - ${INFRA_ROOT}/mac-mini/ha-stack/data/whisper:/data
-    command: --model medium-int8 --language en
+    command: --model small-int8 --language en
     restart: unless-stopped
 
   piper:
@@ -19,4 +19,14 @@ services:
     volumes:
       - ${INFRA_ROOT}/mac-mini/ha-stack/data/piper:/data
     command: --voice en_US-glados-medium
+    restart: unless-stopped
+
+  openwakeword:
+    image: rhasspy/wyoming-openwakeword:2.1.0
+    container_name: openwakeword
+    ports:
+      - "10400:10400"
+    volumes:
+      - ${INFRA_ROOT}/mac-mini/ha-stack/data/openwakeword:/custom
+    command: --preload-model ok_glados --custom-model-dir /custom
     restart: unless-stopped
