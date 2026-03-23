@@ -30,7 +30,36 @@ services:
     environment:
       HOMEPAGE_ALLOWED_HOSTS: homepage.${TS_TAILNET}.ts.net
       PGHOMEPAGE_VAR_YOURVAR: value # optional env vars for secrets
-  
+ 
+  ts-vaultwarden:
+    image: tailscale/tailscale:v1.94.2
+    container_name: ts-vaultwarden
+    hostname: vaultwarden
+    environment: 
+      - TS_AUTHKEY=${TS_AUTHKEY}
+      - TS_STATE_DIR=/var/lib/tailscale
+      - TS_SERVE_CONFIG=/config/serve.json
+      - TS_USERSPACE=true
+    volumes:
+      - tailscale-data-vaultwarden:/var/lib/tailscale
+      - ${INFRA_ROOT}/mac-mini/services/ts-vaultwarden-config:/config
+    cap_add:
+      - NET_ADMIN
+    restart: unless-stopped
+
+  vaultwarden:
+    image: vaultwarden/server:v1.35.4
+    container_name: vaultwarden
+    restart: unless-stopped
+    network_mode: service:ts-vaultwarden
+    depends_on:
+      - ts-vaultwarden
+    environment:
+      DOMAIN: https://vaultwarden.${TS_TAILNET}.ts.net
+    volumes:
+      - ${INFRA_ROOT}/mac-mini/services/vw-data/:/data/
+
 volumes:
   tailscale-data-homepage:
-    driver: local 
+    driver: local
+  tailscale-data-vaultwarden: 
