@@ -22,9 +22,10 @@ Services running on a Mac Mini.
 | Prometheus | `monitoring` | Metrics collection and alerting |
 | Grafana | `monitoring` | Data Displaying for cool dashboards |
 | Homepage | `services` | Cool homepage for all self-hosted apps |
+| Vaultwarden | `services` | Personal and local password manager |
 | OpenWebUI | `ai` | Chat interface for AI models |
 
-
+All services are paired with a Tailscale sidecar. This gives each service a unique entry in my Tailscale mesh network, thus making them available anywhere. It aslo allows me to give them TLS certificates to enable https connections while not exposing any docker ports.
 
 ## How it works
 
@@ -48,12 +49,13 @@ home-infra/
 ├── mac-mini/
 │   ├── ha-stack/
 │   │   └── docker-compose.yml   # Home Assistant, Piper, Whisper
-│   └── monitoring/
+│   ├── services/
+│   │   └── docker-compose.yml   # Homepage and Vaultwarden
+|   └── monitoring/
 │       ├── docker-compose.yml   # Uptime Kuma, Prometheus, Grafana
-│       └── prometheus.yml
 ├── nas/
 │   └── nas-services/
-│       └── docker-compose.yml   # Immich and other NAS services
+│       └── docker-compose.yml   # Immich and Audiobookshelf
 └── renovate.json                # Renovate configuration
 ```
 
@@ -67,5 +69,5 @@ Planned services and improvements to be added to the infrastructure:
 
 | Service | Host | Notes |
 |---|---|---|
-| Tailscale | NAS | Containerized VPN for secure remote access |
-| Bitwarden (Vaultwarden) | NAS | Self-hosted password manager, requires a local domain and SSL cert |
+Adding Authelia for 2FA on all self hosted apps.
+Containerizing custom AI router
