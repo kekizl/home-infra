@@ -151,7 +151,10 @@ services:
       - ts-graphite-exporter
     command:
       - "--web.listen-address=0.0.0.0:9108"
-      - "--graphite.listen-address=:2003" 
+      - "--graphite.listen-address=:2003"
+      - "--graphite.mapping-config=/etc/graphite-exporter/graphite_mapping.conf"
+    volumes:
+      - ${INFRA_ROOT}/mac-mini/monitoring/graphite/graphite_mapping.conf:/etc/graphite-exporter/graphite_mapping.conf:ro 
 
   # ---- uptime-kuma ----
   ts-uptime-kuma:
