@@ -149,8 +149,9 @@ services:
     network_mode: service:ts-graphite-exporter
     depends_on:
       - ts-graphite-exporter
-    # The exporter listens on ports 9108 (web UI), 2003 (plaintext), 2004 (pickle).
-    # Only the web UI (9108) is exposed via Tailscale; other ports remain internal.
+    command:
+      - "--web.listen-address=0.0.0.0:9108"
+      - "--graphite.listen-address=:2003" 
 
   # ---- uptime-kuma ----
   ts-uptime-kuma:
