@@ -149,9 +149,6 @@ services:
     network_mode: service:ts-graphite-exporter
     depends_on:
       - ts-graphite-exporter
-    ports:
-      - "2003:2003"
-      - "9108:9108" # we need these so we can listen to what TrueNAS is tossing our way
     # The exporter listens on ports 9108 (web UI), 2003 (plaintext), 2004 (pickle).
     # Only the web UI (9108) is exposed via Tailscale; other ports remain internal.
 
