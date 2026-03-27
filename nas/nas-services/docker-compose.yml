@@ -94,7 +94,44 @@ services:
       - PUBLIC_URL=https://audiobookshelf.${TS_TAILNET}.ts.net
     restart: unless-stopped
 
+  ts-navidrome:
+    image: tailscale/tailscale:v1.94.2
+    container_name: ts-navidrome
+    hostname: navidrome
+    environment:
+      - TS_AUTHKEY=${TS_AUTHKEY}
+      - TS_STATE_DIR=/var/lib/tailscale
+      - TS_SERVE_CONFIG=/config/serve.json
+      - TS_USERSPACE=true
+    volumes:
+      - tailscale-data-navidrome:/var/lib/tailscale
+      - ${INFRA_ROOT}/nas/nas-services/ts-navidrome-config:/config
+    cap_add:
+      - NET_ADMIN
+    restart: unless-stopped
+
+  navidrome:
+    image: deluan/navidrome:0.60.3
+    container_name: navidrome
+    restart: unless-stopped
+    network_mode: service:ts-navidrome
+    depends_on:
+      - ts-navidrome
+    user: 1000:1000 # should be owner of volumes
+    ports:
+      - "4533:4533"
+    restart: unless-stopped
+    environment:
+      - ND_DATAFOLDER=/data
+      - ND_MUSICFOLDER=/music
+      - ND_PORT=4533
+      - ND_LOGLEVEL=info
+    volumes:
+      - ${APPSTORAGE_ROOT}/Navidrome/data:/data
+      - ${APPSTORAGE_ROOT}/Navidrome/music:/music:ro
+
 volumes:
   model-cache:
   tailscale-data-immich:
   tailscale-data-audiobookshelf:
+  tailscale-data-navidrome:
