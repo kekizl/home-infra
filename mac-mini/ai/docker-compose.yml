@@ -18,7 +18,7 @@ services:
     restart: unless-stopped
   
   openwebui:
-    image: ghcr.io/open-webui/open-webui:v0.8.10
+    image: ghcr.io/open-webui/open-webui:v0.8.12
     container_name: openwebui
     restart: unless-stopped
     network_mode: service:ts-openwebui
