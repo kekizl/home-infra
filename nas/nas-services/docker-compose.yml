@@ -111,7 +111,7 @@ services:
     restart: unless-stopped
 
   navidrome:
-    image: deluan/navidrome:0.60.3
+    image: deluan/navidrome:0.61.0
     container_name: navidrome
     network_mode: service:ts-navidrome
     depends_on:
