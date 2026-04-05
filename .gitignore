@@ -1,6 +1,9 @@
 # Secrets
 .env
 
+# Experimental router implementation
+router/
+
 # Volumes
 data/
 prometheus_data/

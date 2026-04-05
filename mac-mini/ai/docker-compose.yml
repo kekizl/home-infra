@@ -29,8 +29,41 @@ services:
       WEBUI_SECRET_KEY: ${WEBUI_SECRET_KEY}
     volumes:
       - openwebui-data:/app/backend/data
-  
+ 
+# ---------- Your Custom Router with Tailscale ----------
+  ts-router:
+    image: tailscale/tailscale:v1.94.2
+    container_name: ts-router
+    hostname: ha-router   # Tailnet hostname for your router
+    environment:
+  #    - TS_AUTHKEY=${TS_AUTHKEY}
+      - TS_AUTHKEY=tskey-auth-kP1E1HMDkc11CNTRL-LJUVvH5Mt3J8Hr9Bs1dd3Jn2ajHbWZT6M
+      - TS_STATE_DIR=/var/lib/tailscale
+      - TS_SERVE_CONFIG=/config/serve.json   # optional, enables HTTPS
+      - TS_USERSPACE=true
+    volumes:
+      - tailscale-data-router:/var/lib/tailscale
+      - /Users/keki/home-infra/mac-mini/ai/ts-router-config:/config   # <-- mount config
+    cap_add:
+      - NET_ADMIN
+    restart: unless-stopped
+
+  router:
+    build: /Users/keki/home-infra/mac-mini/ai/router
+    image: home-assistant-router:latest   # your custom image
+    container_name: ha-router
+    restart: unless-stopped
+    network_mode: service:ts-router   # share Tailscale network
+    depends_on:
+      - ts-router
+    environment:
+      # Use the Tailnet hostname of OpenWebUI (since both are on Tailnet)
+      OPENWEBUI_HOST: https://openwebui.tail1e4516.ts.net
+      OPENWEBUI_API_KEY: sk-c01c6acba1d541758ce8f1e8b3affa10
+      OLLAMA_HOST: http://host.docker.internal:11434   # still local if Ollama on host
+    # No ports exposed – access via Tailscale IP/hostname only 
 volumes:
   openwebui-data:
   tailscale-data-openwebui:
     driver: local
+  tailscale-data-router:
