@@ -48,7 +48,7 @@ services:
     restart: unless-stopped
 
   router:
-    build: ${INFRA_ROOT}/mac-mini/ai/router
+    build: ./router
     image: home-assistant-router:latest   # your custom image
     container_name: ha-router
     restart: unless-stopped
