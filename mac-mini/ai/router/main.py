@@ -6,6 +6,7 @@ from fastapi import FastAPI, Request
 from fastapi.responses import JSONResponse
 from dotenv import load_dotenv
 from classify import build_intent_embeddings, classify
+from ha_commands import handle_home_command
 
 # Load environment variables from .env file (if present)
 load_dotenv()
@@ -18,11 +19,12 @@ OPENWEBUI_API_KEY = os.getenv("OPENWEBUI_API_KEY", "")
 
 # Map each intent to a specific LLM model (adjust as needed)
 MODELS = {
-    "chat":     "llama3.2:latest",
-    "personal": "llama3.2:latest",
-    "coding":   "llama3.2:latest",
-    "law":      "llama3.2:latest",
-    "medicine": "llama3.2:latest",
+    "ha_command":"llama3.2:latest",
+    "chat":      "llama3.2:latest",
+    "personal":  "llama3.2:latest",
+    "coding":    "llama3.2:latest",
+    "law":       "llama3.2:latest",
+    "medicine":  "llama3.2:latest",
 }
 
 # All intents use the same OpenAI‑compatible endpoint
@@ -63,6 +65,49 @@ def strip_device_context(messages: list) -> list:
             cleaned.append(msg)
     print("=== END STRIP ===")
     return cleaned
+
+def build_home_command_messages(original_messages: list, user_text: str, action: str, success: bool) -> list:
+    """
+    Build the message list sent to the LLM after a home command has been executed.
+    Replaces the conversation with a focused prompt asking for a natural confirmation.
+    """
+    if success:
+        instruction = (
+            f"The user said: \"{user_text}\". "
+            f"You successfully performed the following action: {action}. "
+            "Confirm this in a single natural, friendly sentence. "
+            "Do not ask any follow-up questions."
+        )
+    else:
+        instruction = (
+            f"The user said: \"{user_text}\". "
+            f"You tried to perform a home automation command but it failed: {action}. "
+            "Apologise briefly and suggest the user check their device or try again."
+        )
+ 
+    # Preserve any existing system message so the assistant keeps its persona,
+    # but swap out the user turn for our instruction.
+    system_msgs = [m for m in original_messages if m["role"] == "system"]
+    return system_msgs + [{"role": "user", "content": instruction}]
+ 
+async def call_llm(model: str, endpoint: str, messages: list) -> str:
+    """Forward a message list to Open WebUI and return the assistant text."""
+    forward_body = {
+        "model": model,
+        "messages": messages,
+        "stream": False,
+    }
+    print(f"\n📤 Forwarding to LLM — model: {model} (first 400 chars):")
+    print(json.dumps(forward_body, indent=2)[:400])
+ 
+    async with httpx.AsyncClient(timeout=60.0) as client:
+        resp = await client.post(endpoint, headers=openwebui_headers(), json=forward_body)
+        print(f"\n📥 LLM response status: {resp.status_code}")
+        resp.raise_for_status()
+        data = resp.json()
+        content = data["choices"][0]["message"]["content"]
+        print(f"💬 LLM reply preview: {content[:200]}")
+        return content
 
 # ========== Startup: Build Intent Embeddings ==========
 @app.on_event("startup")
@@ -119,6 +164,45 @@ async def route(request: Request):
             content={"response": "Intent recognition error.", "commands": []}
         )
 
+    # ------------------------------------------------------------------ #
+    #  HOME COMMAND BRANCH                                                 #
+    # ------------------------------------------------------------------ #
+    if intent == "home_command":
+        print("\n🏠 Home command detected — executing via HA REST API")
+ 
+        # 1. Execute the command against HA
+        ha_result = await handle_home_command(last_user_msg)
+        print(f"   HA result: {ha_result}")
+ 
+        action_description = ha_result.get("action") or ha_result.get("error") or "unknown action"
+ 
+        # 2. Ask the LLM to produce a natural spoken confirmation
+        model    = MODELS["home_command"]
+        endpoint = ENDPOINTS["home_command"]
+        llm_messages = build_home_command_messages(
+            original_messages=strip_device_context(messages),
+            user_text=last_user_msg,
+            action=action_description,
+            success=ha_result["success"],
+        )
+ 
+        try:
+            spoken_response = await call_llm(model, endpoint, llm_messages)
+        except Exception as e:
+            print(f"⚠️ LLM confirmation call failed, using fallback: {e}")
+            spoken_response = action_description   # Graceful fallback
+ 
+        final_response = {
+            "response": spoken_response,
+            "commands": [ha_result],
+        }
+        print("\n✅ Returning home command response.")
+        print("="*60 + "\n")
+        return JSONResponse(content=final_response)
+ 
+    # ------------------------------------------------------------------ #
+    #  NORMAL LLM ROUTING                                                  #
+    # ------------------------------------------------------------------ #
     # Select model and endpoint based on intent
     model = MODELS.get(intent)
     endpoint = ENDPOINTS.get(intent)

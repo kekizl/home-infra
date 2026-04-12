@@ -1,4 +1,14 @@
 INTENTS = {
+    "home_commands": [
+        "turn off the lights",
+        "turn off the hallway lights",
+        "add milk to my shopping list",
+        "remove steak from the shopping list",
+        "clear the shopping list",
+        "send the shopping list to my phone",
+        "what is the homelab status?",
+        "what is my daily digest",
+    ],
     "chat": [
         "who was napoleon",
         "what is the capital of france",
