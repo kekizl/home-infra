@@ -3,7 +3,7 @@ version: "3.8"
 services:
   # ---- Prometheus ----
   ts-prometheus:
-    image: tailscale/tailscale:v1.94.2
+    image: tailscale/tailscale:v1.96.5
     container_name: ts-prometheus
     hostname: prometheus
     environment:
@@ -19,7 +19,7 @@ services:
     restart: unless-stopped
 
   prometheus:
-    image: prom/prometheus:v3.11.0
+    image: prom/prometheus:v3.11.1
     container_name: prometheus
     restart: unless-stopped
     network_mode: service:ts-prometheus
@@ -33,7 +33,7 @@ services:
 
   # ---- Grafana ----
   ts-grafana:
-    image: tailscale/tailscale:v1.94.2
+    image: tailscale/tailscale:v1.96.5
     container_name: ts-grafana
     hostname: grafana
     environment:
@@ -63,7 +63,7 @@ services:
 
   # ---- cAdvisor ----
   ts-cadvisor:
-    image: tailscale/tailscale:v1.94.2
+    image: tailscale/tailscale:v1.96.5
     container_name: ts-cadvisor
     hostname: cadvisor
     environment:
@@ -94,7 +94,7 @@ services:
 
   # ---- node-exporter ----
   ts-node-exporter:
-    image: tailscale/tailscale:v1.94.2
+    image: tailscale/tailscale:v1.96.5
     container_name: ts-node-exporter
     hostname: node-exporter
     environment:
@@ -110,7 +110,7 @@ services:
     restart: unless-stopped
 
   node-exporter:
-    image: prom/node-exporter:v1.11.0
+    image: prom/node-exporter:v1.11.1
     container_name: node-exporter
     restart: unless-stopped
     network_mode: service:ts-node-exporter
@@ -127,7 +127,7 @@ services:
 
   # ---- graphite-exporter ----
   ts-graphite-exporter:
-    image: tailscale/tailscale:v1.94.2
+    image: tailscale/tailscale:v1.96.5
     container_name: ts-graphite-exporter
     hostname: graphite-exporter
     environment:
@@ -158,7 +158,7 @@ services:
 
   # ---- uptime-kuma ----
   ts-uptime-kuma:
-    image: tailscale/tailscale:v1.94.2
+    image: tailscale/tailscale:v1.96.5
     container_name: ts-uptime-kuma
     hostname: uptime-kuma
     environment:
