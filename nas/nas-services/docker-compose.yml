@@ -2,7 +2,7 @@ version: '3.8'
 
 services:
   ts-immich:
-    image: tailscale/tailscale:v1.94.2
+    image: tailscale/tailscale:v1.96.5
     container_name: ts-immich
     hostname: immich
     environment:
@@ -19,7 +19,7 @@ services:
 
   immich-server:
     container_name: immich_server
-    image: ghcr.io/immich-app/immich-server:v2.6.3
+    image: ghcr.io/immich-app/immich-server:v2.7.4
     volumes:
       - ${APPSTORAGE_ROOT}/immich/data:/usr/src/app/upload
       - /etc/localtime:/etc/localtime:ro
@@ -36,7 +36,7 @@ services:
 
   immich-machine-learning:
     container_name: immich_machine_learning
-    image: ghcr.io/immich-app/immich-machine-learning:v2.6.3
+    image: ghcr.io/immich-app/immich-machine-learning:v2.7.4
     env_file:
       - ${INFRA_ROOT}/nas/nas-services/.env
     volumes:
@@ -63,7 +63,7 @@ services:
     restart: always
 
   ts-audiobookshelf:
-    image: tailscale/tailscale:v1.94.2
+    image: tailscale/tailscale:v1.96.5
     container_name: ts-audiobookshelf
     hostname: audiobookshelf
     environment:
@@ -95,7 +95,7 @@ services:
     restart: unless-stopped
 
   ts-navidrome:
-    image: tailscale/tailscale:v1.94.2
+    image: tailscale/tailscale:v1.96.5
     container_name: ts-navidrome
     hostname: navidrome
     environment:
@@ -111,7 +111,7 @@ services:
     restart: unless-stopped
 
   navidrome:
-    image: deluan/navidrome:0.61.1
+    image: deluan/navidrome:0.61.2
     container_name: navidrome
     network_mode: service:ts-navidrome
     depends_on:

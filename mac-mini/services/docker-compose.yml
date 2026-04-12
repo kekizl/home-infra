@@ -1,7 +1,7 @@
 services:
 
   ts-homepage:
-    image: tailscale/tailscale:v1.94.2
+    image: tailscale/tailscale:v1.96.5
     container_name: ts-homepage
     hostname: homepage                     # becomes homepage.<tailnet>.ts.net
     environment:
@@ -32,7 +32,7 @@ services:
       PGHOMEPAGE_VAR_YOURVAR: value # optional env vars for secrets
  
   ts-vaultwarden:
-    image: tailscale/tailscale:v1.94.2
+    image: tailscale/tailscale:v1.96.5
     container_name: ts-vaultwarden
     hostname: vaultwarden
     environment: 
@@ -48,7 +48,7 @@ services:
     restart: unless-stopped
 
   vaultwarden:
-    image: vaultwarden/server:1.35.4
+    image: vaultwarden/server:1.35.6
     container_name: vaultwarden
     restart: unless-stopped
     network_mode: service:ts-vaultwarden
