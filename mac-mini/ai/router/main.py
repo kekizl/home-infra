@@ -19,7 +19,7 @@ OPENWEBUI_API_KEY = os.getenv("OPENWEBUI_API_KEY", "")
 
 # Map each intent to a specific LLM model (adjust as needed)
 MODELS = {
-    "ha_command":"llama3.2:latest",
+    "home_command":"llama3.2:latest",
     "chat":      "llama3.2:latest",
     "personal":  "llama3.2:latest",
     "coding":    "llama3.2:latest",

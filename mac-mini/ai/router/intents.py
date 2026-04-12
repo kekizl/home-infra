@@ -1,5 +1,5 @@
 INTENTS = {
-    "home_commands": [
+    "home_command": [
         "turn off the lights",
         "turn off the hallway lights",
         "add milk to my shopping list",
@@ -31,7 +31,7 @@ INTENTS = {
         "what is the population of china",
         "how do black holes form",
     ],
-    "code": [
+    "coding": [
         "write a python function to sort a list",
         "what is the difference between a list and a tuple",
         "how do I reverse a string in javascript",
