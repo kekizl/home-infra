@@ -12,6 +12,7 @@ Services running on TrueNAS via Docker. This is the primary storage and media ho
 | Immich | Self-hosted photo and video library |
 | Audiobookshelf | Self-hosted audiobook and epub library |
 | Navidrome | Self-hosted music streaming alternative |
+| FreshRSS | Curated RSS feed for daily digests |
 
 ### `mac-mini/`
 Services running on a Mac Mini.

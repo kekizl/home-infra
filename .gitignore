@@ -6,6 +6,7 @@ data/
 prometheus_data/
 grafana_data/
 homepage/
+freshrss/
 vw-data/
 conf/
 **/ts-*-config/

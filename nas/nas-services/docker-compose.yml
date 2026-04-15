@@ -127,8 +127,37 @@ services:
       - ${APPSTORAGE_ROOT}/Navidrome/data:/data
       - ${APPSTORAGE_ROOT}/Navidrome/music:/music:ro
 
+  ts-freshrss:
+    image: tailscale/tailscale:v1.96.5
+    container_name: ts-freshrss
+    hostname: freshrss
+    environment:
+      - TS_AUTHKEY=${TS_AUTHKEY}
+      - TS_STATE_DIR=/var/lib/tailscale
+      - TS_SERVE_CONFIG=/config/serve.json
+      - TS_USERSPACE=true
+    volumes:
+      - tailscale-data-freshrss:/var/lib/tailscale
+      - ${INFRA_ROOT}/nas/nas-services/ts-freshrss-config:/config
+    cap_add:
+      - NET_ADMIN
+    restart: unless-stopped
+
+  freshrss:
+    image: lscr.io/linuxserver/freshrss:1.28.1
+    container_name: freshrss
+    network_mode: service:ts-freshrss
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=Europe/Stockholm
+    volumes:
+      - ${INFRA_ROOT}/nas/nas-services/freshrss/config:/config
+    restart: unless-stopped
+
 volumes:
   model-cache:
   tailscale-data-immich:
   tailscale-data-audiobookshelf:
   tailscale-data-navidrome:
+  tailscale-data-freshrss:
