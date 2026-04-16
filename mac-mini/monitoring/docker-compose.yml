@@ -19,7 +19,7 @@ services:
     restart: unless-stopped
 
   prometheus:
-    image: prom/prometheus:v3.11.1
+    image: prom/prometheus:v3.11.2
     container_name: prometheus
     restart: unless-stopped
     network_mode: service:ts-prometheus
@@ -49,7 +49,7 @@ services:
     restart: unless-stopped
 
   grafana:
-    image: grafana/grafana:12.4.2
+    image: grafana/grafana:12.4.3
     container_name: grafana
     restart: unless-stopped
     network_mode: service:ts-grafana
