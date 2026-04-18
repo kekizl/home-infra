@@ -11,6 +11,9 @@ vw-data/
 conf/
 **/ts-*-config/
 
+#Prometheus config
+prometheus.yml
+
 # Logs
 *.log
 
