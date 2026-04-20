@@ -1,7 +1,7 @@
 version: "3.9"
 
 services:
-  ts-openwebui:
+  ts-adguard:
     image: tailscale/tailscale:v1.96.5
     container_name: ts-adguard
     hostname: adguard
