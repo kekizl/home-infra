@@ -23,10 +23,9 @@ services:
     restart: unless-stopped
     network_mode: service:ts-adguard
     depends_on:
-      - ts-adguard
-    environment:
+      - ts-adguard 
     volumes:
-      - ${INFRA_ROOT}/mac-mini/dns/adguard/work:/opt/adguardhome/work   # persistent data
-      - ${INFRA_ROOT}/mac-mini/dns/adguard/conf:/opt/adguardhome/conf   # persistent config
+      - ${INFRA_ROOT}/mac-mini/dns/adguard/work:/opt/adguardhome/work
+      - ${INFRA_ROOT}/mac-mini/dns/adguard/conf:/opt/adguardhome/conf
 volumes:
   tailscale-data-adguard:
