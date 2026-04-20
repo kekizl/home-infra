@@ -1,0 +1,32 @@
+version: "3.9"
+
+services:
+  ts-openwebui:
+    image: tailscale/tailscale:v1.96.5
+    container_name: ts-adguard
+    hostname: adguard
+    environment:
+      - TS_AUTHKEY=${TS_AUTHKEY}
+      - TS_STATE_DIR=/var/lib/tailscale
+      - TS_SERVE_CONFIG=/config/serve.json   # optional, enables HTTPS
+      - TS_USERSPACE=true
+    volumes:
+      - tailscale-data-adguard:/var/lib/tailscale
+      - ${INFRA_ROOT}/mac-mini/ai/ts-adguard-config:/config          # mount folder for serve.json
+    cap_add:
+      - NET_ADMIN
+    restart: unless-stopped
+
+  adguard-home:
+    image: adguard/adguardhome:v0.107.74
+    container_name: adguardhome
+    restart: unless-stopped
+    network_mode: service:ts-adguard
+    depends_on:
+      - ts-adguard
+    environment:
+    volumes:
+      - ${INFRA_ROOT}/mac-mini/dns/adguard/work:/opt/adguardhome/work   # persistent data
+      - ${INFRA_ROOT}/mac-mini/dns/adguard/conf:/opt/adguardhome/conf   # persistent config
+volumes:
+  tailscale-data-adguard:

@@ -10,6 +10,12 @@ freshrss/
 vw-data/
 conf/
 **/ts-*-config/
+adguard/
+
+#AI stuff
+obsidian/
+models/
+presets.ini
 
 #Prometheus config
 prometheus.yml
