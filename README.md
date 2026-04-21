@@ -26,6 +26,7 @@ Services running on a Mac Mini.
 | Homepage | `services` | Cool homepage for all self-hosted apps |
 | Vaultwarden | `services` | Personal and local password manager |
 | OpenWebUI | `ai` | Chat interface for AI models |
+| AdguardHome | `dns` | DNS handler for my tailnet |
 
 All services are paired with a Tailscale sidecar. This gives each service a unique entry in my Tailscale mesh network, thus making them available anywhere. It aslo allows me to give them TLS certificates to enable https connections while not exposing any docker ports.
 

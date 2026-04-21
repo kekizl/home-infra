@@ -17,9 +17,9 @@ scrape_configs:
   - job_name: "homeassistant"
     metrics_path: /api/prometheus
     authorization:
-      credentials: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJhZmVhOGNhOGM2NTY0ZDkwODNlNDhlYmY0NjYyN2E5NyIsImlhdCI6MTc3MDA2Nzc3NSwiZXhwIjoyMDg1NDI3Nzc1fQ.3DqOcvQoNXVrgxoprMiqvTI13Sd-lwxjw6spzhnxpWM
+      credentials: ${HA_PROMETHEUS_TOKEN}
     static_configs:
-      - targets: ["192.168.0.36:8123"]
+      - targets: ["homeassistant.tail1e4516.ts.net:8123"]
 
   - job_name: "truenas"
     static_configs:
