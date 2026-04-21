@@ -11,6 +11,7 @@ vw-data/
 conf/
 **/ts-*-config/
 adguard/
+ha-scrape.yml
 
 #AI stuff
 obsidian/

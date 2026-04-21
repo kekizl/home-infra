@@ -27,6 +27,7 @@ services:
       - ts-prometheus
     volumes:
       - ${INFRA_ROOT}/mac-mini/monitoring/prometheus.yml:/etc/prometheus/prometheus.yml:ro
+      - ${INFRA_ROOT}/mac-mini/monitoring/ha-scrape.yml:/etc/prometheus/secrets/ha-scrape.yml:ro
       - prometheus_data:/prometheus
     command:
       - "--config.file=/etc/prometheus/prometheus.yml"
