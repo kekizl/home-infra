@@ -23,6 +23,8 @@ services:
           target: ${DOCO_CD_TARGET}
     secrets:
       - sops_age_key
+    dns:
+      - 8.8.8.8 #to avoid circular dependency with AdguardHome
 
 secrets:
   sops_age_key:
