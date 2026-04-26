@@ -26,7 +26,7 @@ services:
 
 secrets:
   sops_age_key:
-    file: ~/.config/sops/age/keys/key.txt
+    file: ${SOPS_AGE_KEY_PATH}
 networks:
   proxy:
     driver: bridge
