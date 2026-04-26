@@ -1,5 +1,6 @@
 # Secrets
 .env
+sops_age_key.txt
 
 # Volumes
 data/
