@@ -5,8 +5,9 @@ services:
     image: tailscale/tailscale:v1.96.5
     container_name: ts-adguard
     hostname: adguard
+    env_file:
+      - ${INFRA_ROOT}/secrets.enc.env
     environment:
-      - TS_AUTHKEY=${TS_AUTHKEY}
       - TS_STATE_DIR=/var/lib/tailscale
       - TS_SERVE_CONFIG=/config/serve.json   # optional, enables HTTPS
       - TS_USERSPACE=true

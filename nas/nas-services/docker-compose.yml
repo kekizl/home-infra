@@ -5,8 +5,9 @@ services:
     image: tailscale/tailscale:v1.96.5
     container_name: ts-immich
     hostname: immich
+    env_file:
+      - ${INFRA_ROOT}/secrets.enc.env
     environment:
-      - TS_AUTHKEY=${TS_AUTHKEY}
       - TS_STATE_DIR=/var/lib/tailscale
       - TS_SERVE_CONFIG=/config/serve.json
       - TS_USERSPACE=true
@@ -63,8 +64,9 @@ services:
     image: tailscale/tailscale:v1.96.5
     container_name: ts-audiobookshelf
     hostname: audiobookshelf
+    env_file:
+      - ${INFRA_ROOT}/secrets.enc.env
     environment:
-      - TS_AUTHKEY=${TS_AUTHKEY}
       - TS_STATE_DIR=/var/lib/tailscale
       - TS_SERVE_CONFIG=/config/serve.json
       - TS_USERSPACE=true
@@ -95,8 +97,9 @@ services:
     image: tailscale/tailscale:v1.96.5
     container_name: ts-navidrome
     hostname: navidrome
-    environment:
-      - TS_AUTHKEY=${TS_AUTHKEY}
+    env_file:
+      - ${INFRA_ROOT}/secrets.enc.env
+    environment: 
       - TS_STATE_DIR=/var/lib/tailscale
       - TS_SERVE_CONFIG=/config/serve.json
       - TS_USERSPACE=true
@@ -128,8 +131,9 @@ services:
     image: tailscale/tailscale:v1.96.5
     container_name: ts-freshrss
     hostname: freshrss
-    environment:
-      - TS_AUTHKEY=${TS_AUTHKEY}
+    env_file:
+      - ${INFRA_ROOT}/secrets.enc.env
+    environment: 
       - TS_STATE_DIR=/var/lib/tailscale
       - TS_SERVE_CONFIG=/config/serve.json
       - TS_USERSPACE=true
