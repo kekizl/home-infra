@@ -1,7 +1,7 @@
 version: "3.9"
 
 services:
-  ts-openwebui:
+  ts-adguard:
     image: tailscale/tailscale:v1.96.5
     container_name: ts-adguard
     hostname: adguard
@@ -12,7 +12,7 @@ services:
       - TS_USERSPACE=true
     volumes:
       - tailscale-data-adguard:/var/lib/tailscale
-      - ${INFRA_ROOT}/mac-mini/ai/ts-adguard-config:/config          # mount folder for serve.json
+      - ${INFRA_ROOT}/mac-mini/dns/ts-adguard-config:/config          # mount folder for serve.json
     cap_add:
       - NET_ADMIN
     restart: unless-stopped
