@@ -5,8 +5,6 @@ services:
     image: tailscale/tailscale:v1.96.5
     container_name: ts-immich
     hostname: immich
-    env_file:
-      - ${INFRA_ROOT}/secrets.enc.env
     environment:
       - TS_STATE_DIR=/var/lib/tailscale
       - TS_SERVE_CONFIG=/config/serve.json
@@ -52,8 +50,6 @@ services:
   database:
     container_name: immich_postgres
     image: ghcr.io/immich-app/postgres:16-vectorchord0.4.3-pgvectors0.2.0
-    env_file:
-      - ${INFRA_ROOT}/nas/nas-services/secrets.enc.env
     environment:
         POSTGRES_INITDB_ARGS: '--data-checksums'
     volumes:
@@ -64,8 +60,6 @@ services:
     image: tailscale/tailscale:v1.96.5
     container_name: ts-audiobookshelf
     hostname: audiobookshelf
-    env_file:
-      - ${INFRA_ROOT}/secrets.enc.env
     environment:
       - TS_STATE_DIR=/var/lib/tailscale
       - TS_SERVE_CONFIG=/config/serve.json
@@ -97,8 +91,6 @@ services:
     image: tailscale/tailscale:v1.96.5
     container_name: ts-navidrome
     hostname: navidrome
-    env_file:
-      - ${INFRA_ROOT}/secrets.enc.env
     environment: 
       - TS_STATE_DIR=/var/lib/tailscale
       - TS_SERVE_CONFIG=/config/serve.json
@@ -131,8 +123,6 @@ services:
     image: tailscale/tailscale:v1.96.5
     container_name: ts-freshrss
     hostname: freshrss
-    env_file:
-      - ${INFRA_ROOT}/secrets.enc.env
     environment: 
       - TS_STATE_DIR=/var/lib/tailscale
       - TS_SERVE_CONFIG=/config/serve.json

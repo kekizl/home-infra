@@ -6,8 +6,6 @@ services:
     image: tailscale/tailscale:v1.96.5
     container_name: ts-prometheus
     hostname: prometheus
-    env_file:
-      - ${INFRA_ROOT}/secrets.enc.env
     environment:
       - TS_STATE_DIR=/var/lib/tailscale
       - TS_SERVE_CONFIG=/config/serve.json
@@ -38,8 +36,6 @@ services:
     image: tailscale/tailscale:v1.96.5
     container_name: ts-grafana
     hostname: grafana
-    env_file:
-      - ${INFRA_ROOT}/secrets.enc.env
     environment:
       - TS_STATE_DIR=/var/lib/tailscale
       - TS_SERVE_CONFIG=/config/serve.json
@@ -69,8 +65,6 @@ services:
     image: tailscale/tailscale:v1.96.5
     container_name: ts-cadvisor
     hostname: cadvisor
-    env_file:
-      - ${INFRA_ROOT}/secrets.enc.env
     environment:
       - TS_STATE_DIR=/var/lib/tailscale
       - TS_SERVE_CONFIG=/config/serve.json
@@ -101,8 +95,6 @@ services:
     image: tailscale/tailscale:v1.96.5
     container_name: ts-node-exporter
     hostname: node-exporter
-    env_file:
-      - ${INFRA_ROOT}/secrets.enc.env
     environment: 
       - TS_STATE_DIR=/var/lib/tailscale
       - TS_SERVE_CONFIG=/config/serve.json
@@ -135,8 +127,6 @@ services:
     image: tailscale/tailscale:v1.96.5
     container_name: ts-graphite-exporter
     hostname: graphite-exporter
-    env_file:
-      - ${INFRA_ROOT}/secrets.enc.env
     environment:
       - TS_STATE_DIR=/var/lib/tailscale
       - TS_SERVE_CONFIG=/config/serve.json
@@ -167,8 +157,6 @@ services:
     image: tailscale/tailscale:v1.96.5
     container_name: ts-uptime-kuma
     hostname: uptime-kuma
-    env_file:
-      - ${INFRA_ROOT}/secrets.enc.env  
     environment:
       - TS_STATE_DIR=/var/lib/tailscale
       - TS_SERVE_CONFIG=/config/serve.json
