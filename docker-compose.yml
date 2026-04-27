@@ -19,7 +19,7 @@ services:
           reference: main 
           interval: 1800 
           target: ${DOCO_CD_TARGET}
-
+          run_once: true
 networks:
   proxy:
     driver: bridge
