@@ -8,7 +8,7 @@ services:
     env_file:
       - .env
     volumes:
-      - ./doco-cd-data:/data       # persistent logs/cache
+      - data:/data       # persistent logs/cache
       - /var/run/docker.sock:/var/run/docker.sock  # needed for docker-compose deploys
     ports:
       - "9080:80"  # optional health/metrics endpoint
