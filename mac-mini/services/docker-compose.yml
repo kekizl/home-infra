@@ -4,8 +4,10 @@ services:
     image: tailscale/tailscale:v1.96.5
     container_name: ts-homepage
     hostname: homepage                     # becomes homepage.<tailnet>.ts.net
+    secrets:
+      - ts_authkey
     environment:
-      - TS_AUTHKEY=${TS_AUTHKEY}
+      - TS_AUTHKEY_FILE=/run/secrets/ts_authkey
       - TS_STATE_DIR=/var/lib/tailscale
       - TS_SERVE_CONFIG=/config/serve.json   # optional, enables HTTPS
       - TS_USERSPACE=true 
@@ -35,8 +37,10 @@ services:
     image: tailscale/tailscale:v1.96.5
     container_name: ts-vaultwarden
     hostname: vaultwarden
-    environment: 
-      - TS_AUTHKEY=${TS_AUTHKEY}
+    secrets:
+      - ts_authkey
+    environment:
+      - TS_AUTHKEY_FILE=/run/secrets/ts_authkey
       - TS_STATE_DIR=/var/lib/tailscale
       - TS_SERVE_CONFIG=/config/serve.json
       - TS_USERSPACE=true
@@ -64,3 +68,7 @@ volumes:
   tailscale-data-homepage:
     driver: local
   tailscale-data-vaultwarden: 
+
+secrets:
+  ts_authkey:
+    file: ../../secrets/ts-authkey.enc.txt
