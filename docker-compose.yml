@@ -6,22 +6,29 @@ services:
     container_name: doco-cd
     restart: unless-stopped
     env_file:
-      - .env
+      - .env  
     volumes:
       - data:/data       # persistent logs/cache
       - /var/run/docker.sock:/var/run/docker.sock  # needed for docker-compose deploys
     ports:
       - "9080:80"  # optional health/metrics endpoint
     environment:
+      SOPS_AGE_KEY_FILE: /run/secrets/sops_age_key
       PASS_ENV: "true"
       POLL_CONFIG: |   
         - url: https://github.com/kekizl/home-infra.git
           reference: main 
           interval: 1800 
           target: ${DOCO_CD_TARGET}
+    secrets:
+      - sops_age_key
 networks:
   proxy:
     driver: bridge
 
 volumes:
   data:
+
+secrets:
+  sops_age_key:
+    file: ../.config/sops/age/sops_age_key.txt
