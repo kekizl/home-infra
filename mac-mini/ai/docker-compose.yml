@@ -28,7 +28,7 @@ services:
       - ts-openwebui
     environment:
       OLLAMA_BASE_URL: http://host.docker.internal:11434
-      WEBUI_SECRET_KEY: ${WEBUI_SECRET_KEY}
+      WEBUI_SECRET_KEY_FILE: /run/secrets/webui_secret_key 
     volumes:
       - openwebui-data:/app/backend/data
  
@@ -40,3 +40,5 @@ volumes:
 secrets:
   ts_authkey:
     file: ${INFRA_ROOT}/secrets/ts-authkey.enc.txt
+  webui_secret_key:    
+    file: ${INFRA_ROOT}/secrets/webui-secret-key.enc.txt
