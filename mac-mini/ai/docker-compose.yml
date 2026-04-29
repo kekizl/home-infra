@@ -26,6 +26,8 @@ services:
     network_mode: service:ts-openwebui
     depends_on:
       - ts-openwebui
+    secrets:
+      - webui_secret_key
     environment:
       OLLAMA_BASE_URL: http://host.docker.internal:11434
       WEBUI_SECRET_KEY_FILE: /run/secrets/webui_secret_key 
