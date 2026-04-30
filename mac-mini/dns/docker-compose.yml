@@ -5,7 +5,10 @@ services:
     image: tailscale/tailscale:v1.96.5
     container_name: ts-adguard
     hostname: adguard
+    secrets:
+      - ts_authkey
     environment:
+      - TS_AUTHKEY_FILE=/run/secrets/ts_authkey
       - TS_STATE_DIR=/var/lib/tailscale
       - TS_SERVE_CONFIG=/config/serve.json   # optional, enables HTTPS
       - TS_USERSPACE=true
@@ -28,3 +31,7 @@ services:
       - ${INFRA_ROOT}/mac-mini/dns/adguard/conf:/opt/adguardhome/conf
 volumes:
   tailscale-data-adguard:
+
+secrets:
+  ts_authkey:
+    file: ../../secrets/ts-authkey.enc.txt
