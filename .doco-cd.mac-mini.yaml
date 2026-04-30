@@ -1,6 +1,4 @@
 working_dir: mac-mini
-env_files:
-  - ../../secrets.enc.env
 auto_discover: true
 auto_discover_opts:
   depth: 3

@@ -1,6 +1,4 @@
 working_dir: nas
-env_files:
-  - ../../secrets.enc.env #path relative to the containers
 auto_discover: true
 auto_discover_opts:
   depth: 3
