@@ -13,7 +13,6 @@ services:
     ports:
       - "9080:80"  # optional health/metrics endpoint
     environment:
-      SOPS_AGE_KEY_FILE: /run/secrets/sops_age_key
       PASS_ENV: "true"
       SOPS_AGE_KEY_FILE: /run/secrets/sops_age_key
       POLL_CONFIG: |   
@@ -23,6 +22,9 @@ services:
           target: ${DOCO_CD_TARGET}
     secrets:
       - sops_age_key
+    dns:
+      - 8.8.8.8 #to avoid circular dependency with AdguardHome
+
 networks:
   proxy:
     driver: bridge
