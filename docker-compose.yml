@@ -2,7 +2,7 @@ version: "3.9"
 
 services:
   doco-cd:
-    image: ghcr.io/kimdre/doco-cd:0.82.2
+    image: ghcr.io/kimdre/doco-cd:0.83.0
     container_name: doco-cd
     restart: unless-stopped
     env_file:

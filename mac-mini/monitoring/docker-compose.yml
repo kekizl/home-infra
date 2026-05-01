@@ -21,7 +21,7 @@ services:
     restart: unless-stopped
 
   prometheus:
-    image: prom/prometheus:v3.11.2
+    image: prom/prometheus:v3.11.3
     container_name: prometheus
     restart: unless-stopped
     network_mode: service:ts-prometheus
@@ -187,7 +187,7 @@ services:
     restart: unless-stopped
 
   uptime-kuma:
-    image: louislam/uptime-kuma:2.2.1
+    image: louislam/uptime-kuma:2.3.0
     container_name: uptime-kuma
     restart: unless-stopped
     network_mode: service:ts-uptime-kuma
