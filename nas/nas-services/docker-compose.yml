@@ -91,6 +91,7 @@ services:
     volumes:
       - ${APPSTORAGE_ROOT}/Audiobookshelf/audiobooks:/audiobooks
       - ${APPSTORAGE_ROOT}/Audiobookshelf/podcasts:/podcasts
+      - ${APPSTORAGE_ROOT}/Audiobookshelf/manga:/manga
       - ${APPSTORAGE_ROOT}/Audiobookshelf/config:/config
       - ${APPSTORAGE_ROOT}/Audiobookshelf/metadata:/metadata
     environment:
