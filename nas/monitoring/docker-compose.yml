@@ -1,0 +1,44 @@
+version: "3.8"
+
+services:
+  # ---- node-exporter ----
+  ts-nas-node-exporter:
+    image: tailscale/tailscale:v1.96.5
+    container_name: ts-nas-node-exporter
+    hostname: nas-node-exporter
+    secrets:
+      - ts_authkey
+    environment:
+      - TS_AUTHKEY_FILE=/run/secrets/ts_authkey   
+      - TS_STATE_DIR=/var/lib/tailscale
+      - TS_SERVE_CONFIG=/config/serve.json
+      - TS_USERSPACE=true
+    volumes:
+      - tailscale-data-node-exporter:/var/lib/tailscale
+      - ${INFRA_ROOT}/mac-mini/monitoring/ts-node-exporter-config:/config
+    cap_add:
+      - NET_ADMIN
+    restart: unless-stopped
+
+  node-exporter:
+    image: prom/node-exporter:v1.11.1
+    container_name: node-exporter
+    restart: unless-stopped
+    network_mode: service:ts-nas-node-exporter
+    depends_on:
+      - ts-nas-node-exporter
+    volumes:
+      - /proc:/host/proc:ro
+      - /sys:/host/sys:ro
+      - /:/root:ro
+    command:
+      - '--path.procfs=/host/proc'
+      - '--path.sysfs=/host/sys'
+      - '--collector.filesystem.ignored-mount-points='
+
+volumes:
+  tailscale-data-node-exporter:
+  
+secrets:
+  ts_authkey:
+    file: ../../secrets/ts-authkey.enc.txt
