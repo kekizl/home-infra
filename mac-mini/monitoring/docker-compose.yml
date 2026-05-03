@@ -134,40 +134,7 @@ services:
       - '--path.procfs=/host/proc'
       - '--path.sysfs=/host/sys'
       - '--collector.filesystem.ignored-mount-points='
-
-  # ---- graphite-exporter ----
-  ts-graphite-exporter:
-    image: tailscale/tailscale:v1.96.5
-    container_name: ts-graphite-exporter
-    hostname: graphite-exporter
-    secrets:
-      - ts_authkey
-    environment:
-      - TS_AUTHKEY_FILE=/run/secrets/ts_authkey   
-      - TS_STATE_DIR=/var/lib/tailscale
-      - TS_SERVE_CONFIG=/config/serve.json
-      - TS_USERSPACE=true
-    volumes:
-      - tailscale-data-graphite-exporter:/var/lib/tailscale
-      - ${INFRA_ROOT}/mac-mini/monitoring/ts-graphite-exporter-config:/config
-    cap_add:
-      - NET_ADMIN
-    restart: unless-stopped
-
-  graphite-exporter:
-    image: prom/graphite-exporter:v0.16.0
-    container_name: graphite-exporter
-    restart: unless-stopped
-    network_mode: service:ts-graphite-exporter
-    depends_on:
-      - ts-graphite-exporter
-    command:
-      - "--web.listen-address=0.0.0.0:9108"
-      - "--graphite.listen-address=:2003"
-      - "--graphite.mapping-config=/etc/graphite-exporter/graphite_mapping.conf"
-    volumes:
-      - ${INFRA_ROOT}/mac-mini/monitoring/graphite/graphite_mapping.conf:/etc/graphite-exporter/graphite_mapping.conf:ro 
-
+ 
   # ---- uptime-kuma ----
   ts-uptime-kuma:
     image: tailscale/tailscale:v1.96.5
@@ -208,7 +175,6 @@ volumes:
   tailscale-data-grafana:
   tailscale-data-cadvisor:
   tailscale-data-node-exporter:
-  tailscale-data-graphite-exporter:
   tailscale-data-uptime-kuma:
 
 secrets:
