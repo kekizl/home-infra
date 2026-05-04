@@ -52,7 +52,7 @@ services:
     restart: unless-stopped
 
   vaultwarden:
-    image: vaultwarden/server:1.35.8
+    image: vaultwarden/server:1.36.0
     container_name: vaultwarden
     restart: unless-stopped
     network_mode: service:ts-vaultwarden
