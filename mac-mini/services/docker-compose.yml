@@ -32,6 +32,8 @@ services:
     environment:
       HOMEPAGE_ALLOWED_HOSTS: homepage.${TS_TAILNET}.ts.net
       PGHOMEPAGE_VAR_YOURVAR: value # optional env vars for secrets
+    labels:
+      - "docker-volume-backup.stop-during-backup=true"
  
   ts-vaultwarden:
     image: tailscale/tailscale:v1.96.5
@@ -63,6 +65,8 @@ services:
       TRUST_PROXY: true
     volumes:
       - ${INFRA_ROOT}/mac-mini/services/vw-data/:/data/
+    labels:
+      - "docker-volume-backup.stop-during-backup=true"
 
 volumes:
   tailscale-data-homepage:

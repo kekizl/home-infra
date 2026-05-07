@@ -66,6 +66,8 @@ services:
       - GF_SERVER_SERVE_FROM_SUB_PATH=false
     volumes:
       - grafana_data:/var/lib/grafana
+    labels:
+      - "docker-volume-backup.stop-during-backup=true"
 
   # ---- cAdvisor ----
   ts-cadvisor:
@@ -167,6 +169,8 @@ services:
     environment:
       - UPTIME_KUMA_HOST=0.0.0.0
       - UPTIME_KUMA_PORT=3001
+    labels:
+      - "docker-volume-backup.stop-during-backup=true"
 
 volumes:
   prometheus_data:

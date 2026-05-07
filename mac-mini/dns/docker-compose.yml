@@ -29,6 +29,9 @@ services:
     volumes:
       - ${INFRA_ROOT}/mac-mini/dns/adguard/work:/opt/adguardhome/work
       - ${INFRA_ROOT}/mac-mini/dns/adguard/conf:/opt/adguardhome/conf
+    labels:
+      - "docker-volume-backup.stop-during-backup=true"
+
 volumes:
   tailscale-data-adguard:
 
