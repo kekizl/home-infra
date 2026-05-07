@@ -24,7 +24,7 @@ services:
       - /var/run/docker.sock:/var/run/docker.sock:ro
 
       # Target archive location
-      - /local/backups/mac-mini:/archive
+      - /Volumes/Homelab_Backups:/archive
 
 volumes:
   grafana_data:
