@@ -1,6 +1,7 @@
 # backup/mac-mini-backup.yml
 services:
   backup:
+    container_name: docker-volume-backup
     image: offen/docker-volume-backup:v2
     restart: always
     environment:
