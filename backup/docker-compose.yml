@@ -3,6 +3,8 @@ services:
   backup:
     image: offen/docker-volume-backup:v2
     restart: always
+    env_file:
+      - ../.env
     environment:
       BACKUP_CRON_EXPRESSION: "0 3 * * *"
       BACKUP_RETENTION_DAYS: 7
