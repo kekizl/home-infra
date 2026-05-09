@@ -14,7 +14,7 @@ services:
       - TS_USERSPACE=true
     volumes:
       - tailscale-data-syncthing:/var/lib/tailscale
-      - ${INFRA_ROOT}/mac-mini/monitoring/ts-syncthing-config:/config
+      - ${INFRA_ROOT}/nas/syncthing/ts-syncthing-config:/config
     cap_add:
       - NET_ADMIN
     restart: unless-stopped

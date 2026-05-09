@@ -15,7 +15,7 @@ services:
       - TS_USERSPACE=true
     volumes:
       - tailscale-data-node-exporter:/var/lib/tailscale
-      - ${INFRA_ROOT}/mac-mini/monitoring/ts-node-exporter-config:/config
+      - ${INFRA_ROOT}/nas/monitoring/ts-node-exporter-config:/config
     cap_add:
       - NET_ADMIN
     restart: unless-stopped
