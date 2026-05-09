@@ -32,7 +32,8 @@ services:
       - STGUIADDRESS=0.0.0.0:8384
     volumes:
       - ${INFRA_ROOT}/nas/syncthing/data:/var/syncthing
-      - ${BACKUP_ROOT}:${BACKUP_ROOT}:ro
+      - /mnt/Pool/sync-bucket:/incoming
+      - ${BACKUP_ROOT}:/keklab_backups:ro
 
 volumes:
   tailscale-data-syncthing:
