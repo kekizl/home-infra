@@ -1,0 +1,42 @@
+version: "3.8"
+
+services:
+  ts-syncthing:
+    image: tailscale/tailscale:v1.96.5
+    container_name: ts-syncthing
+    hostname: syncthing
+    secrets:
+      - ts_authkey
+    environment:
+      - TS_AUTHKEY_FILE=/run/secrets/ts_authkey
+      - TS_STATE_DIR=/var/lib/tailscale
+      - TS_SERVE_CONFIG=/config/serve.json
+      - TS_USERSPACE=true
+    volumes:
+      - tailscale-data-syncthing:/var/lib/tailscale
+      - ${INFRA_ROOT}/mac-mini/monitoring/ts-syncthing-config:/config
+    cap_add:
+      - NET_ADMIN
+    restart: unless-stopped
+
+  syncthing:
+    image: ghcr.io/vaskozl/syncthing:2.0.16@sha256:669526ca19aa72d466aefc5393696d009e057b68172e62d895d6940e96b40b4c
+    container_name: syncthing
+    restart: unless-stopped
+    network_mode: service:ts-syncthing
+    depends_on:
+      - ts-nas-syncthing
+    user: "568:568"
+    environment:
+      - HOME=/var/syncthing
+      - STGUIADDRESS=0.0.0.0:8384
+    volumes:
+      - ${INFRA_ROOT}/syncthing/data:/var/syncthing
+      - ${BACKUP_ROOT}:${BACKUP_ROOT}:ro
+
+volumes:
+  tailscale-data-syncthing:
+
+secrets:
+  ts_authkey:
+    file: ../../secrets/ts-authkey.enc.txt
