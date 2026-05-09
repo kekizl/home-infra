@@ -25,7 +25,7 @@ services:
     restart: unless-stopped
     network_mode: service:ts-syncthing
     depends_on:
-      - ts-nas-syncthing
+      - ts-syncthing
     user: "568:568"
     environment:
       - HOME=/var/syncthing
