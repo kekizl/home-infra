@@ -1,16 +1,18 @@
-# backup/mac-mini-backup.yml
 services:
   backup:
     container_name: docker-volume-backup
-    image: offen/docker-volume-backup:v2
+    image: offen/docker-volume-backup:v2.48.0
     restart: always
     environment:
+      TZ: Europe/Stockholm
       BACKUP_CRON_EXPRESSION: "0 3 * * *"
       BACKUP_RETENTION_DAYS: 7
+      NOTIFICATION_LEVEL: "info"
+      NOTIFICATION_URLS_FILE: /run/secrets/notifications.url 
     volumes:
       # Named volumes
-      - grafana_data:/backup/grafana:ro
-      - openwebui_data:/backup/openwebui:ro
+      - monitoring_grafana_data:/backup/grafana:ro
+      - ai_openwebui-data:/backup/openwebui:ro
 
       # Bind mounts (use exact paths from your host)
       - ${INFRA_ROOT}/mac-mini/data:/backup/uptime-kuma:ro
@@ -18,15 +20,17 @@ services:
       - ${INFRA_ROOT}/mac-mini/dns/adguard/conf:/backup/adguard-conf:ro
       # - ${INFRA_ROOT}/mac-mini/dns/adguard/work:/backup/adguard-work:ro  # optional, large
 
-      # Obsidian vault (adjust tilde to absolute path if needed)
-      - /Users/keki/home-infra/mac-mini/obsidian/vault:/backup/obsidian:ro
-
       # Docker socket to stop labeled containers
       - /var/run/docker.sock:/var/run/docker.sock:ro
 
-      # Target archive location
+      # Decrypted Discord webhook (read‑only, file‑based secret)
+      - ./.secrets/notifications.url:/run/secrets/notifications.url:ro
+      
       - /Volumes/Homelab_Backups:/archive
+      - ./backup-notifications.tmpl:/etc/dockervolumebackup/notifications.d/01.tmpl
 
 volumes:
-  grafana_data:
-  openwebui_data:
+  monitoring_grafana_data:
+    external: true
+  ai_openwebui-data:
+    external: true

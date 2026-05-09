@@ -1,0 +1,16 @@
+{{ define "title_success" -}}
+✅ Backup Successful
+{{- end }}
+
+{{ define "body_success" -}}
+The latest backup has been completed without any errors.
+{{- end }}
+
+{{ define "title_failure" -}}
+❌ Backup Failed
+{{- end }}
+
+{{ define "body_failure" -}}
+The backup run has failed. Here is the error log:
+{{ .Error }}
+{{- end }}
