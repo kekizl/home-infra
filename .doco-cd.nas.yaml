@@ -1,4 +1,4 @@
 working_dir: nas
-auto_discover: true
-auto_discover_opts:
+auto_discovery:
+  enabled: true
   depth: 3
