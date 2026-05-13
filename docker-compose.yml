@@ -15,6 +15,7 @@ services:
     environment:
       PASS_ENV: "true"
       SOPS_AGE_KEY_FILE: /run/secrets/sops_age_key
+      TZ: Europe/Stockholm
       POLL_CONFIG: |   
         - url: https://github.com/kekizl/home-infra.git
           reference: main 

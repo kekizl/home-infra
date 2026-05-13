@@ -68,6 +68,37 @@ services:
     labels:
       - "docker-volume-backup.stop-during-backup=true"
 
+  restic-backup:
+    image: restic/restic:0.18.1        # official restic image
+    container_name: restic-backup
+    restart: no
+    # Keep container alive for exec
+    entrypoint: ["/bin/sh", "/backup.sh"]
+    secrets:
+      - restic-password
+    environment:
+      RESTIC_REPOSITORY: "rest:http://192.168.0.41:8000/mac-mini"
+      RESTIC_PASSWORD_FILE: /run/secrets/restic-password
+    volumes:
+      # Named volumes – direct, read‑only
+      #- monitoring_grafana_data:/backup/grafana:ro
+      #- ai_openwebui-data:/backup/openwebui:ro
+      # Bind mounts – host paths
+      - /Users/keki/home-infra/mac-mini/data:/backup/uptime-kuma:ro
+      - /Users/keki/home-infra/mac-mini/services/vw-data:/backup/vaultwarden:ro
+      - /Users/keki/home-infra/mac-mini/dns/adguard/conf:/backup/adguard-conf:ro
+      - /Users/keki/home-infra/mac-mini/obsidian/vault:/backup/obsidian:ro
+      # Docker socket (to stop containers)
+      #- /var/run/docker.sock:/var/run/docker.sock
+      # Backup script
+      - ./restic-backup.sh:/backup.sh:ro
+    labels:
+      # doco‑cd scheduled job configuration
+      cd.doco.job.enabled: "true"
+      cd.doco.job.schedule: "0 3 * * *"          # daily at 3 am
+      cd.doco.job.execution_mode: "one_shot"
+      cd.doco.job.skip_running: "true"
+ 
 volumes:
   tailscale-data-homepage:
     driver: local
@@ -76,3 +107,5 @@ volumes:
 secrets:
   ts_authkey:
     file: ../../secrets/ts-authkey.enc.txt
+  restic-password:
+    file: ../../secrets/restic.enc.txt
