@@ -1,4 +1,4 @@
 FROM docker:cli
-RUN apk add --no-cache restic
+RUN apk add --no-cache restic curl
 COPY restic-backup.sh /backup.sh
 RUN chmod +x /backup.sh
