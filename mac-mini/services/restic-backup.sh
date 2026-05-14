@@ -6,10 +6,24 @@ CLEAN_PW="/tmp/restic-password-clean"
 tr -d '[:space:]' < "$RESTIC_PASSWORD_FILE" > "$CLEAN_PW"
 export RESTIC_PASSWORD_FILE="$CLEAN_PW"
 
+DISCORD_WEBHOOK_FILE="${DISCORD_WEBHOOK_FILE}"
+DISCORD_WEBHOOK=""
+if [ -f "$DISCORD_WEBHOOK_FILE" ]; then
+    DISCORD_WEBHOOK=$(tr -d '[:space:]' < "$DISCORD_WEBHOOK_FILE")
+fi
+
+# --- Notification helper ---
+notify_discord() {
+    if [ -n "$DISCORD_WEBHOOK" ]; then
+        curl -s -X POST -H "Content-Type: application/json" \
+             -d "{\"content\": \"$1\"}" "$DISCORD_WEBHOOK" >/dev/null 2>&1 || true
+    fi
+}
+
 # ------------------------------------------------------------------
 # Configuration
 # ------------------------------------------------------------------
-BACKUP_SOURCES="/backup/uptime-kuma /backup/vaultwarden /backup/adguard-conf /backup/obsidian"
+BACKUP_SOURCES="/backup/openwebui /backup/grafana /backup/uptime-kuma /backup/vaultwarden /backup/adguard-conf /backup/obsidian"
 RETENTION="--keep-daily 7 --keep-weekly 4 --keep-monthly 3"
 LABEL="docker-volume-backup.stop-during-backup=true"
 
@@ -46,6 +60,13 @@ fi
 if [ -n "$STOPPED_IDS" ]; then
     echo "[$(date)] Restarting containers..."
     echo "$STOPPED_IDS" | xargs docker start
+fi
+
+# --- 4. Send Discord notification ---
+if [ "$BACKUP_OK" -eq 1 ]; then
+    notify_discord "✅ **Restic backup succeeded** on \`$HOSTNAME\` at $(date -u +'%Y-%m-%d %H:%M UTC')"
+else
+    notify_discord "❌ **Restic backup FAILED** on \`$HOSTNAME\` at $(date -u +'%Y-%m-%d %H:%M UTC')"
 fi
 
 # ------------------------------------------------------------------

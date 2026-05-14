@@ -79,13 +79,15 @@ services:
     entrypoint: ["/bin/sh", "/backup.sh"]
     secrets:
       - restic-password
+      - discord-webhook
     environment:
       RESTIC_REPOSITORY: "rest:http://192.168.0.41:8000/mac-mini"
       RESTIC_PASSWORD_FILE: /run/secrets/restic-password
+      DISCORD_WEBHOOK_FILE: /run/secrets/discord-webhook
     volumes:
       # Named volumes – direct, read‑only
-      #- monitoring_grafana_data:/backup/grafana:ro
-      #- ai_openwebui-data:/backup/openwebui:ro
+      - monitoring_grafana_data:/backup/grafana:ro
+      - ai_openwebui-data:/backup/openwebui:ro
       # Bind mounts – host paths
       - /Users/keki/home-infra/mac-mini/data:/backup/uptime-kuma:ro
       - /Users/keki/home-infra/mac-mini/services/vw-data:/backup/vaultwarden:ro
@@ -112,3 +114,5 @@ secrets:
     file: ../../secrets/ts-authkey.enc.txt
   restic-password:
     file: ../../secrets/restic.enc.txt
+  discord-webhook:
+    file: ../../secrets/discord-webhook.enc.txt
