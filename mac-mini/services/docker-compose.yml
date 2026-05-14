@@ -108,6 +108,10 @@ volumes:
   tailscale-data-homepage:
     driver: local
   tailscale-data-vaultwarden: 
+  monitoring_grafana_data:
+    external: true
+  ai_openwebui-data:
+    external: true
 
 secrets:
   ts_authkey:
