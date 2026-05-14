@@ -69,7 +69,10 @@ services:
       - "docker-volume-backup.stop-during-backup=true"
 
   restic-backup:
-    image: restic/restic:0.18.1        # official restic image
+    build:
+      context: .
+      dockerfile: Dockerfile.restic    
+    #image: restic/restic:0.18.1        # official restic image
     container_name: restic-backup
     restart: no
     # Keep container alive for exec
@@ -89,7 +92,7 @@ services:
       - /Users/keki/home-infra/mac-mini/dns/adguard/conf:/backup/adguard-conf:ro
       - /Users/keki/home-infra/mac-mini/obsidian/vault:/backup/obsidian:ro
       # Docker socket (to stop containers)
-      #- /var/run/docker.sock:/var/run/docker.sock
+      - /var/run/docker.sock:/var/run/docker.sock
       # Backup script
       - ./restic-backup.sh:/backup.sh:ro
     labels:
