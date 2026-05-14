@@ -1,5 +1,10 @@
 #!/bin/sh
 set -e
+
+CLEAN_PW="/tmp/restic-password-clean"
+tr -d '[:space:]' < "$RESTIC_PASSWORD_FILE" > "$CLEAN_PW"
+export RESTIC_PASSWORD_FILE="$CLEAN_PW"
+
 #/backup/grafana /backup/openwebui
 BACKUP_SOURCES="/backup/uptime-kuma /backup/vaultwarden /backup/adguard-conf /backup/obsidian"
 RETENTION="--keep-daily 7 --keep-weekly 4 --keep-monthly 3"
