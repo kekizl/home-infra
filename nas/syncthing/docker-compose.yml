@@ -33,7 +33,7 @@ services:
     volumes:
       - ${INFRA_ROOT}/nas/syncthing/data:/var/syncthing
       - /mnt/Pool/sync-bucket:/incoming
-      - /mnt/Pool/Syncthing/vw:/incoming
+      - /mnt/Pool/Syncthing/vw:/sync/vw
 
 volumes:
   tailscale-data-syncthing:
