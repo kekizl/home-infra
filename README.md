@@ -13,6 +13,8 @@ Services running on TrueNAS via Docker. This is the primary storage and media ho
 | Audiobookshelf | Self-hosted audiobook and epub library |
 | Navidrome | Self-hosted music streaming alternative |
 | FreshRSS | Curated RSS feed for daily digests |
+| Restic | Restic-Server, where I store snapshots |
+| Syncthing | For storing remote files when needed |
 
 ### `mac-mini/`
 Services running on a Mac Mini.
@@ -25,6 +27,7 @@ Services running on a Mac Mini.
 | Grafana | `monitoring` | Data Displaying for cool dashboards |
 | Homepage | `services` | Cool homepage for all self-hosted apps |
 | Vaultwarden | `services` | Personal and local password manager |
+| Restic | `services` | Automated Snapshot based backups |
 | OpenWebUI | `ai` | Chat interface for AI models |
 | AdguardHome | `dns` | DNS handler for my tailnet |
 
@@ -44,6 +47,8 @@ The Renovate GitHub App monitors this repository for outdated Docker image tags.
 
 Once Renovate merges an update into `main`, Doco-CD picks it up on its next poll and redeploys the affected services automatically.
 
+### [Restic](https://github.com/renovatebot/renovate)
+
 ## Repository structure
 
 ```
@@ -53,12 +58,25 @@ home-infra/
 │   ├── ha-stack/
 │   │   └── docker-compose.yml   # Home Assistant, Piper, Whisper
 │   ├── services/
-│   │   └── docker-compose.yml   # Homepage and Vaultwarden
-|   └── monitoring/
-│       ├── docker-compose.yml   # Uptime Kuma, Prometheus, Grafana
+│   │   ├── Dockerfile.restic    # Custom Dockerfile to allow restic to start+stop containers
+│   │   ├── restic-backup.sh     # Bash script to start, stop and backup relevant containers
+│   │   └── docker-compose.yml   # Homepage, Restic and Vaultwarden
+│   ├── ai/
+│   │   └── docker-compose.yml   # OpenWebUI and Claude agents
+│   ├── dns/
+│   │   └── docker-compose.yml   # Adguard Home
+│   └── monitoring/
+│       └── docker-compose.yml   # Uptime Kuma, Prometheus, Grafana
 ├── nas/
+│   ├── monitoring/ 
+│   │   └── docker-compose.yml   # Node-Exporter
+│   ├── syncthing/
+│   │   └── docker-compose.yml   # Syncthing
+│   ├── restic/
+│   │   └── docker-compose.yml   # Restic Server
 │   └── nas-services/
-│       └── docker-compose.yml   # Immich and Audiobookshelf
+│       └── docker-compose.yml   # Immich, FreshRSS, Navidrome and Audiobookshelf
+├── secrets/                     # SOPS age encrypted secrets used in containers 
 └── renovate.json                # Renovate configuration
 ```
 
