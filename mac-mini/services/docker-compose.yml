@@ -101,7 +101,7 @@ services:
       # doco‑cd scheduled job configuration
       cd.doco.job.enabled: "true"
       cd.doco.job.schedule: "0 3 * * *"          # daily at 3 am
-      cd.doco.job.execution_mode: "one_shot"
+      cd.doco.job.execution_mode: "one_off"
       cd.doco.job.skip_running: "true"
  
 volumes:
