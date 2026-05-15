@@ -33,7 +33,7 @@ services:
     volumes:
       - ${INFRA_ROOT}/nas/syncthing/data:/var/syncthing
       - /mnt/Pool/sync-bucket:/incoming
-      - ${BACKUP_ROOT}:/keklab_backups:ro
+      - /mnt/Pool/syncthing/vw:/incoming
 
 volumes:
   tailscale-data-syncthing:
