@@ -68,6 +68,25 @@ services:
     labels:
       - "docker-volume-backup.stop-during-backup=true"
 
+  renovate:
+    image: renovate/renovate:39.158.1
+    container_name: renovate
+    restart: unless-stopped
+    secrets: 
+      - renovate-token
+      - github-token
+    environment:
+      RENOVATE_TOKEN_FILE: /run/secrets/renovate-token
+      GITHUB_COM_TOKEN_FILE: /run/secrets/github-token
+      LOG_LEVEL: info
+      RENOVATE_AUTODISCOVER: true
+      RENOVATE_PLATFORM: github
+      RENOVATE_ONBOARDING: false
+    volumes:
+      - ./renovate-config.js:/usr/src/app/config.js:ro
+      - ./renovate-data:/usr/src/app/tmp
+    command: ["--schedule", "0 */6 * * *"]
+
   restic-backup:
     build:
       context: .
@@ -89,10 +108,10 @@ services:
       - monitoring_grafana_data:/backup/grafana:ro
       - ai_openwebui-data:/backup/openwebui:ro
       # Bind mounts – host paths
-      - /Users/keki/home-infra/mac-mini/data:/backup/uptime-kuma:ro
-      - /Users/keki/home-infra/mac-mini/services/vw-data:/backup/vaultwarden:ro
-      - /Users/keki/home-infra/mac-mini/dns/adguard/conf:/backup/adguard-conf:ro
-      - /Users/keki/home-infra/mac-mini/obsidian/vault:/backup/obsidian:ro
+      - ${INFRA_ROOT}/mac-mini/data:/backup/uptime-kuma:ro
+      - ${INFRA_ROOT}/mac-mini/services/vw-data:/backup/vaultwarden:ro
+      - ${INFRA_ROOT}/mac-mini/dns/adguard/conf:/backup/adguard-conf:ro
+      - ${INFRA_ROOT}/mac-mini/obsidian/vault:/backup/obsidian:ro
       # Docker socket (to stop containers)
       - /var/run/docker.sock:/var/run/docker.sock
       # Backup script
@@ -120,3 +139,8 @@ secrets:
     file: ../../secrets/restic.enc.txt
   discord-webhook:
     file: ../../secrets/discord-webhook.enc.txt
+  renovate-token: #to create the pull requests
+    file: ../../secrets/renovate-token.enc.txt
+  github-token: #to create my changelogs
+    file: ../../secrets/github-token.enc.txt
+
