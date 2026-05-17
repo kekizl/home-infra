@@ -85,7 +85,7 @@ services:
     volumes:
       - ./renovate-data:/usr/src/app/tmp
       - ./renovate-wrapper.sh:/usr/local/bin/renovate-wrapper.sh:ro
-    entrypoint: ["/usr/local/bin/renovate-wrapper.sh"]
+    entrypoint: ["/bin/sh", "/usr/local/bin/renovate-wrapper.sh"]
     command: ["--schedule", "0 */6 * * *"]
 
   restic-backup:
