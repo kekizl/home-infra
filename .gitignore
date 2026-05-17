@@ -13,6 +13,7 @@ conf/
 **/ts-*-config/
 adguard/
 ha-scrape.yml
+renovate-data/
 
 #AI stuff
 obsidian/
@@ -21,6 +22,7 @@ presets.ini
 
 #Prometheus config
 prometheus.yml
+
 
 # Logs
 *.log
