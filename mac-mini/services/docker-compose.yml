@@ -87,7 +87,12 @@ services:
       - ./renovate-data:/usr/src/app/tmp
       - ./renovate-wrapper.sh:/usr/local/bin/renovate-wrapper.sh:ro
     entrypoint: ["/bin/sh", "/usr/local/bin/renovate-wrapper.sh"]
-    command: ["--schedule", "every 6 hours"]
+    labels:
+      # doco‑cd scheduled job configuration
+      cd.doco.job.enabled: "true"
+      cd.doco.job.schedule: "30 */6 * * *"
+      cd.doco.job.execution_mode: "one_off"
+      cd.doco.job.skip_running: "true"
 
   restic-backup:
     build:
