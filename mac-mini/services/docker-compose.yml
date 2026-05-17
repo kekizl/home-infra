@@ -71,7 +71,7 @@ services:
   renovate:
     image: renovate/renovate:43.182.1
     container_name: renovate
-    restart: unless-stopped
+    restart: no
     secrets: 
       - renovate-token
       - github-token
