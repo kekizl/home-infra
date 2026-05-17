@@ -79,14 +79,15 @@ services:
       RENOVATE_TOKEN_FILE: /run/secrets/renovate-token
       GITHUB_COM_TOKEN_FILE: /run/secrets/github-token
       LOG_LEVEL: info
-      RENOVATE_AUTODISCOVER: true
+      RENOVATE_AUTODISCOVER: false
+      RENOVATE_REPOSITORIES: kekizl/home-infra
       RENOVATE_PLATFORM: github
       RENOVATE_ONBOARDING: false
     volumes:
       - ./renovate-data:/usr/src/app/tmp
       - ./renovate-wrapper.sh:/usr/local/bin/renovate-wrapper.sh:ro
     entrypoint: ["/bin/sh", "/usr/local/bin/renovate-wrapper.sh"]
-    command: ["--schedule", "0 */6 * * *"]
+    command: ["--schedule", "every 6 hours"]
 
   restic-backup:
     build:
