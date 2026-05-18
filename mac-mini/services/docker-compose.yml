@@ -74,10 +74,8 @@ services:
     restart: no
     secrets: 
       - renovate-token
-      - github-token
     environment:
       RENOVATE_TOKEN_FILE: /run/secrets/renovate-token
-      GITHUB_COM_TOKEN_FILE: /run/secrets/github-token
       LOG_LEVEL: info
       RENOVATE_AUTODISCOVER: false
       RENOVATE_REPOSITORIES: kekizl/home-infra
@@ -147,6 +145,3 @@ secrets:
     file: ../../secrets/discord-webhook.enc.txt
   renovate-token: #to create the pull requests
     file: ../../secrets/renovate-token.enc.txt
-  github-token: #to create my changelogs
-    file: ../../secrets/github-token.enc.txt
-
