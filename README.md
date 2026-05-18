@@ -28,6 +28,7 @@ Services running on a Mac Mini.
 | Homepage | `services` | Cool homepage for all self-hosted apps |
 | Vaultwarden | `services` | Personal and local password manager |
 | Restic | `services` | Automated Snapshot based backups |
+| Renovate | `services` | Automated Docker Dependency Updates |
 | OpenWebUI | `ai` | Chat interface for AI models |
 | AdguardHome | `dns` | DNS handler for my tailnet |
 
@@ -59,8 +60,9 @@ home-infra/
 │   │   └── docker-compose.yml   # Home Assistant, Piper, Whisper
 │   ├── services/
 │   │   ├── Dockerfile.restic    # Custom Dockerfile to allow restic to start+stop containers
+│   │   ├── renovate-wrapper.sh     # Wrapper for Renovate to read my SOPS secrets.
 │   │   ├── restic-backup.sh     # Bash script to start, stop and backup relevant containers
-│   │   └── docker-compose.yml   # Homepage, Restic and Vaultwarden
+│   │   └── docker-compose.yml   # Homepage, Renovate, Restic and Vaultwarden
 │   ├── ai/
 │   │   └── docker-compose.yml   # OpenWebUI and Claude agents
 │   ├── dns/
