@@ -11,7 +11,7 @@
       "groupName": "Docker minor & patch updates",
       "automerge": true,
       "automergeType": "pr",
-      "schedule": ["every weekend"]
+      "schedule": ["* 0-4 * * *"]
     },
     {
       "matchDatasources": ["docker"],

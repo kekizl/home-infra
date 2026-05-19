@@ -76,7 +76,7 @@ services:
       - renovate-token
     environment:
       RENOVATE_TOKEN_FILE: /run/secrets/renovate-token
-      LOG_LEVEL: debug
+      LOG_LEVEL: info
       RENOVATE_AUTODISCOVER: false
       RENOVATE_REPOSITORIES: kekizl/home-infra
       RENOVATE_PLATFORM: github
