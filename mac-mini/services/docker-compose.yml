@@ -87,8 +87,7 @@ services:
     entrypoint: ["/bin/sh", "/usr/local/bin/renovate-wrapper.sh"]
     labels:
       cd.doco.job.enabled: "true"
-#      cd.doco.job.schedule: "30 */6 * * *"
-      cd.doco.job.schedule: "*/15 * * * *"
+      cd.doco.job.schedule: "30 1 * * *"
       cd.doco.job.execution_mode: "one_off"
       cd.doco.job.skip_running: "true"
  
