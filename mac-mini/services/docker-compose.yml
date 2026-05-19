@@ -69,25 +69,25 @@ services:
       - "docker-volume-backup.stop-during-backup=true"
 
   renovate:
-    image: renovate/renovate:43.185.0
-    container_name: renovate
+    build:
+      context: .
+      dockerfile: Dockerfile.renovate
     restart: no
     secrets: 
       - renovate-token
     environment:
       RENOVATE_TOKEN_FILE: /run/secrets/renovate-token
-      LOG_LEVEL: info
+      LOG_LEVEL: debug
       RENOVATE_AUTODISCOVER: false
       RENOVATE_REPOSITORIES: kekizl/home-infra
       RENOVATE_PLATFORM: github
       RENOVATE_ONBOARDING: false
     volumes:
       - ./renovate-data:/usr/src/app/tmp
-      - ./renovate-wrapper.sh:/usr/local/bin/renovate-wrapper.sh:ro
-    entrypoint: ["/bin/sh", "/usr/local/bin/renovate-wrapper.sh"]
     labels:
       cd.doco.job.enabled: "true"
-      cd.doco.job.schedule: "30 */6 * * *"
+#      cd.doco.job.schedule: "30 */6 * * *"
+      cd.doco.job.schedule: "*/15 * * * *"
       cd.doco.job.execution_mode: "one_off"
       cd.doco.job.skip_running: "true"
  

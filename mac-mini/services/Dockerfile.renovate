@@ -1,0 +1,4 @@
+FROM renovate/renovate:43.185.0
+COPY renovate-wrapper.sh /usr/local/bin/renovate-wrapper.sh
+RUN chmod +x /usr/local/bin/renovate-wrapper.sh
+ENTRYPOINT ["/bin/sh", "/usr/local/bin/renovate-wrapper.sh"]
