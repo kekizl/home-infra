@@ -69,9 +69,8 @@ services:
       - "docker-volume-backup.stop-during-backup=true"
 
   renovate:
-    build:
-      context: .
-      dockerfile: Dockerfile.renovate
+    image: renovate/renovate:43.185.0
+    container_name: renovate
     restart: no
     secrets: 
       - renovate-token
