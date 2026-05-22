@@ -24,7 +24,7 @@ services:
           target: ${DOCO_CD_TARGET}
     secrets:
       - sops_age_key
-      - doco_git_token
+      - doco-git-token
     dns:
       - 8.8.8.8 #to avoid circular dependency with AdguardHome
     labels:
