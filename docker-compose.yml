@@ -41,4 +41,4 @@ secrets:
   sops_age_key:
     file: ../.config/sops/age/sops_age_key.txt
   doco-git-token: 
-    file: ../../secrets/doco-git-token.enc.txt
+    file: secrets/doco-git-token.enc.txt
