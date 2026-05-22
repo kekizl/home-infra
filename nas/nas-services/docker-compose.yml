@@ -47,7 +47,7 @@ services:
 
   redis:
     container_name: immich_redis
-    image: docker.io/valkey/valkey:9.0.4
+    image: docker.io/valkey/valkey:9.1.0
     restart: always
 
   database:
@@ -153,7 +153,7 @@ services:
     restart: unless-stopped
 
   freshrss:
-    image: lscr.io/linuxserver/freshrss:1.29.0
+    image: lscr.io/linuxserver/freshrss:1.29.1
     container_name: freshrss
     network_mode: service:ts-freshrss
     environment:
