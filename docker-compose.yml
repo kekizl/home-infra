@@ -15,7 +15,7 @@ services:
     environment:
       PASS_ENV: "true"
       SOPS_AGE_KEY_FILE: /run/secrets/sops_age_key
-      GIT_ACCESS_TOKEN_FILE: /run/secrets/doco-git-token.enc.txt
+      GIT_ACCESS_TOKEN_FILE: /run/secrets/doco-git-token
       TZ: Europe/Stockholm
       POLL_CONFIG: |   
         - url: https://github.com/kekizl/home-infra.git
