@@ -24,9 +24,6 @@ restic-backup:
       RESTIC_PASSWORD_FILE: /run/secrets/restic-password
       DISCORD_WEBHOOK_FILE: /run/secrets/discord-webhook
     volumes:
-      # Backup script
-      - ./restic-backup.sh:/backup.sh:ro
-    volumes:
       - ./restic-backup.sh:/backup.sh:ro
       - ${APPSTORAGE_ROOT}/Audiobookshelf/config/.zfs/snapshot:/snapshots/abs-config:ro
       - ${APPSTORAGE_ROOT}/Audiobookshelf/metadata/.zfs/snapshot:/snapshots/abs-metadata:ro
