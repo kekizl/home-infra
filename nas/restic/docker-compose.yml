@@ -8,3 +8,41 @@ services:
     command: rest-server --listen :8000 --path /data --private-repos --no-auth
     volumes:
       - ${RESTIC_BACKUPS}:/data
+
+restic-backup:
+    build:
+      context: .
+      dockerfile: Dockerfile.restic
+    container_name: restic-backup
+    restart: no
+    entrypoint: ["/bin/sh", "/backup.sh"]
+    secrets:
+      - restic-password
+      - discord-webhook
+    environment:
+      RESTIC_REPOSITORY: "rest:http://192.168.0.41:8000/nas"
+      RESTIC_PASSWORD_FILE: /run/secrets/restic-password
+      DISCORD_WEBHOOK_FILE: /run/secrets/discord-webhook
+    volumes:
+      # Backup script
+      - ./restic-backup.sh:/backup.sh:ro
+    volumes:
+      - ./restic-backup.sh:/backup.sh:ro
+      - ${APPSTORAGE_ROOT}/Audiobookshelf/config/.zfs/snapshot:/snapshots/abs-config:ro
+      - ${APPSTORAGE_ROOT}/Audiobookshelf/metadata/.zfs/snapshot:/snapshots/abs-metadata:ro
+      - ${APPSTORAGE_ROOT}/Navidrome/data/.zfs/snapshot:/snapshots/navidrome-data:ro
+      - ${APPSTORAGE_ROOT}/immich/data/.zfs/snapshot:/snapshots/immich-data:ro
+      - ${APPSTORAGE_ROOT}/immich/immich_postgres16/.zfs/snapshot:/snapshots/immich-postgres:ro
+      - ${APPSTORAGE_ROOT}/syncthing/config/.zfs/snapshot:/snapshots/syncthing-config:ro 
+    labels:
+      cd.doco.job.enabled: "true"
+      cd.doco.job.schedule: "0 2 * * *"         # daily at 02:00
+      cd.doco.job.execution_mode: "one_off"
+      cd.doco.job.skip_running: "true"
+ 
+secrets:
+  restic-password:
+    file: ../../secrets/restic.enc.txt
+  discord-webhook:
+    file: ../../secrets/discord-webhook.enc.txt
+
