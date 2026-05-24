@@ -2,7 +2,7 @@ version: "3.9"
 
 services:
   ts-adguard:
-    image: tailscale/tailscale:v1.96.5
+    image: tailscale/tailscale:v1.98.3
     container_name: ts-adguard
     hostname: adguard
     secrets:
@@ -20,7 +20,7 @@ services:
     restart: unless-stopped
 
   adguard-home:
-    image: adguard/adguardhome:v0.107.75
+    image: adguard/adguardhome:v0.107.76
     container_name: adguardhome
     restart: unless-stopped
     network_mode: service:ts-adguard
