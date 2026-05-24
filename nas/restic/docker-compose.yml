@@ -9,7 +9,7 @@ services:
     volumes:
       - ${RESTIC_BACKUPS}:/data
 
-restic-backup:
+  restic-backup:
     build:
       context: .
       dockerfile: Dockerfile.restic
