@@ -17,7 +17,7 @@ services:
       SOPS_AGE_KEY_FILE: /run/secrets/sops_age_key
       GIT_ACCESS_TOKEN_FILE: /run/secrets/doco-git-token
       TZ: Europe/Stockholm
-      POLL_CONFIG: | 
+      POLL_CONFIG: |
         - url: https://github.com/kekizl/home-infra.git
           reference: main
           interval: 1800
