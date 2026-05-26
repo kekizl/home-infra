@@ -30,16 +30,15 @@ services:
       - ${APPSTORAGE_ROOT}/Navidrome/data/.zfs/snapshot:/snapshots/navidrome-data:ro
       - ${APPSTORAGE_ROOT}/immich/data/.zfs/snapshot:/snapshots/immich-data:ro
       - ${APPSTORAGE_ROOT}/immich/immich_postgres16/.zfs/snapshot:/snapshots/immich-postgres:ro
-      - ${APPSTORAGE_ROOT}/syncthing/config/.zfs/snapshot:/snapshots/syncthing-config:ro 
+      - ${APPSTORAGE_ROOT}/syncthing/config/.zfs/snapshot:/snapshots/syncthing-config:ro
     labels:
       cd.doco.job.enabled: "true"
       cd.doco.job.schedule: "0 2 * * *"         # daily at 02:00
       cd.doco.job.execution_mode: "one_off"
       cd.doco.job.skip_running: "true"
- 
+
 secrets:
   restic-password:
     file: ../../secrets/restic.enc.txt
   discord-webhook:
     file: ../../secrets/discord-webhook.enc.txt
-

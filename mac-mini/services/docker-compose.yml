@@ -10,7 +10,7 @@ services:
       - TS_AUTHKEY_FILE=/run/secrets/ts_authkey
       - TS_STATE_DIR=/var/lib/tailscale
       - TS_SERVE_CONFIG=/config/serve.json   # optional, enables HTTPS
-      - TS_USERSPACE=true 
+      - TS_USERSPACE=true
     volumes:
       - tailscale-data-homepage:/var/lib/tailscale
       - ${INFRA_ROOT}/mac-mini/services/ts-homepage-config:/config          # mount folder for serve.json
@@ -34,7 +34,7 @@ services:
       PGHOMEPAGE_VAR_YOURVAR: value # optional env vars for secrets
     labels:
       - "docker-volume-backup.stop-during-backup=true"
- 
+
   ts-vaultwarden:
     image: tailscale/tailscale:v1.98.3
     container_name: ts-vaultwarden
@@ -72,7 +72,7 @@ services:
     image: renovate/renovate:43.195.0
     container_name: renovate
     restart: no
-    secrets: 
+    secrets:
       - renovate-token
     environment:
       RENOVATE_TOKEN_FILE: /run/secrets/renovate-token
@@ -90,12 +90,11 @@ services:
       cd.doco.job.schedule: "30 1 * * *"
       cd.doco.job.execution_mode: "one_off"
       cd.doco.job.skip_running: "true"
- 
+
   restic-backup:
     build:
       context: .
-      dockerfile: Dockerfile.restic    
-    #image: restic/restic:0.18.1        # official restic image
+      dockerfile: Dockerfile.restic
     container_name: restic-backup
     restart: no
     # Keep container alive for exec
@@ -126,11 +125,11 @@ services:
       cd.doco.job.schedule: "0 3 * * *"          # daily at 3 am
       cd.doco.job.execution_mode: "one_off"
       cd.doco.job.skip_running: "true"
- 
+
 volumes:
   tailscale-data-homepage:
     driver: local
-  tailscale-data-vaultwarden: 
+  tailscale-data-vaultwarden:
   monitoring_grafana_data:
     external: true
   ai_openwebui-data:

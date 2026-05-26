@@ -15,7 +15,7 @@ jobs:
             -name "docker-compose.yaml" \
           \) | while read -r file; do
             echo "▶ Validating $file"
-            docker compose -f "$file" config --quiet \
+            docker compose -f "$file" config --quiet --no-interpolate \
               && echo "  ✓ OK" \
               || { echo "  ✗ FAILED"; exit 1; }
           done

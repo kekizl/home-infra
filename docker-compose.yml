@@ -6,7 +6,7 @@ services:
     container_name: doco-cd
     restart: unless-stopped
     env_file:
-      - .env  
+      - .env
     volumes:
       - ./doco-cd-data:/data       # persistent logs/cache
       - /var/run/docker.sock:/var/run/docker.sock  # needed for docker-compose deploys
@@ -17,16 +17,16 @@ services:
       SOPS_AGE_KEY_FILE: /run/secrets/sops_age_key
       GIT_ACCESS_TOKEN_FILE: /run/secrets/doco-git-token
       TZ: Europe/Stockholm
-      POLL_CONFIG: |   
+      POLL_CONFIG: | 
         - url: https://github.com/kekizl/home-infra.git
-          reference: main 
-          interval: 1800 
+          reference: main
+          interval: 1800
           target: ${DOCO_CD_TARGET}
     secrets:
       - sops_age_key
       - doco-git-token
     dns:
-      - 8.8.8.8 #to avoid circular dependency with AdguardHome
+      - 8.8.8.8 # to avoid circular dependency with AdguardHome
     labels:
       - "docker-volume-backup.stop-during-backup=true"
 
@@ -40,5 +40,5 @@ volumes:
 secrets:
   sops_age_key:
     file: ../.config/sops/age/sops_age_key.txt
-  doco-git-token: 
+  doco-git-token:
     file: secrets/doco-git-token.enc.txt
