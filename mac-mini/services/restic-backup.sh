@@ -41,7 +41,7 @@ fi
 # ------------------------------------------------------------------
 echo "[$(date)] Starting backup to $RESTIC_REPOSITORY"
 BACKUP_OK=0
-if restic backup $BACKUP_SOURCES --tag "mac-mini"; then
+if restic backup $BACKUP_SOURCES --host mac-mini --tag "mac-mini"; then
     echo "Backup successful"
     BACKUP_OK=1
     # Prune old snapshots
