@@ -26,6 +26,9 @@ notify_discord() {
 # ------------------------------------------------------------------
 # Configuration
 # ------------------------------------------------------------------
+PRIMARY_REPO="${RESTIC_REPOSITORY}"                    # from environment (rest:http://192.168.0.41:8000/nas)
+OFFSITE_REPO="rest:http://<offsite-ip>:8000/nas"      # ← fill this in
+
 DATASETS="
 abs-config
 abs-metadata
@@ -90,42 +93,97 @@ fi
 # ------------------------------------------------------------------
 # Single backup run — protects everything in one snapshot
 # ------------------------------------------------------------------
-echo "[$(date)] Starting ZFS snapshot backup to $RESTIC_REPOSITORY"
+echo "[$(date)] Starting ZFS snapshot backup to primary: $PRIMARY_REPO"
 echo "[$(date)] Paths: $BACKUP_PATHS"
 
-BACKUP_OK=0
+PRIMARY_OK=0
 if restic backup $BACKUP_PATHS --tag "$TAG" --host "truenas"; then
-    echo "[$(date)] ✓ Backup succeeded (${FOUND_COUNT} datasets)"
-    BACKUP_OK=1
+    echo "[$(date)] ✓ Primary backup succeeded (${FOUND_COUNT} datasets)"
+    PRIMARY_OK=1
 else
-    echo "[$(date)] ✗ Backup FAILED"
+    echo "[$(date)] ✗ Primary backup FAILED"
 fi
 
 # ------------------------------------------------------------------
-# Forget / prune
+# Prune primary repo (only if backup succeeded)
 # ------------------------------------------------------------------
-if [ "$BACKUP_OK" -eq 1 ]; then
-    echo "[$(date)] Running forget/prune for tag: $TAG"
+if [ "$PRIMARY_OK" -eq 1 ]; then
+    echo "[$(date)] Pruning primary repository..."
     if restic forget $RETENTION --prune --tag "$TAG" --host "truenas"; then
-        echo "[$(date)] Prune successful"
+        echo "[$(date)] ✓ Primary prune successful"
     else
-        echo "[$(date)] WARNING: Prune failed"
+        echo "[$(date)] WARNING: Primary prune failed"
     fi
 fi
 
 # ------------------------------------------------------------------
-# Discord notification
+# Copy to offsite repo (only if primary backup succeeded)
+# ------------------------------------------------------------------
+OFFSITE_OK=0
+if [ "$PRIMARY_OK" -eq 1 ]; then
+    echo "[$(date)] Copying snapshot to offsite: $OFFSITE_REPO"
+    if restic -r "$OFFSITE_REPO" --password-file "$RESTIC_PASSWORD_FILE" \
+        copy --from-repo "$PRIMARY_REPO" --from-password-file "$RESTIC_PASSWORD_FILE" latest; then
+        echo "[$(date)] ✓ Offsite copy succeeded"
+        OFFSITE_OK=1
+    else
+        echo "[$(date)] ✗ Offsite copy FAILED"
+    fi
+else
+    echo "[$(date)] Skipping offsite copy — primary backup failed"
+fi
+
+# ------------------------------------------------------------------
+# Prune offsite repo (only if copy succeeded)
+# ------------------------------------------------------------------
+if [ "$OFFSITE_OK" -eq 1 ]; then
+    echo "[$(date)] Pruning offsite repository..."
+    if restic -r "$OFFSITE_REPO" --password-file "$RESTIC_PASSWORD_FILE" \
+        forget $RETENTION --prune --tag "$TAG" --host "truenas"; then
+        echo "[$(date)] ✓ Offsite prune successful"
+    else
+        echo "[$(date)] WARNING: Offsite prune failed"
+    fi
+fi
+
+# ------------------------------------------------------------------
+# Discord notification — single message with both states
 # ------------------------------------------------------------------
 TIMESTAMP=$(date -u +'%Y-%m-%d %H:%M UTC')
 
-if [ "$BACKUP_OK" -eq 1 ]; then
-    if [ -n "$MISSING_DATASETS" ]; then
-        notify_discord "⚠️ **NAS restic backup completed with warnings** on \`truenas\` at ${TIMESTAMP}\n✓ ${FOUND_COUNT} datasets backed up\n✗ Missing:${MISSING_DATASETS}"
-    else
-        notify_discord "✅ **NAS restic backup succeeded** on \`truenas\` at ${TIMESTAMP}\nDatasets:${BACKUP_PATHS}"
-    fi
+# Build status strings
+if [ "$PRIMARY_OK" -eq 1 ]; then
+    PRIMARY_STATUS="✅ Primary: success"
+else
+    PRIMARY_STATUS="❌ Primary: FAILED"
+fi
+
+if [ "$PRIMARY_OK" -eq 0 ]; then
+    OFFSITE_STATUS="⏭️ Offsite: skipped (primary failed)"
+elif [ "$OFFSITE_OK" -eq 1 ]; then
+    OFFSITE_STATUS="✅ Offsite: success"
+else
+    OFFSITE_STATUS="❌ Offsite: FAILED"
+fi
+
+# Build warning about missing datasets
+if [ -n "$MISSING_DATASETS" ]; then
+    WARNING="\n⚠️ Missing datasets:${MISSING_DATASETS}"
+else
+    WARNING=""
+fi
+
+MESSAGE="**NAS restic backup report** \`truenas\` ${TIMESTAMP}
+${PRIMARY_STATUS}
+${OFFSITE_STATUS}${WARNING}"
+
+notify_discord "$MESSAGE"
+
+# ------------------------------------------------------------------
+# Exit code — fail if primary failed
+# ------------------------------------------------------------------
+if [ "$PRIMARY_OK" -eq 1 ]; then
     exit 0
 else
-    notify_discord "❌ **NAS restic backup FAILED** on \`truenas\` at ${TIMESTAMP}"
     exit 1
 fi
