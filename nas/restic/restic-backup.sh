@@ -26,8 +26,8 @@ notify_discord() {
 # ------------------------------------------------------------------
 # Configuration
 # ------------------------------------------------------------------
-PRIMARY_REPO="${RESTIC_REPOSITORY}"                    # from environment (rest:http://192.168.0.41:8000/nas)
-OFFSITE_REPO="rest:http://<offsite-ip>:8000/nas"      # ← fill this in
+PRIMARY_REPO="${RESTIC_REPOSITORY}"
+OFFSITE_REPO="${OFFSITE_REPOSITORY}"
 
 DATASETS="
 abs-config

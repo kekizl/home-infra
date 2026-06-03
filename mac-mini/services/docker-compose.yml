@@ -104,6 +104,7 @@ services:
       - discord-webhook
     environment:
       RESTIC_REPOSITORY: "rest:http://192.168.0.41:8000/mac-mini"
+      OFFSITE_REPOSITORY: "rest:https://chris:I09KNiU1toH8cnH8m2nw6BYfkibjbrcy@restic.sko.ai/chris/mac-mini"
       RESTIC_PASSWORD_FILE: /run/secrets/restic-password
       DISCORD_WEBHOOK_FILE: /run/secrets/discord-webhook
     volumes:
