@@ -48,7 +48,9 @@ The Renovate GitHub App monitors this repository for outdated Docker image tags.
 
 Once Renovate merges an update into `main`, Doco-CD picks it up on its next poll and redeploys the affected services automatically.
 
-### [Restic](https://github.com/renovatebot/renovate)
+### [Restic](https://restic.net)
+Restic handles automated snapshot-based backups of service data across both hosts. On each host, a cron job managed by Doco-CD runs restic-backup.sh on a schedule, which stops the relevant containers, takes a snapshot, and restarts them. Snapshots from both hosts are sent to the Restic Server running on the NAS and to remote.
+A custom Dockerfile.restic is used to give the container the permissions needed to stop and start other Docker containers during the backup process and also to execute the script.
 
 ## Repository structure
 
@@ -60,7 +62,7 @@ home-infra/
 │   │   └── docker-compose.yml   # Home Assistant, Piper, Whisper
 │   ├── services/
 │   │   ├── Dockerfile.restic    # Custom Dockerfile to allow restic to start+stop containers
-│   │   ├── renovate-wrapper.sh     # Wrapper for Renovate to read my SOPS secrets.
+│   │   ├── renovate-wrapper.sh  # Wrapper for Renovate to read my SOPS secrets.
 │   │   ├── restic-backup.sh     # Bash script to start, stop and backup relevant containers
 │   │   └── docker-compose.yml   # Homepage, Renovate, Restic and Vaultwarden
 │   ├── ai/
@@ -75,6 +77,8 @@ home-infra/
 │   ├── syncthing/
 │   │   └── docker-compose.yml   # Syncthing
 │   ├── restic/
+│   │   ├── Dockerfile.restic    # Custom Dockerfile for restic
+│   │   ├── restic-backup.sh     # Bash script to start, stop and backup relevant containers
 │   │   └── docker-compose.yml   # Restic Server
 │   └── nas-services/
 │       └── docker-compose.yml   # Immich, FreshRSS, Navidrome and Audiobookshelf

@@ -2,7 +2,7 @@ version: '3.8'
 
 services:
   ts-immich:
-    image: tailscale/tailscale:v1.98.3
+    image: tailscale/tailscale:v1.98.4
     container_name: ts-immich
     hostname: immich
     secrets:
@@ -65,7 +65,7 @@ services:
     restart: always
 
   ts-audiobookshelf:
-    image: tailscale/tailscale:v1.98.3
+    image: tailscale/tailscale:v1.98.4
     container_name: ts-audiobookshelf
     hostname: audiobookshelf
     secrets:
@@ -84,7 +84,7 @@ services:
 
   audiobookshelf:
     container_name: audiobookshelf
-    image: ghcr.io/advplyr/audiobookshelf:2.35.0
+    image: ghcr.io/advplyr/audiobookshelf:2.35.1
     network_mode: service:ts-audiobookshelf
     depends_on:
       - ts-audiobookshelf
@@ -100,13 +100,13 @@ services:
     restart: unless-stopped
 
   ts-navidrome:
-    image: tailscale/tailscale:v1.98.3
+    image: tailscale/tailscale:v1.98.4
     container_name: ts-navidrome
     hostname: navidrome
     secrets:
       - ts_authkey
     environment:
-      - TS_AUTHKEY_FILE=/run/secrets/ts_authkey    
+      - TS_AUTHKEY_FILE=/run/secrets/ts_authkey
       - TS_STATE_DIR=/var/lib/tailscale
       - TS_SERVE_CONFIG=/config/serve.json
       - TS_USERSPACE=true
@@ -135,7 +135,7 @@ services:
       - ${APPSTORAGE_ROOT}/Navidrome/music:/music:ro
 
   ts-freshrss:
-    image: tailscale/tailscale:v1.98.3
+    image: tailscale/tailscale:v1.98.4
     container_name: ts-freshrss
     hostname: freshrss
     secrets:

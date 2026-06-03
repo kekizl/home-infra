@@ -41,7 +41,7 @@ fi
 # ------------------------------------------------------------------
 echo "[$(date)] Starting backup to $RESTIC_REPOSITORY"
 BACKUP_OK=0
-if restic backup $BACKUP_SOURCES --tag "mac-mini"; then
+if restic backup $BACKUP_SOURCES --host mac-mini --tag "mac-mini"; then
     echo "Backup successful"
     BACKUP_OK=1
     # Prune old snapshots
@@ -64,9 +64,9 @@ fi
 
 # --- 4. Send Discord notification ---
 if [ "$BACKUP_OK" -eq 1 ]; then
-    notify_discord "✅ **Restic backup succeeded** on \`$HOSTNAME\` at $(date -u +'%Y-%m-%d %H:%M UTC')"
+    notify_discord "✅ **Restic backup succeeded** on \`mac-mini\` at $(date -u +'%Y-%m-%d %H:%M UTC')"
 else
-    notify_discord "❌ **Restic backup FAILED** on \`$HOSTNAME\` at $(date -u +'%Y-%m-%d %H:%M UTC')"
+    notify_discord "❌ **Restic backup FAILED** on \`mac-mini\` at $(date -u +'%Y-%m-%d %H:%M UTC')"
 fi
 
 # ------------------------------------------------------------------

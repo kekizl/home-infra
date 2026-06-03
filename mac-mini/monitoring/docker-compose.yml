@@ -3,10 +3,10 @@ version: "3.8"
 services:
   # ---- Prometheus ----
   ts-prometheus:
-    image: tailscale/tailscale:v1.98.3
+    image: tailscale/tailscale:v1.98.4
     container_name: ts-prometheus
     hostname: prometheus
-    secrets: 
+    secrets:
       - ts_authkey
     environment:
       - TS_AUTHKEY_FILE=/run/secrets/ts_authkey
@@ -21,7 +21,7 @@ services:
     restart: unless-stopped
 
   prometheus:
-    image: prom/prometheus:v3.11.3
+    image: prom/prometheus:v3.12.0
     container_name: prometheus
     restart: unless-stopped
     network_mode: service:ts-prometheus
@@ -37,7 +37,7 @@ services:
 
   # ---- Grafana ----
   ts-grafana:
-    image: tailscale/tailscale:v1.98.3
+    image: tailscale/tailscale:v1.98.4
     container_name: ts-grafana
     hostname: grafana
     secrets:
@@ -71,7 +71,7 @@ services:
 
   # ---- cAdvisor ----
   ts-cadvisor:
-    image: tailscale/tailscale:v1.98.3
+    image: tailscale/tailscale:v1.98.4
     container_name: ts-cadvisor
     hostname: cadvisor
     secrets:
@@ -104,13 +104,13 @@ services:
 
   # ---- node-exporter ----
   ts-node-exporter:
-    image: tailscale/tailscale:v1.98.3
+    image: tailscale/tailscale:v1.98.4
     container_name: ts-node-exporter
     hostname: node-exporter
     secrets:
       - ts_authkey
     environment:
-      - TS_AUTHKEY_FILE=/run/secrets/ts_authkey   
+      - TS_AUTHKEY_FILE=/run/secrets/ts_authkey
       - TS_STATE_DIR=/var/lib/tailscale
       - TS_SERVE_CONFIG=/config/serve.json
       - TS_USERSPACE=true
@@ -136,16 +136,16 @@ services:
       - '--path.procfs=/host/proc'
       - '--path.sysfs=/host/sys'
       - '--collector.filesystem.ignored-mount-points='
- 
+
   # ---- uptime-kuma ----
   ts-uptime-kuma:
-    image: tailscale/tailscale:v1.98.3
+    image: tailscale/tailscale:v1.98.4
     container_name: ts-uptime-kuma
     hostname: uptime-kuma
     secrets:
       - ts_authkey
     environment:
-      - TS_AUTHKEY_FILE=/run/secrets/ts_authkey   
+      - TS_AUTHKEY_FILE=/run/secrets/ts_authkey
       - TS_STATE_DIR=/var/lib/tailscale
       - TS_SERVE_CONFIG=/config/serve.json
       - TS_USERSPACE=true
@@ -157,7 +157,7 @@ services:
     restart: unless-stopped
 
   uptime-kuma:
-    image: louislam/uptime-kuma:2.3.2
+    image: louislam/uptime-kuma:2.4.0
     container_name: uptime-kuma
     restart: unless-stopped
     network_mode: service:ts-uptime-kuma

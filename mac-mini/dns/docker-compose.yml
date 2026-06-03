@@ -2,7 +2,7 @@ version: "3.9"
 
 services:
   ts-adguard:
-    image: tailscale/tailscale:v1.98.3
+    image: tailscale/tailscale:v1.98.4
     container_name: ts-adguard
     hostname: adguard
     secrets:
@@ -25,7 +25,7 @@ services:
     restart: unless-stopped
     network_mode: service:ts-adguard
     depends_on:
-      - ts-adguard 
+      - ts-adguard
     volumes:
       - ${INFRA_ROOT}/mac-mini/dns/adguard/work:/opt/adguardhome/work
       - ${INFRA_ROOT}/mac-mini/dns/adguard/conf:/opt/adguardhome/conf

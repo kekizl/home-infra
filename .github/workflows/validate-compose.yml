@@ -1,0 +1,21 @@
+name: Validate Compose Files
+
+on: [push, pull_request]
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Validate all compose files
+        run: |
+          find . -type f \( \
+            -name "docker-compose.yml" -o \
+            -name "docker-compose.yaml" \
+          \) | while read -r file; do
+            echo "▶ Validating $file"
+            docker compose -f "$file" config --quiet --no-interpolate \
+              && echo "  ✓ OK" \
+              || { echo "  ✗ FAILED"; exit 1; }
+          done
