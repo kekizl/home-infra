@@ -173,10 +173,7 @@ else
     WARNING=""
 fi
 
-MESSAGE="**NAS restic backup report** \`truenas\` ${TIMESTAMP}
-${PRIMARY_STATUS}
-${OFFSITE_STATUS}${WARNING}"
-
+MESSAGE="**NAS backup** \`truenas\` ${TIMESTAMP} — ${PRIMARY_STATUS} · ${OFFSITE_STATUS}${WARNING}"
 notify_discord "$MESSAGE"
 
 # ------------------------------------------------------------------

@@ -120,9 +120,8 @@ else
     OFFSITE_STATUS="❌ Offsite: FAILED"
 fi
 
-notify_discord "**Restic backup report** \`mac-mini\` ${TIMESTAMP}
-${PRIMARY_STATUS}
-${OFFSITE_STATUS}"
+MESSAGE="**Restic backup** \`mac-mini\` ${TIMESTAMP} — ${PRIMARY_STATUS} · ${OFFSITE_STATUS}"
+notify_discord "$MESSAGE"
 
 # ------------------------------------------------------------------
 # Exit with appropriate code (doco‑cd reads this)
