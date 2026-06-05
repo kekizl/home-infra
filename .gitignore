@@ -10,6 +10,10 @@ homepage/
 freshrss/
 vw-data/
 conf/
+lidarr/
+qBittorrent/
+prowlarr/
+
 **/ts-*-config/
 adguard/
 ha-scrape.yml

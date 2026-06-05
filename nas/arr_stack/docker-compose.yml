@@ -1,0 +1,129 @@
+services:
+  ts-qbittorrent:
+    image: tailscale/tailscale:v1.98.4
+    container_name: ts-qbittorrent
+    hostname: qbittorrent 
+    secrets:
+      - ts_authkey
+    environment:
+      - TS_AUTHKEY_FILE=/run/secrets/ts_authkey
+      - TS_STATE_DIR=/var/lib/tailscale
+      - TS_SERVE_CONFIG=/config/serve.json
+      - TS_USERSPACE=true
+    volumes:
+      - tailscale-data-qbittorrent:/var/lib/tailscale
+      - ${INFRA_ROOT}/nas/arr_stack/ts-qbittorrent-config:/config
+    cap_add:
+      - NET_ADMIN
+    restart: unless-stopped
+    networks:
+      - arr-internal
+
+  qbittorrent:
+    image: lscr.io/linuxserver/qbittorrent:5.2.1
+    container_name: qbittorrent
+    network_mode: service:ts-qbittorrent
+    depends_on:
+      - ts-qbittorrent
+    environment:
+      - PUID=568
+      - PGID=568
+      - TZ=Europe/Stockholm
+      - WEBUI_PORT=8090
+    volumes:
+      - ${INFRA_ROOT}/nas/arr_stack/qBittorrent/config:/config
+      - /mnt/Pool/downloads:/downloads
+    restart: unless-stopped
+
+  ts-prowlarr:
+    image: tailscale/tailscale:v1.98.4
+    container_name: ts-prowlarr
+    hostname: prowlarr
+    secrets:
+      - ts_authkey
+    environment:
+      - TS_AUTHKEY_FILE=/run/secrets/ts_authkey
+      - TS_STATE_DIR=/var/lib/tailscale
+      - TS_SERVE_CONFIG=/config/serve.json
+      - TS_USERSPACE=true
+    volumes:
+      - tailscale-data-prowlarr:/var/lib/tailscale
+      - ${INFRA_ROOT}/nas/arr_stack/ts-prowlarr-config:/config
+    cap_add:
+      - NET_ADMIN
+    restart: unless-stopped
+    networks:
+      - arr-internal
+
+  prowlarr:
+    image: lscr.io/linuxserver/prowlarr:version-2.3.5.5327
+    container_name: prowlarr
+    network_mode: service:ts-prowlarr
+    depends_on:
+      - ts-prowlarr
+    environment:
+      - PUID=568
+      - PGID=568
+      - TZ=Europe/Stockholm
+    volumes:
+      - ${INFRA_ROOT}/nas/arr_stack/prowlarr/config:/config
+    restart: unless-stopped
+
+  ts-lidarr:
+    image: tailscale/tailscale:v1.98.4
+    container_name: ts-lidarr
+    hostname: lidarr
+    secrets:
+      - ts_authkey
+    environment:
+      - TS_AUTHKEY_FILE=/run/secrets/ts_authkey
+      - TS_STATE_DIR=/var/lib/tailscale
+      - TS_SERVE_CONFIG=/config/serve.json
+      - TS_USERSPACE=true
+    volumes:
+      - tailscale-data-lidarr:/var/lib/tailscale
+      - ${INFRA_ROOT}/nas/arr_stack/staging/ts-lidarr-config:/config
+    cap_add:
+      - NET_ADMIN
+    restart: unless-stopped
+    networks:
+      - arr-internal
+
+  lidarr:
+    image: lscr.io/linuxserver/lidarr:3.1.0
+    container_name: lidarr
+    network_mode: service:ts-lidarr
+    depends_on:
+      - ts-lidarr
+    environment:
+      - PUID=568
+      - PGID=568
+      - TZ=Europe/Stockholm
+    volumes:
+      - ${IFNRA_ROOT}/nas/arr_stack/lidarr/config:/config
+      - /mnt/Pool/downloads:/downloads
+      - ${APPSTORAGE_ROOT}/Navidrome/music:/music
+    restart: unless-stopped
+
+  flaresolverr:
+    image: ghcr.io/flaresolverr/flaresolverr:v3.5.0
+    container_name: flaresolverr
+    environment:
+      - LOG_LEVEL=info
+      - TZ=Europe/Stockholm
+    restart: unless-stopped
+    networks:
+      - arr-internal
+
+networks:
+  arr-internal:
+    driver: bridge
+
+volumes:
+  tailscale-data-qbittorrent:
+  tailscale-data-prowlarr:
+  tailscale-data-lidarr:
+
+secrets:
+  ts_authkey:
+    file: ../../secrets/ts-authkey.enc.txt 
