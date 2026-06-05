@@ -20,7 +20,7 @@ services:
       - arr-internal
 
   qbittorrent:
-    image: lscr.io/linuxserver/qbittorrent:5.2.1
+    image: lscr.io/linuxserver/qbittorrent:20.04.1
     container_name: qbittorrent
     network_mode: service:ts-qbittorrent
     depends_on:
@@ -90,7 +90,7 @@ services:
       - arr-internal
 
   lidarr:
-    image: lscr.io/linuxserver/lidarr:3.1.0
+    image: lscr.io/linuxserver/lidarr:8.1.2135
     container_name: lidarr
     network_mode: service:ts-lidarr
     depends_on:
