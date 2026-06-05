@@ -2,7 +2,7 @@ services:
   ts-qbittorrent:
     image: tailscale/tailscale:v1.98.4
     container_name: ts-qbittorrent
-    hostname: qbittorrent 
+    hostname: qbittorrent
     secrets:
       - ts_authkey
     environment:
@@ -82,7 +82,7 @@ services:
       - TS_USERSPACE=true
     volumes:
       - tailscale-data-lidarr:/var/lib/tailscale
-      - ${INFRA_ROOT}/nas/arr_stack/staging/ts-lidarr-config:/config
+      - ${INFRA_ROOT}/nas/arr_stack/ts-lidarr-config:/config
     cap_add:
       - NET_ADMIN
     restart: unless-stopped
@@ -100,7 +100,7 @@ services:
       - PGID=568
       - TZ=Europe/Stockholm
     volumes:
-      - ${IFNRA_ROOT}/nas/arr_stack/lidarr/config:/config
+      - ${INFRA_ROOT}/nas/arr_stack/lidarr/config:/config
       - /mnt/Pool/downloads:/downloads
       - ${APPSTORAGE_ROOT}/Navidrome/music:/music
     restart: unless-stopped
@@ -126,4 +126,4 @@ volumes:
 
 secrets:
   ts_authkey:
-    file: ../../secrets/ts-authkey.enc.txt 
+    file: ../../secrets/ts-authkey.enc.txt
