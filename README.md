@@ -15,6 +15,7 @@ Services running on TrueNAS via Docker. This is the primary storage and media ho
 | FreshRSS | Curated RSS feed for daily digests |
 | Restic | Restic-Server, where I store snapshots |
 | Syncthing | For storing remote files when needed |
+| Prowlarr, Lidarr, qBittorrent | For automating my media library |
 
 ### `mac-mini/`
 Services running on a Mac Mini.
@@ -29,7 +30,6 @@ Services running on a Mac Mini.
 | Vaultwarden | `services` | Personal and local password manager |
 | Restic | `services` | Automated Snapshot based backups |
 | Renovate | `services` | Automated Docker Dependency Updates |
-| OpenWebUI | `ai` | Chat interface for AI models |
 | AdguardHome | `dns` | DNS handler for my tailnet |
 
 All services are paired with a Tailscale sidecar. This gives each service a unique entry in my Tailscale mesh network, thus making them available anywhere. It aslo allows me to give them TLS certificates to enable https connections while not exposing any docker ports.
@@ -66,12 +66,13 @@ home-infra/
 │   │   ├── restic-backup.sh     # Bash script to start, stop and backup relevant containers
 │   │   └── docker-compose.yml   # Homepage, Renovate, Restic and Vaultwarden
 │   ├── ai/
-│   │   └── docker-compose.yml   # OpenWebUI and Claude agents
 │   ├── dns/
 │   │   └── docker-compose.yml   # Adguard Home
 │   └── monitoring/
 │       └── docker-compose.yml   # Uptime Kuma, Prometheus, Grafana
 ├── nas/
+│   ├── arr_stack/
+│   │   └── docker-compose.yml   # Arr peripherals
 │   ├── monitoring/ 
 │   │   └── docker-compose.yml   # Node-Exporter
 │   ├── syncthing/
