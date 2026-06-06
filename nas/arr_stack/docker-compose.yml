@@ -10,6 +10,7 @@ services:
       - TS_STATE_DIR=/var/lib/tailscale
       - TS_SERVE_CONFIG=/config/serve.json
       - TS_USERSPACE=true
+      - TS_AUTH_ONCE=true
     volumes:
       - tailscale-data-qbittorrent:/var/lib/tailscale
       - ${INFRA_ROOT}/nas/arr_stack/ts-qbittorrent-config:/config
