@@ -7,6 +7,11 @@
   "packageRules": [
     {
       "matchDatasources": ["docker"],
+      "matchPackagePatterns": ["lscr.io/linuxserver/.*"],
+      "versioning": "regex:^(?<major>\\d+)\\.(?<minor>\\d+)\\.(?<patch>\\d+)(_v[\\d\\.]+)?(\\.\\d+)?(-r\\d+)?-ls(?<build>\\d+)$"
+    },
+    {
+      "matchDatasources": ["docker"],
       "matchUpdateTypes": ["minor", "patch"],
       "groupName": "Docker minor & patch updates",
       "automerge": true,

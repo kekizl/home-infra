@@ -21,7 +21,7 @@ services:
       - arr-internal
 
   qbittorrent:
-    image: lscr.io/linuxserver/qbittorrent:5.2.1
+    image: lscr.io/linuxserver/qbittorrent:5.2.1_v2.0.12-ls459
     container_name: qbittorrent
     network_mode: service:ts-qbittorrent
     depends_on:
@@ -57,7 +57,7 @@ services:
       - arr-internal
 
   prowlarr:
-    image: lscr.io/linuxserver/prowlarr:version-2.3.5.5327
+    image: lscr.io/linuxserver/prowlarr:2.3.5.5327-ls148
     container_name: prowlarr
     network_mode: service:ts-prowlarr
     depends_on:
@@ -91,7 +91,7 @@ services:
       - arr-internal
 
   lidarr:
-    image: lscr.io/linuxserver/lidarr:3.1.0
+    image: lscr.io/linuxserver/lidarr:3.1.0.4875-ls30
     container_name: lidarr
     network_mode: service:ts-lidarr
     depends_on:
