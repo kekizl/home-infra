@@ -21,7 +21,7 @@ services:
       - arr-internal
 
   qbittorrent:
-    image: lscr.io/linuxserver/qbittorrent:5.2.1_v2.0.12-ls459
+    image: ghcr.io/vaskozl/qbittorrent-nox:5.2.1
     container_name: qbittorrent
     network_mode: service:ts-qbittorrent
     depends_on:
@@ -30,7 +30,6 @@ services:
       - PUID=568
       - PGID=568
       - TZ=Europe/Stockholm
-      - WEBUI_PORT=8090
     volumes:
       - ${INFRA_ROOT}/nas/arr_stack/qBittorrent/config:/config
       - /mnt/Pool/downloads:/downloads
