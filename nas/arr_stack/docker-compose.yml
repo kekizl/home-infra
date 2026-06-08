@@ -116,7 +116,7 @@ services:
       - arr-internal
 
   qbit-manage:
-    image: ghcr.io/stuffanthings/qbit_manage:4.8.1
+    image: ghcr.io/stuffanthings/qbit_manage:v4.8.1
     container_name: qbit-manage
     environment:
       - PUID=568
