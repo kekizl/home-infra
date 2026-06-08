@@ -126,6 +126,8 @@ services:
       - QBT_SCHEDULE=60         # run every 30 minutes
       - QBT_CONFIG=/config/config.yml
       - QBT_LOG_LEVEL=INFO
+    sysctls:
+      - net.ipv6.conf.all.disable_ipv6=1
     volumes:
       - ${INFRA_ROOT}/nas/arr_stack/qbit-manage/config:/config
       - /mnt/Pool/downloads:/downloads
@@ -138,7 +140,6 @@ services:
 networks:
   arr-internal:
     driver: bridge
-    enable_ipv6: false
 
 volumes:
   tailscale-data-qbittorrent:
