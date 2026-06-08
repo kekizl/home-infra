@@ -1,0 +1,91 @@
+commands:
+    dry_run: true
+    cross_seed: false
+    recheck: false
+    cat_update: false
+    tag_update: false
+    rem_unregistered: true
+    tag_tracker_error: false
+    rem_orphaned: true
+    tag_nohardlinks: true
+    share_limits: true
+    skip_cleanup: false
+    skip_qb_version_check: false
+qbt:
+    host: ENC[AES256_GCM,data:jbM/iWcWo0PvIXViMD31hMRzFj2Er7Y4SCZW,iv:YOZyiYZ56j1FNd3goD9+n+VMTLb6iLQmTqB7Tt+9eLM=,tag:GC4NkjjZjKmmS4SWP0SalQ==,type:str]
+    user: ENC[AES256_GCM,data:5nmxdWc=,iv:U4pLELx8G36/W/pxrObKvs9eG4lpQNWUQjQZsW8aVJY=,tag:1JZ2DtKB/a18/lCsqK4nxA==,type:str]
+    pass: ENC[AES256_GCM,data:BIoVRL34lf3UMuxXRfE4nw==,iv:Coq/N2wqfk5KMs5PfM9wEV7hz6hxjX7b+XMRBDy5IDk=,tag:ay3JKc2kdOM6rRZeRHs8pQ==,type:str]
+settings:
+    force_auto_tmm: false
+    tracker_error_tag: issue
+    nohardlinks_tag: noHL
+    share_limits_suffix_tag: share_limit
+    ignoreTags_OnUpdate:
+        - noHL
+        - issue
+        - cross-seed
+directory:
+    root_dir: /downloads/
+    remote_dir: /mnt/Pool/downloads/
+    orphaned_dir: /downloads/orphaned_data
+    recycle_bin: /downloads/.RecycleBin
+    cross_seed: null
+    torrents_dir: null
+cat:
+    lidarr: /downloads
+tracker:
+    passthepopcorn:
+        tag: ENC[AES256_GCM,data:l9v9,iv:sLgGPrBFSxKqwnKyIjhBBVeHDkYow1jr9q2PuG9HbvY=,tag:qRAKURbx8JL6aBE58msLQw==,type:str]
+    torrentleech:
+        tag: TorrentLeech
+    other:
+        tag: other
+nohardlinks:
+    - lidarr
+share_limits:
+    noHL:
+        priority: 1
+        include_all_tags:
+            - noHL
+        categories:
+            - lidarr
+        max_seeding_time: 30
+        cleanup: true
+recyclebin:
+    enabled: true
+    empty_after_x_days: 14
+    save_torrents: false
+    split_by_category: false
+webhooks:
+    error: null
+    run_start: null
+    run_end: null
+    function:
+        cross_seed: null
+        recheck: null
+        cat_update: null
+        tag_update: null
+        rem_unregistered: null
+        tag_tracker_error: null
+        rem_orphaned: null
+        tag_nohardlinks: null
+        cleanup_dirs: null
+orphaned:
+    empty_after_x_days: 2
+    exclude_patterns: null
+    max_orphaned_files_to_delete: 500
+sops:
+    age:
+        - recipient: age10sgtrf8euyn5ph0qvvuy8vfvu9fs45d4e3yxheg0h2pdfluvns9s8a2qut
+          enc: |
+            -----BEGIN AGE ENCRYPTED FILE-----
+            YWdlLWVuY3J5cHRpb24ub3JnL3YxCi0+IFgyNTUxOSByQjV2TkExZzVvc0lWenpI
+            UG12ajNNdS9hUE9pajhDcXVQTGFMRTFUOHdrClE5ZldiR1QwMG9ERG5SN3l3czJL
+            R3plWWJ5ZjExT2NBS3BGR1prSmxic2sKLS0tIG5La3MveUk3VVdHV2thcjR6dnF6
+            a0FCL1E1Znc4SXNmZXk0QzQ5Q2lJekUKVvxmmTjlOTzJ3bAXEYXqSpwXmNQpLYgp
+            VJmt9p6/F7PvivNNYPTK17MRJ+G/+euQgPTCyAscNuCGZjtSknCH/g==
+            -----END AGE ENCRYPTED FILE-----
+    lastmodified: "2026-06-08T20:14:56Z"
+    mac: ENC[AES256_GCM,data:ONLNbi7qbqzdqENkLBFZ7VYYVskvTRq0GAK/O0PpKzj1UZDbeQqZViQwM3rinZaC9RoKYqi+GcFPrTgnBGz8og9dw6ZxI4p10dplrvFho7Y3IpZLph0sjjj8y87NCah8LL3tgb4h7NEvUOPCVH080RTjB1c+j17T8cUiOFUp9yc=,iv:KO7enofKL6QxTUckambmmmyP960osP5ERE+YCsCNgYE=,tag:kn/VE1jYuR3ykS+QcPydJg==,type:str]
+    encrypted_regex: (pass|user|host)
+    version: 3.12.2

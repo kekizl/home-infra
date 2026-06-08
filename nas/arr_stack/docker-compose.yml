@@ -115,6 +115,26 @@ services:
     networks:
       - arr-internal
 
+  qbit-manage:
+    image: ghcr.io/stuffanthings/qbit_manage:latest
+    container_name: qbit-manage
+    environment:
+      - PUID=568
+      - PGID=568
+      - TZ=Europe/Stockholm
+      - QBT_RUN=true
+      - QBT_SCHEDULE=60         # run every 30 minutes
+      - QBT_CONFIG=/config/config.yml
+      - QBT_LOG_LEVEL=INFO
+    volumes:
+      - ${INFRA_ROOT}/nas/arr_stack/qbit-manage/config:/config
+      - /mnt/Pool/downloads:/downloads
+    restart: unless-stopped
+    networks:
+      - arr-internal
+    depends_on:
+      - qbittorrent
+
 networks:
   arr-internal:
     driver: bridge
