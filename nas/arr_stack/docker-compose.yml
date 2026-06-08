@@ -116,7 +116,7 @@ services:
       - arr-internal
 
   qbit-manage:
-    image: ghcr.io/stuffanthings/qbit_manage:latest
+    image: ghcr.io/stuffanthings/qbit_manage:4.8.1
     container_name: qbit-manage
     environment:
       - PUID=568
@@ -138,6 +138,7 @@ services:
 networks:
   arr-internal:
     driver: bridge
+    enable_ipv6: false
 
 volumes:
   tailscale-data-qbittorrent:
