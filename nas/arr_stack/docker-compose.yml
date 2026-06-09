@@ -118,6 +118,8 @@ services:
   qbit-manage:
     image: ghcr.io/stuffanthings/qbit_manage:v4.8.1
     container_name: qbit-manage
+    env_file:
+      - .env
     environment:
       - PUID=568
       - PGID=568
