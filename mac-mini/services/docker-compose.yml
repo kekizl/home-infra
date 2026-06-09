@@ -21,7 +21,7 @@ services:
     restart: unless-stopped
 
   homepage:
-    image: ghcr.io/gethomepage/homepage:v1.13.1
+    image: ghcr.io/gethomepage/homepage:v1.13.2
     container_name: homepage
     network_mode: service:ts-homepage
     depends_on:
@@ -69,7 +69,7 @@ services:
       - "docker-volume-backup.stop-during-backup=true"
 
   renovate:
-    image: renovate/renovate:43.214.0
+    image: renovate/renovate:43.217.0
     container_name: renovate
     restart: no
     secrets:
