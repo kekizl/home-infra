@@ -1,4 +1,7 @@
 creation_rules:
   - path_regex: nas/arr_stack/qbit-manage/config/config\.yml$
-    age: age10sgtrf8euyn5ph0qvvuy8vfvu9fs45d4e3yxheg0h2pdfluvns9s8a2qut 
+    age: age10sgtrf8euyn5ph0qvvuy8vfvu9fs45d4e3yxheg0h2pdfluvns9s8a2qut
     encrypted_regex: (pass|user|host)
+  - path_regex: nas/arr_stack/\.env\.sops$
+    age: age10sgtrf8euyn5ph0qvvuy8vfvu9fs45d4e3yxheg0h2pdfluvns9s8a2qut 
+
