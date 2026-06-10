@@ -118,6 +118,11 @@ services:
   qbit-manage:
     image: ghcr.io/stuffanthings/qbit_manage:v4.8.1
     container_name: qbit-manage
+    post_start:
+      - command: ["chown", "-R", "568:568", "/config"]
+        user: root
+      - command: ["chmod", "-R", "755", "/config"]
+        user: root
     environment:
       - PUID=568
       - PGID=568
