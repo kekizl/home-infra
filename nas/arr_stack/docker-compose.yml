@@ -129,7 +129,7 @@ services:
     sysctls:
       - net.ipv6.conf.all.disable_ipv6=1
     volumes:
-      - ${INFRA_ROOT}/nas/arr_stack/qbit-manage/config:/config
+      - ${INFRA_ROOT}/doco-cd-data/github.com/kekizl/home-infra/nas/arr_stack/qbit-manage/config:/config
       - /mnt/Pool/downloads:/downloads
     restart: unless-stopped
     networks:

@@ -11,6 +11,10 @@ commands:
     share_limits: true
     skip_cleanup: false
     skip_qb_version_check: false
+qbt:
+    host: ENC[AES256_GCM,data:9dwKX15QQaJIXrfNipIKeypNc5BS6mmQ++bD,iv:wpmQ75cyiYsWxzo8N6QsUUHlkkIkGJY8gnv21dhYCzY=,tag:UKK8NHpNbNhqQsPvgNaxPg==,type:str]
+    user: ENC[AES256_GCM,data:6jNupO4=,iv:SvoGZMGDJxEbM0Jv7wIXiHb/Ae1PnlPvzrDxHvG9j5w=,tag:JgLMmH29/EW6GK1mPmAd4g==,type:str]
+    pass: ENC[AES256_GCM,data:dwoRnWkNIOZUAi9DAud57g==,iv:RRLnVIJdfDUuapan47C+m1a+ajz0k1l88fhYokxmgHE=,tag:8VdSJhMy9tJBCTcERElKpg==,type:str]
 settings:
     force_auto_tmm: false
     tracker_error_tag: issue
@@ -31,7 +35,7 @@ cat:
     lidarr: /downloads
 tracker:
     passthepopcorn:
-        tag: ENC[AES256_GCM,data:l9v9,iv:sLgGPrBFSxKqwnKyIjhBBVeHDkYow1jr9q2PuG9HbvY=,tag:qRAKURbx8JL6aBE58msLQw==,type:str]
+        tag: ENC[AES256_GCM,data:912/,iv:ib4di5Jxqk+B9WlVKlIxzS5t6bYy5r1Djkn48CxlD/A=,tag:QrKxzKfikeuatGmsvkdXtA==,type:str]
     torrentleech:
         tag: TorrentLeech
     other:
@@ -75,13 +79,13 @@ sops:
         - recipient: age10sgtrf8euyn5ph0qvvuy8vfvu9fs45d4e3yxheg0h2pdfluvns9s8a2qut
           enc: |
             -----BEGIN AGE ENCRYPTED FILE-----
-            YWdlLWVuY3J5cHRpb24ub3JnL3YxCi0+IFgyNTUxOSByQjV2TkExZzVvc0lWenpI
-            UG12ajNNdS9hUE9pajhDcXVQTGFMRTFUOHdrClE5ZldiR1QwMG9ERG5SN3l3czJL
-            R3plWWJ5ZjExT2NBS3BGR1prSmxic2sKLS0tIG5La3MveUk3VVdHV2thcjR6dnF6
-            a0FCL1E1Znc4SXNmZXk0QzQ5Q2lJekUKVvxmmTjlOTzJ3bAXEYXqSpwXmNQpLYgp
-            VJmt9p6/F7PvivNNYPTK17MRJ+G/+euQgPTCyAscNuCGZjtSknCH/g==
+            YWdlLWVuY3J5cHRpb24ub3JnL3YxCi0+IFgyNTUxOSBDSTJhMEhJUjNnQTJvM3N5
+            aTBrV2F4d1NNcjJWUlVUazUzT1VMc05GVjBrCjBQaE9aeVRHWDBWajc1YnFycit2
+            WXZKVGdMWG9pb3MzV1FXUFZ3cFFjelEKLS0tIHlPZXJLWnd1Vng1NjlzSWJRMFpy
+            TWNjWUxiUlUyNE9rTjJ1ZXJqU3c3Z2MKNPmLJR52W139NBAjDuPVXl8ZIRcFbG/3
+            GOCr86Nq+1MIsvF5WTNuk8ZKrazzkXlO2KPwvhNgLT7NFwKhyJ/Duw==
             -----END AGE ENCRYPTED FILE-----
-    lastmodified: "2026-06-09T21:48:37Z"
-    mac: ENC[AES256_GCM,data:3t8uO44dXY2sQ0Q6lOTrSOZdNuMgw9GA/qYo1KwocOjnTTyPAANj8lxf4BQcy4J6MOPsoz0C1XLQovFMVaqEaamD5o+I1uxocXmdbVWci3ngldK4tCMsHGHh/1xpbhN11z7AccZpjVwTwz+5SmYXdLAGKB1HdIQLtD/tJL1vFLg=,iv:W/VZh0TW1SzJq0YTCkJ1wcu4z5gc/qxT/TJTp6NCHN8=,tag:hcN7OKPSuSSSoPrqP4j7Kg==,type:str]
+    lastmodified: "2026-06-10T16:52:04Z"
+    mac: ENC[AES256_GCM,data:JwaxkJzGzwuWw3KV4uqsg0+ZCT/mpJ2dZ+YHiz6np4BzHFlXiBGRNGnBLY3PCRoO/1q5PcuZQd1M79NA8JRc2dNI+l0u2MUqRcrQuSnx6d5+tq6E/7FhYuazDEYmhKGLhpCKAZMjU9YL+M1wMA3I3PD7mgUIyL9tOazUymvaJPs=,iv:uyZLixq/RV7DyGW7txW4Mh85G4igIjmChHJtqnGIStM=,tag:oHX20/Z0I7zGjVdNlUv7pQ==,type:str]
     encrypted_regex: (pass|user|host)
     version: 3.12.2
