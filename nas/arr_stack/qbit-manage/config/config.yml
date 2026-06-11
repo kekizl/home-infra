@@ -1,5 +1,5 @@
 commands:
-    dry_run: true
+    dry_run: false
     cross_seed: false
     recheck: false
     cat_update: false
@@ -49,7 +49,7 @@ share_limits:
             - noHL
         categories:
             - lidarr
-        max_seeding_time: 30
+        max_seeding_time: 360
         cleanup: true
 recyclebin:
     enabled: true
@@ -85,7 +85,7 @@ sops:
             TWNjWUxiUlUyNE9rTjJ1ZXJqU3c3Z2MKNPmLJR52W139NBAjDuPVXl8ZIRcFbG/3
             GOCr86Nq+1MIsvF5WTNuk8ZKrazzkXlO2KPwvhNgLT7NFwKhyJ/Duw==
             -----END AGE ENCRYPTED FILE-----
-    lastmodified: "2026-06-10T16:52:04Z"
-    mac: ENC[AES256_GCM,data:JwaxkJzGzwuWw3KV4uqsg0+ZCT/mpJ2dZ+YHiz6np4BzHFlXiBGRNGnBLY3PCRoO/1q5PcuZQd1M79NA8JRc2dNI+l0u2MUqRcrQuSnx6d5+tq6E/7FhYuazDEYmhKGLhpCKAZMjU9YL+M1wMA3I3PD7mgUIyL9tOazUymvaJPs=,iv:uyZLixq/RV7DyGW7txW4Mh85G4igIjmChHJtqnGIStM=,tag:oHX20/Z0I7zGjVdNlUv7pQ==,type:str]
+    lastmodified: "2026-06-11T18:08:01Z"
+    mac: ENC[AES256_GCM,data:XV/vFGyzBdsGp8QqR6cenfmKrcgIfWHDhYqW6eBQPyXxw+Cj0M7s0OLVVzHvUOHYcCkU8AyMTRSBgyr03fp6+Iipbq4YxQhip0vuy95di1XVtk3F+koNIXg9VlN2ScEApPRURBdSEeyNwQ6wwnarkhC7i9BYkh06eZDg+z65uqA=,iv:xRaSUSS97xIFmfhbmnV9tij/1oq7c+DA7eGCj/WxP2I=,tag:Q1aquOlT8gn9eaH05EJXSg==,type:str]
     encrypted_regex: (pass|user|host)
     version: 3.12.2
