@@ -150,9 +150,9 @@ services:
     networks:
       - arr-internal
     depends_on:
-      qbit-manage-init
+      qbit-manage-init:
         condition: service_completed_successfully
-      qbittorrent
+      qbittorrent:
         condition: service_started
 
 networks:
