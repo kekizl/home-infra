@@ -2,7 +2,7 @@ version: "3.8"
 
 services:
   whisper:
-    image: rhasspy/wyoming-whisper:3.2.0
+    image: rhasspy/wyoming-whisper:3.3.0
     container_name: whisper
     ports:
       - "10300:10300"
