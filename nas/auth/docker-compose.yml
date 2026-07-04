@@ -61,6 +61,8 @@ volumes:
 networks:
   internal:
     driver: bridge
+    dns:
+      - 100.100.100.100
 
 secrets:
   ts_authkey:
