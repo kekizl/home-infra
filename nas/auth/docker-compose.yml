@@ -5,7 +5,7 @@ services:
     ports:
       - "8080:8080"
     volumes:
-      - ./Caddyfile:/etc/caddy/Caddyfile:ro
+      - ${INFRA_ROOT}/nas/auth/Caddyfile:/etc/caddy/Caddyfile:ro
       - caddy_data:/data
     networks:
       - internal
