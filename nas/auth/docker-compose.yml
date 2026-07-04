@@ -1,0 +1,68 @@
+services:
+  caddy:
+    image: caddy:2.11.4
+    container_name: caddy
+    ports:
+      - "8080:8080"
+    volumes:
+      - ./Caddyfile:/etc/caddy/Caddyfile:ro
+      - caddy_data:/data
+    networks:
+      - internal
+    depends_on:
+      - pocket-id
+    restart: unless-stopped
+
+  ts-pocket-id:
+    image: tailscale/tailscale:v1.98.4
+    container_name: ts-pocket-id
+    hostname: auth
+    secrets:
+      - ts_authkey
+    environment:
+      TS_AUTHKEY_FILE: /run/secrets/ts_authkey
+      TS_STATE_DIR: /var/lib/tailscale
+      TS_SERVE_CONFIG: /config/serve.json
+      TS_USERSPACE: true
+    volumes:
+      - tailscale-data-pocket-id:/var/lib/tailscale
+      - ${INFRA_ROOT}/nas/auth/ts-pocket-id-config:/config
+    cap_add:
+      - NET_ADMIN
+      - NET_RAW
+    networks:
+     -  internal
+    restart: unless-stopped
+   
+   # --- Pocket ID (passkey-only IDP) ---
+  pocket-id:
+    image: ghcr.io/pocket-id/pocket-id:v2.9.0
+    container_name: pocket-id
+    restart: unless-stopped
+    env_file: auth.env
+    volumes:
+      - ${INFRA_ROOT}/nas/auth/pocket-id-data:/app/data
+    networks:
+      - internal
+    depends_on:
+      - ts-pocket-id
+    
+  # --- oauth2-proxy (single instance for all services) ---
+  oauth2-proxy:
+    image: quay.io/oauth2-proxy/oauth2-proxy:v7.15.3
+    container_name: oauth2-proxy
+    restart: unless-stopped
+    env_file: auth.env
+    networks:
+      - internal 
+volumes:
+  caddy_data:
+  tailscale-pocket-id:
+
+networks:
+  internal:
+    driver: bridge
+
+secrets:
+  ts_authkey:
+    file: ../../secrets/ts-authkey.enc.txt
