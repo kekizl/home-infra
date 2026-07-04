@@ -2,8 +2,8 @@ services:
   caddy:
     image: caddy:2.11.4
     container_name: caddy
-    ports:
-      - "8080:8080"
+    expose:
+      - "8080"
     volumes:
       - ${INFRA_ROOT}/nas/auth/Caddyfile:/etc/caddy/Caddyfile:ro
       - caddy_data:/data
@@ -31,10 +31,9 @@ services:
       - NET_ADMIN
       - NET_RAW
     networks:
-     -  internal
+      - internal
     restart: unless-stopped
-   
-   # --- Pocket ID (passkey-only IDP) ---
+
   pocket-id:
     image: ghcr.io/pocket-id/pocket-id:v2.9.0
     container_name: pocket-id
@@ -46,15 +45,15 @@ services:
       - internal
     depends_on:
       - ts-pocket-id
-    
-  # --- oauth2-proxy (single instance for all services) ---
+
   oauth2-proxy:
     image: quay.io/oauth2-proxy/oauth2-proxy:v7.15.3
     container_name: oauth2-proxy
     restart: unless-stopped
     env_file: auth.env
     networks:
-      - internal 
+      - internal
+
 volumes:
   caddy_data:
   tailscale-data-pocket-id:
