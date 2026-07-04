@@ -115,21 +115,6 @@ services:
     networks:
       - arr-internal
 
-  qbit-manage-init:
-    image: busybox
-    restart: on-failure:3          # recommended for one‑time setup tasks
-    user: root                     # needs root to chown
-    entrypoint: ["/bin/sh", "-c"]
-    volumes:
-      - ${INFRA_ROOT}/doco-cd-data/github.com/kekizl/home-infra/nas/arr_stack/qbit-manage/config:/config
-    command:
-      - |
-        echo "Fixing permissions on /config..."
-        chown -R 568:568 /config
-        chmod -R 755 /config
-        echo "Done. Permissions set."
-        exit 0
-
   qbit-manage:
     image: ghcr.io/stuffanthings/qbit_manage:v4.9.1
     container_name: qbit-manage
@@ -144,14 +129,12 @@ services:
     sysctls:
       - net.ipv6.conf.all.disable_ipv6=1
     volumes:
-      - ${INFRA_ROOT}/doco-cd-data/github.com/kekizl/home-infra/nas/arr_stack/qbit-manage/config:/config
+      - ${INFRA_ROOT}/nas/arr_stack/qbit-manage/config:/config
       - /mnt/Pool/downloads:/downloads
     restart: unless-stopped
     networks:
       - arr-internal
     depends_on:
-      qbit-manage-init:
-        condition: service_completed_successfully
       qbittorrent:
         condition: service_started
 
