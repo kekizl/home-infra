@@ -9,8 +9,9 @@ services:
       - caddy_data:/data
     networks:
       - internal
-    depends_on:
-      - pocket-id
+    dns:
+      - 100.100.100.100
+      - 127.0.0.11
     restart: unless-stopped
 
   ts-pocket-id:
@@ -53,6 +54,9 @@ services:
     env_file: auth.env
     networks:
       - internal
+    dns:
+      - 100.100.100.100
+      - 127.0.0.11
 
 volumes:
   caddy_data:
@@ -61,8 +65,6 @@ volumes:
 networks:
   internal:
     driver: bridge
-    dns:
-      - 100.100.100.100
 
 secrets:
   ts_authkey:
