@@ -57,7 +57,7 @@ services:
       - internal 
 volumes:
   caddy_data:
-  tailscale-pocket-id:
+  tailscale-data-pocket-id:
 
 networks:
   internal:
