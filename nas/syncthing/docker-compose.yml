@@ -17,13 +17,14 @@ services:
       - ${INFRA_ROOT}/nas/syncthing/ts-syncthing-config:/config
     cap_add:
       - NET_ADMIN
+    networks:
+      - net_edge
     restart: unless-stopped
 
   syncthing:
     image: ghcr.io/vaskozl/syncthing:2.1.1@sha256:c8d0e573a419e80f0247ec7b1f3d726698d461f2070777cef7025b1b5c3de8ac
     container_name: syncthing
     restart: unless-stopped
-    network_mode: service:ts-syncthing
     depends_on:
       - ts-syncthing
     user: "568:568"
@@ -34,9 +35,21 @@ services:
       - ${INFRA_ROOT}/nas/syncthing/data:/var/syncthing
       - /mnt/Pool/sync-bucket:/incoming
       - /mnt/Pool/Syncthing/vw:/sync/vw
+    networks:
+      - net_syncthing
 
 volumes:
   tailscale-data-syncthing:
+
+networks:
+  net_edge:
+    name: net_edge
+    driver: bridge
+    external: true
+
+  net_syncthing:
+    name: net_syncthing
+    driver: bridge
 
 secrets:
   ts_authkey:

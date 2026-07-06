@@ -8,7 +8,9 @@ services:
       - ${INFRA_ROOT}/nas/auth/Caddyfile:/etc/caddy/Caddyfile:ro
       - caddy_data:/data
     networks:
-      - internal
+      - net_auth
+      - net_edge
+      - net_syncthing
     dns:
       - 100.100.100.100
       - 127.0.0.11
@@ -32,7 +34,7 @@ services:
       - NET_ADMIN
       - NET_RAW
     networks:
-      - internal
+      - net_edge
     restart: unless-stopped
 
   pocket-id:
@@ -43,7 +45,7 @@ services:
     volumes:
       - ${INFRA_ROOT}/nas/auth/pocket-id-data:/app/data
     networks:
-      - internal
+      - net_auth
     depends_on:
       - ts-pocket-id
 
@@ -53,7 +55,7 @@ services:
     restart: unless-stopped
     env_file: auth.env
     networks:
-      - internal
+      - net_auth
     dns:
       - 100.100.100.100
       - 127.0.0.11
@@ -63,8 +65,16 @@ volumes:
   tailscale-data-pocket-id:
 
 networks:
-  internal:
+  net_edge:
+    name: net_edge
     driver: bridge
+  net_auth:
+    name: net_auth
+    driver: bridge
+  net_syncthing:
+    name: net_syncthing
+    driver: bridge
+    external: true
 
 secrets:
   ts_authkey:
