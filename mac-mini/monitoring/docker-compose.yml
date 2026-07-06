@@ -3,7 +3,7 @@ version: "3.8"
 services:
   # ---- Prometheus ----
   ts-prometheus:
-    image: tailscale/tailscale:v1.98.4
+    image: tailscale/tailscale:v1.98.8
     container_name: ts-prometheus
     hostname: prometheus
     secrets:
@@ -37,7 +37,7 @@ services:
 
   # ---- Grafana ----
   ts-grafana:
-    image: tailscale/tailscale:v1.98.4
+    image: tailscale/tailscale:v1.98.8
     container_name: ts-grafana
     hostname: grafana
     secrets:
@@ -71,7 +71,7 @@ services:
 
   # ---- cAdvisor ----
   ts-cadvisor:
-    image: tailscale/tailscale:v1.98.4
+    image: tailscale/tailscale:v1.98.8
     container_name: ts-cadvisor
     hostname: cadvisor
     secrets:
@@ -104,7 +104,7 @@ services:
 
   # ---- node-exporter ----
   ts-node-exporter:
-    image: tailscale/tailscale:v1.98.4
+    image: tailscale/tailscale:v1.98.8
     container_name: ts-node-exporter
     hostname: node-exporter
     secrets:
@@ -139,7 +139,7 @@ services:
 
   # ---- uptime-kuma ----
   ts-uptime-kuma:
-    image: tailscale/tailscale:v1.98.4
+    image: tailscale/tailscale:v1.98.8
     container_name: ts-uptime-kuma
     hostname: uptime-kuma
     secrets:

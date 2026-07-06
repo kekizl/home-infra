@@ -17,7 +17,7 @@ services:
     restart: unless-stopped
 
   ts-pocket-id:
-    image: tailscale/tailscale:v1.98.4
+    image: tailscale/tailscale:v1.98.8
     container_name: ts-pocket-id
     hostname: auth
     secrets:
