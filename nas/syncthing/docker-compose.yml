@@ -32,7 +32,7 @@ services:
       - HOME=/var/syncthing
       - STGUIADDRESS=0.0.0.0:8384
     volumes:
-      - ${INFRA_ROOT}/nas/syncthing/data:/var/syncthing
+      - ${INFRA_ROOT}/nas/syncthing/data:/var/syncthing/.local/state/syncthing
       - /mnt/Pool/sync-bucket:/incoming
       - /mnt/Pool/Syncthing/vw:/sync/vw
     networks:
