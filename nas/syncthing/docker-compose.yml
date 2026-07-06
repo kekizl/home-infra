@@ -37,6 +37,8 @@ services:
       - /mnt/Pool/Syncthing/vw:/sync/vw
     networks:
       - net_syncthing
+    sysctls:
+      - net.ipv6.bindv6only=0 #To allow IPv4
 
 volumes:
   tailscale-data-syncthing:
