@@ -85,6 +85,11 @@ services:
   audiobookshelf:
     container_name: audiobookshelf
     image: ghcr.io/advplyr/audiobookshelf:2.35.1
+    user: "568:568"
+    security_opt:
+      - no-new-privileges:true
+    cap_drop:
+      - ALL
     network_mode: service:ts-audiobookshelf
     depends_on:
       - ts-audiobookshelf
@@ -125,6 +130,10 @@ services:
       - ts-navidrome
     user: 568:568
     restart: unless-stopped
+    security_opt:
+      - no-new-privileges:true
+    cap_drop:
+      - ALL
     environment:
       - ND_DATAFOLDER=/data
       - ND_MUSICFOLDER=/music
@@ -157,9 +166,11 @@ services:
     container_name: freshrss
     network_mode: service:ts-freshrss
     environment:
-      - PUID=1000
-      - PGID=1000
+      - PUID=568
+      - PGID=568
       - TZ=Europe/Stockholm
+    security_opt:
+      - no-new-privileges:true
     volumes:
       - ${INFRA_ROOT}/nas/nas-services/freshrss/config:/config
     restart: unless-stopped
