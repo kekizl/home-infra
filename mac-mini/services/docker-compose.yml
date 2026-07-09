@@ -78,7 +78,7 @@ services:
       - "docker-volume-backup.stop-during-backup=true"
 
   renovate:
-    image: renovate/renovate:43.252.6
+    image: renovate/renovate:43.256.3
     container_name: renovate
     restart: no
     security_opt:
