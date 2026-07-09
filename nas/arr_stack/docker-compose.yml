@@ -56,7 +56,7 @@ services:
       - arr-internal
 
   prowlarr:
-    image: lscr.io/linuxserver/prowlarr:2.4.0.5397-ls152
+    image: lscr.io/linuxserver/prowlarr:2.4.0.5397-ls153
     container_name: prowlarr
     network_mode: service:ts-prowlarr
     depends_on:
@@ -90,7 +90,7 @@ services:
       - arr-internal
 
   lidarr:
-    image: lscr.io/linuxserver/lidarr:3.1.0.4875-ls33
+    image: lscr.io/linuxserver/lidarr:3.1.0.4875-ls34
     container_name: lidarr
     network_mode: service:ts-lidarr
     depends_on:
