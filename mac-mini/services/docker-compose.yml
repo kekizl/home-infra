@@ -61,10 +61,9 @@ services:
   vaultwarden:
     image: vaultwarden/server:1.36.0
     container_name: vaultwarden
+    user: "568:568"
     security_opt:
       - no-new-privileges:true
-    cap_drop:
-      - ALL
     restart: unless-stopped
     network_mode: service:ts-vaultwarden
     depends_on:
