@@ -61,9 +61,6 @@ services:
   vaultwarden:
     image: vaultwarden/server:1.36.0
     container_name: vaultwarden
-    user: "568:568"
-    security_opt:
-      - no-new-privileges:true
     restart: unless-stopped
     network_mode: service:ts-vaultwarden
     depends_on:
@@ -71,7 +68,6 @@ services:
     environment:
       DOMAIN: https://vaultwarden.${TS_TAILNET}.ts.net
       TRUST_PROXY: true
-      ENABLE_DB_WAL: "false"
     volumes:
       - ${INFRA_ROOT}/mac-mini/services/vw-data/:/data/
     labels:
