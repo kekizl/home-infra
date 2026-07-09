@@ -23,11 +23,16 @@ services:
   homepage:
     image: ghcr.io/gethomepage/homepage:v1.13.2
     container_name: homepage
+    user: "568:568"
+    security_opt:
+      - no-new-privileges:true
+    cap_drop:
+      - ALL
     network_mode: service:ts-homepage
     depends_on:
       - ts-homepage
     volumes:
-      - ${INFRA_ROOT}/mac-mini/services/homepage/config:/app/config
+      - ${INFRA_ROOT}/mac-mini/services/homepage/config:/app/config:ro
     restart: unless-stopped
     environment:
       HOMEPAGE_ALLOWED_HOSTS: homepage.${TS_TAILNET}.ts.net
@@ -56,6 +61,11 @@ services:
   vaultwarden:
     image: vaultwarden/server:1.36.0
     container_name: vaultwarden
+    user: "568:568"
+    security_opt:
+      - no-new-privileges:true
+    cap_drop:
+      - ALL
     restart: unless-stopped
     network_mode: service:ts-vaultwarden
     depends_on:
@@ -72,6 +82,10 @@ services:
     image: renovate/renovate:43.252.6
     container_name: renovate
     restart: no
+    security_opt:
+      - no-new-privileges:true
+    cap_drop:
+      - ALL
     secrets:
       - renovate-token
     environment:
