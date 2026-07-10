@@ -69,7 +69,7 @@ services:
       DOMAIN: https://vaultwarden.${TS_TAILNET}.ts.net
       TRUST_PROXY: true
     volumes:
-      - vaultwarden_data/:/data/
+      - vaultwarden_data:/data/
     labels:
       - "docker-volume-backup.stop-during-backup=true"
 
