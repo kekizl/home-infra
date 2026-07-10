@@ -69,7 +69,7 @@ services:
       DOMAIN: https://vaultwarden.${TS_TAILNET}.ts.net
       TRUST_PROXY: true
     volumes:
-      - ${INFRA_ROOT}/mac-mini/services/vw-data/:/data/
+      - vaultwarden_data/:/data/
     labels:
       - "docker-volume-backup.stop-during-backup=true"
 
@@ -119,10 +119,8 @@ services:
     volumes:
       # Named volumes – direct, read‑only
       - monitoring_grafana_data:/backup/grafana:ro
-      - ai_openwebui-data:/backup/openwebui:ro
       # Bind mounts – host paths
       - ${INFRA_ROOT}/mac-mini/data:/backup/uptime-kuma:ro
-      - ${INFRA_ROOT}/mac-mini/services/vw-data:/backup/vaultwarden:ro
       - ${INFRA_ROOT}/mac-mini/dns/adguard/conf:/backup/adguard-conf:ro
       - ${INFRA_ROOT}/mac-mini/obsidian/vault:/backup/obsidian:ro
       # Docker socket (to stop containers)
@@ -142,8 +140,7 @@ volumes:
   tailscale-data-vaultwarden:
   monitoring_grafana_data:
     external: true
-  ai_openwebui-data:
-    external: true
+  vaultwarden_data:
 
 secrets:
   ts_authkey:
