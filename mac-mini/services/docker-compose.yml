@@ -65,9 +65,12 @@ services:
     network_mode: service:ts-vaultwarden
     depends_on:
       - ts-vaultwarden
+    secrets:
+      - vw-admin-token
     environment:
       DOMAIN: https://vaultwarden.${TS_TAILNET}.ts.net
       TRUST_PROXY: true
+      ADMIN_TOKEN_FILE: /run/secrets/vw-admin-token
     volumes:
       - vaultwarden_data:/data/
     labels:
@@ -151,3 +154,5 @@ secrets:
     file: ../../secrets/discord-webhook.enc.txt
   renovate-token: #to create the pull requests
     file: ../../secrets/renovate-token.enc.txt
+  vw-admin-token:
+    file: ../../secrets/vw-admin-token.enc.txt
