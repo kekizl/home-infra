@@ -21,7 +21,7 @@ services:
 
   immich-server:
     container_name: immich_server
-    image: ghcr.io/immich-app/immich-server:v2.7.5
+    image: ghcr.io/immich-app/immich-server:v3.0.3
     volumes:
       - ${APPSTORAGE_ROOT}/immich/data:/usr/src/app/upload
       - /etc/localtime:/etc/localtime:ro
@@ -38,7 +38,7 @@ services:
 
   immich-machine-learning:
     container_name: immich_machine_learning
-    image: ghcr.io/immich-app/immich-machine-learning:v2.7.5
+    image: ghcr.io/immich-app/immich-machine-learning:v3.0.3
     env_file:
       - ./db_secrets.enc.env
     volumes:
