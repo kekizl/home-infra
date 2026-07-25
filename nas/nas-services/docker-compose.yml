@@ -175,12 +175,51 @@ services:
       - ${INFRA_ROOT}/nas/nas-services/freshrss/config:/config
     restart: unless-stopped
 
+  ts-otterwiki:
+    image: tailscale/tailscale:v1.98.9
+    container_name: ts-otterwiki
+    hostname: otterwiki
+    secrets:
+      - ts_authkey
+    environment:
+      - TS_AUTHKEY_FILE=/run/secrets/ts_authkey
+      - TS_STATE_DIR=/var/lib/tailscale
+      - TS_SERVE_CONFIG=/config/serve.json
+      - TS_USERSPACE=true
+    volumes:
+      - tailscale-data-freshrss:/var/lib/tailscale
+      - ${INFRA_ROOT}/nas/nas-services/ts-otterwiki-config:/config
+    cap_add:
+      - NET_ADMIN
+    restart: unless-stopped
+
+  otterwiki:
+    image: redimp/otterwiki:2
+    restart: unless-stopped
+    network_mode: service:ts-otterwiki
+    environment:
+      - PUID=568
+      - PGID=568
+      - TZ=Europe/Stockholm
+      - AUTH_METHOD=SIMPLE
+      - READ_ACCESS=APPROVED
+      - WRITE_ACCESS=APPROVED
+      - ATTACHMENT_ACCESS=APPROVED
+      - DISABLE_REGISTRATION=False
+      - AUTO_APPROVAL=False
+      - EMAIL_NEEDS_CONFIRMATION=False
+    security_opt:
+      - no-new-privileges:true
+    volumes:
+      - ${INFRA_ROOT}/nas/nas-services/otterwiki:/app-data
+
 volumes:
   model-cache:
   tailscale-data-immich:
   tailscale-data-audiobookshelf:
   tailscale-data-navidrome:
   tailscale-data-freshrss:
+  tailscale-data-otterwiki:
 
 secrets:
   ts_authkey:
