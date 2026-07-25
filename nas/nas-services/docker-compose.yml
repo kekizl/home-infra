@@ -187,7 +187,7 @@ services:
       - TS_SERVE_CONFIG=/config/serve.json
       - TS_USERSPACE=true
     volumes:
-      - tailscale-data-freshrss:/var/lib/tailscale
+      - tailscale-data-otterwiki:/var/lib/tailscale
       - ${INFRA_ROOT}/nas/nas-services/ts-otterwiki-config:/config
     cap_add:
       - NET_ADMIN

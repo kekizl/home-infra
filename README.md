@@ -13,6 +13,7 @@ Services running on TrueNAS via Docker. This is the primary storage and media ho
 | Audiobookshelf | Self-hosted audiobook and epub library |
 | Navidrome | Self-hosted music streaming alternative |
 | FreshRSS | Curated RSS feed for daily digests |
+| Otterwiki | Lightweight git based wiki for local use |
 | Restic | Restic-Server, where I store snapshots |
 | Syncthing | For storing remote files when needed |
 | Prowlarr, Lidarr, qBittorrent | For automating my media library |
@@ -82,7 +83,7 @@ home-infra/
 │   │   ├── restic-backup.sh     # Bash script to start, stop and backup relevant containers
 │   │   └── docker-compose.yml   # Restic Server
 │   └── nas-services/
-│       └── docker-compose.yml   # Immich, FreshRSS, Navidrome and Audiobookshelf
+│       └── docker-compose.yml   # Immich, FreshRSS, Navidrome and Audiobookshelf and Otterwiki
 ├── secrets/                     # SOPS age encrypted secrets used in containers 
 └── renovate.json                # Renovate configuration
 ```
