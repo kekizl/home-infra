@@ -198,6 +198,8 @@ services:
     container_name: otterwiki 
     restart: unless-stopped
     network_mode: service:ts-otterwiki
+    depends_on:
+      - ts-ottewiki
     environment:
       - PUID=568
       - PGID=568
