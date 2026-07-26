@@ -14,7 +14,7 @@ commands:
 qbt:
     host: ENC[AES256_GCM,data:poCln926OIwjU/G6FmXDF7hwSR0=,iv:s2L1/URcp9EN8Vis905+qBD3zry0NTb1Gvb2/xjAnog=,tag:MAZeMI88JOuZOxNXNvb7PA==,type:str]
     user: ENC[AES256_GCM,data:6jNupO4=,iv:SvoGZMGDJxEbM0Jv7wIXiHb/Ae1PnlPvzrDxHvG9j5w=,tag:JgLMmH29/EW6GK1mPmAd4g==,type:str]
-    pass: ENC[AES256_GCM,data:dwoRnWkNIOZUAi9DAud57g==,iv:RRLnVIJdfDUuapan47C+m1a+ajz0k1l88fhYokxmgHE=,tag:8VdSJhMy9tJBCTcERElKpg==,type:str]
+    pass: ENC[AES256_GCM,data:59CoTJl6GwUsTpCAB4cr/Q==,iv:rI26/bgasJSTrPWQ5Hxmk3tEaSj0Z7so9vVUCjOiDek=,tag:XGwDNmkBTWThC4gH7ZRXxQ==,type:str]
 settings:
     force_auto_tmm: false
     tracker_error_tag: issue
@@ -85,7 +85,7 @@ sops:
             TWNjWUxiUlUyNE9rTjJ1ZXJqU3c3Z2MKNPmLJR52W139NBAjDuPVXl8ZIRcFbG/3
             GOCr86Nq+1MIsvF5WTNuk8ZKrazzkXlO2KPwvhNgLT7NFwKhyJ/Duw==
             -----END AGE ENCRYPTED FILE-----
-    lastmodified: "2026-07-04T23:51:32Z"
-    mac: ENC[AES256_GCM,data:kGV/5zx/0v1DkSQVzO/ZJFAIAEuZ1dUHfcxx2ac8XBmhfbG9nLbUC4d/4SB/eAO1rEhwEu+bZCeTtaCsjTF2O3d4whxZh6iRsDBb9PYKgn9DPFvosSgecNiVhvDnH9T/T29LMMmhwRZmBQzCWfEnMXcksrJo5UQgKYXrZBnveSs=,iv:XhMj8ghlQ5NnhUK/Uh9wKlyWt14D6Xi6EI8h/Pq47Lg=,tag:XBm7RebgL3Mmg8o1XqVGaA==,type:str]
+    lastmodified: "2026-07-26T16:38:35Z"
+    mac: ENC[AES256_GCM,data:Lt6GuPLOaWC7XR9MvSvTDoxMLEeig8ItHpjEzhYJCXIHrjasNwkMHNxq06fu4a+ZgkHp0NWKy/oXqJQoDQ0W3YX4ZwTg1ql6VGZUDiX6/tOR9Jomp4Tn38KFlh61m+sNUXKW0L/kRfJ9dak/EQo+/ZkAc/DCe1MW62yLWS/9OdM=,iv:TAl5MlhAwbWPPbcUsYhICgNSYjVNDcWdeH4TvFcvayo=,tag:5pCliraJNQK4HpiagQc4HA==,type:str]
     encrypted_regex: (pass|user|host)
     version: 3.12.2
