@@ -26,9 +26,11 @@ services:
     network_mode: service:ts-qbittorrent
     depends_on:
       - ts-qbittorrent
+    user: "568:568"
     environment:
-      - PUID=568
-      - PGID=568
+      - HOME=/config
+      - XDG_CONFIG_HOME=/config
+      - XDG_DATA_HOME=/config
       - TZ=Europe/Stockholm
     volumes:
       - ${INFRA_ROOT}/nas/arr_stack/qBittorrent/config:/config
