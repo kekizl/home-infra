@@ -17,7 +17,7 @@ services:
     restart: unless-stopped
 
   ts-pocket-id:
-    image: tailscale/tailscale:v1.98.9
+    image: tailscale/tailscale:v1.98.10
     container_name: ts-pocket-id
     hostname: auth
     secrets:
@@ -38,7 +38,7 @@ services:
     restart: unless-stopped
 
   pocket-id:
-    image: ghcr.io/pocket-id/pocket-id:v2.11.0
+    image: ghcr.io/pocket-id/pocket-id:v2.12.0
     container_name: pocket-id
     restart: unless-stopped
     env_file: auth.env
