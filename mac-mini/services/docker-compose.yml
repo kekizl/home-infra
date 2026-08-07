@@ -1,7 +1,7 @@
 services:
 
   ts-homepage:
-    image: tailscale/tailscale:v1.98.10
+    image: tailscale/tailscale:v1.102.2
     container_name: ts-homepage
     hostname: homepage                     # becomes homepage.<tailnet>.ts.net
     secrets:
@@ -41,7 +41,7 @@ services:
       - "docker-volume-backup.stop-during-backup=true"
 
   ts-vaultwarden:
-    image: tailscale/tailscale:v1.98.10
+    image: tailscale/tailscale:v1.102.2
     container_name: ts-vaultwarden
     hostname: vaultwarden
     secrets:
