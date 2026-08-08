@@ -1,6 +1,6 @@
 services:
   ts-qbittorrent:
-    image: tailscale/tailscale:v1.98.10
+    image: tailscale/tailscale:v1.102.2
     container_name: ts-qbittorrent
     hostname: qbittorrent
     secrets:
@@ -38,7 +38,7 @@ services:
     restart: unless-stopped
 
   ts-prowlarr:
-    image: tailscale/tailscale:v1.98.10
+    image: tailscale/tailscale:v1.102.2
     container_name: ts-prowlarr
     hostname: prowlarr
     secrets:
@@ -72,7 +72,7 @@ services:
     restart: unless-stopped
 
   ts-lidarr:
-    image: tailscale/tailscale:v1.98.10
+    image: tailscale/tailscale:v1.102.2
     container_name: ts-lidarr
     hostname: lidarr
     secrets:

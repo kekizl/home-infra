@@ -3,7 +3,7 @@ version: "3.8"
 services:
   # ---- Prometheus ----
   ts-prometheus:
-    image: tailscale/tailscale:v1.98.10
+    image: tailscale/tailscale:v1.102.2
     container_name: ts-prometheus
     hostname: prometheus
     secrets:
@@ -37,7 +37,7 @@ services:
 
   # ---- Grafana ----
   ts-grafana:
-    image: tailscale/tailscale:v1.98.10
+    image: tailscale/tailscale:v1.102.2
     container_name: ts-grafana
     hostname: grafana
     secrets:
@@ -55,7 +55,7 @@ services:
     restart: unless-stopped
 
   grafana:
-    image: ghcr.io/vaskozl/grafana:13.0.3
+    image: ghcr.io/vaskozl/grafana:13.0.5
     container_name: grafana
     restart: unless-stopped
     network_mode: service:ts-grafana
@@ -71,7 +71,7 @@ services:
 
   # ---- cAdvisor ----
   ts-cadvisor:
-    image: tailscale/tailscale:v1.98.10
+    image: tailscale/tailscale:v1.102.2
     container_name: ts-cadvisor
     hostname: cadvisor
     secrets:
@@ -104,7 +104,7 @@ services:
 
   # ---- node-exporter ----
   ts-node-exporter:
-    image: tailscale/tailscale:v1.98.10
+    image: tailscale/tailscale:v1.102.2
     container_name: ts-node-exporter
     hostname: node-exporter
     secrets:
@@ -122,7 +122,7 @@ services:
     restart: unless-stopped
 
   node-exporter:
-    image: ghcr.io/vaskozl/prometheus-node-exporter:1.11.1
+    image: ghcr.io/vaskozl/prometheus-node-exporter:1.12.1
     container_name: node-exporter
     restart: unless-stopped
     network_mode: service:ts-node-exporter
@@ -139,7 +139,7 @@ services:
 
   # ---- uptime-kuma ----
   ts-uptime-kuma:
-    image: tailscale/tailscale:v1.98.10
+    image: tailscale/tailscale:v1.102.2
     container_name: ts-uptime-kuma
     hostname: uptime-kuma
     secrets:
