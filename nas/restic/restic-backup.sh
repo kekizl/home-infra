@@ -109,7 +109,7 @@ fi
 # ------------------------------------------------------------------
 if [ "$PRIMARY_OK" -eq 1 ]; then
     echo "[$(date)] Pruning primary repository..."
-    if restic forget $RETENTION --prune --tag "$TAG" --host "truenas"; then
+    if restic forget $RETENTION --prune --tag "$TAG" --host "truenas" --group-by host,tags; then
         echo "[$(date)] ✓ Primary prune successful"
     else
         echo "[$(date)] WARNING: Primary prune failed"
@@ -139,7 +139,7 @@ fi
 if [ "$OFFSITE_OK" -eq 1 ]; then
     echo "[$(date)] Pruning offsite repository..."
     if restic -r "$OFFSITE_REPO" --password-file "$RESTIC_PASSWORD_FILE" \
-        forget $RETENTION --prune --tag "$TAG" --host "truenas"; then
+        forget $RETENTION --prune --tag "$TAG" --host "truenas" --group-by host,tags; then
         echo "[$(date)] ✓ Offsite prune successful"
     else
         echo "[$(date)] WARNING: Offsite prune failed"
