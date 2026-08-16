@@ -2,7 +2,7 @@ version: "3.8"
 
 services:
   whisper:
-    image: rhasspy/wyoming-whisper:3.5.0
+    image: rhasspy/wyoming-whisper:3.6.0
     container_name: whisper
     ports:
       - "10300:10300"
@@ -12,7 +12,7 @@ services:
     restart: unless-stopped
 
   piper:
-    image: rhasspy/wyoming-piper:2.4.0
+    image: rhasspy/wyoming-piper:2.4.2
     container_name: piper
     ports:
       - "10200:10200"
