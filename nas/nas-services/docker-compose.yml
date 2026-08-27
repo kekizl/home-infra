@@ -2,7 +2,7 @@ version: '3.8'
 
 services:
   ts-immich:
-    image: tailscale/tailscale:v1.102.2
+    image: tailscale/tailscale:v1.102.3
     container_name: ts-immich
     hostname: immich
     secrets:
@@ -65,7 +65,7 @@ services:
     restart: always
 
   ts-audiobookshelf:
-    image: tailscale/tailscale:v1.102.2
+    image: tailscale/tailscale:v1.102.3
     container_name: ts-audiobookshelf
     hostname: audiobookshelf
     secrets:
@@ -105,7 +105,7 @@ services:
     restart: unless-stopped
 
   ts-navidrome:
-    image: tailscale/tailscale:v1.102.2
+    image: tailscale/tailscale:v1.102.3
     container_name: ts-navidrome
     hostname: navidrome
     secrets:
@@ -144,7 +144,7 @@ services:
       - ${APPSTORAGE_ROOT}/Navidrome/music:/music:ro
 
   ts-freshrss:
-    image: tailscale/tailscale:v1.102.2
+    image: tailscale/tailscale:v1.102.3
     container_name: ts-freshrss
     hostname: freshrss
     secrets:
@@ -176,7 +176,7 @@ services:
     restart: unless-stopped
 
   ts-otterwiki:
-    image: tailscale/tailscale:v1.102.2
+    image: tailscale/tailscale:v1.102.3
     container_name: ts-otterwiki
     hostname: otterwiki
     secrets:
