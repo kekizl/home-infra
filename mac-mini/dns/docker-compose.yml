@@ -26,9 +26,6 @@ services:
     network_mode: service:ts-adguard
     depends_on:
       - ts-adguard
-    ports:
-      - "53:53/tcp"
-      - "53:53/udp"
     volumes:
       - ${INFRA_ROOT}/mac-mini/dns/adguard/work:/opt/adguardhome/work
       - ${INFRA_ROOT}/mac-mini/dns/adguard/conf:/opt/adguardhome/conf
