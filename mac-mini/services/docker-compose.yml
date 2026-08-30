@@ -1,5 +1,40 @@
 services:
 
+  ts-openwebui:
+    image: tailscale/tailscale:v1.96.5
+    image: tailscale/tailscale:v1.98.3
+    container_name: ts-openwebui
+    hostname: openwebui
+    secrets:
+      - ts_authkey
+    environment:
+      - TS_AUTHKEY_FILE=/run/secrets/ts_authkey
+      - TS_STATE_DIR=/var/lib/tailscale
+      - TS_SERVE_CONFIG=/config/serve.json   # optional, enables HTTPS
+      - TS_USERSPACE=true 
+    volumes:
+      - tailscale-data-openwebui:/var/lib/tailscale
+      - ${INFRA_ROOT}/mac-mini/ai/ts-openwebui-config:/config          # mount folder for serve.json
+    cap_add:
+      - NET_ADMIN
+    restart: unless-stopped
+
+  openwebui:
+    image: ghcr.io/open-webui/open-webui:v0.9.5
+    container_name: openwebui
+    restart: unless-stopped
+    network_mode: service:ts-openwebui
+    depends_on:
+      - ts-openwebui
+    secrets:
+      - webui-secret
+    environment:
+      WEBUI_SECRET_KEY_FILE: /run/secrets/webui-secret
+    volumes:
+      - openwebui-data:/app/backend/data
+    labels:
+      - "docker-volume-backup.stop-during-backup=true"
+
   ts-homepage:
     image: tailscale/tailscale:v1.102.3
     container_name: ts-homepage
@@ -148,6 +183,8 @@ volumes:
 secrets:
   ts_authkey:
     file: ../../secrets/ts-authkey.enc.txt
+ webui-secret:
+    file: ../../secrets/webui-secret-key.enc.txt 
   restic-password:
     file: ../../secrets/restic.enc.txt
   discord-webhook:
