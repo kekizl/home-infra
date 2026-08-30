@@ -1,8 +1,7 @@
 services:
 
   ts-openwebui:
-    image: tailscale/tailscale:v1.96.5
-    image: tailscale/tailscale:v1.98.3
+    image: tailscale/tailscale:v1.102.3
     container_name: ts-openwebui
     hostname: openwebui
     secrets:
@@ -11,7 +10,7 @@ services:
       - TS_AUTHKEY_FILE=/run/secrets/ts_authkey
       - TS_STATE_DIR=/var/lib/tailscale
       - TS_SERVE_CONFIG=/config/serve.json   # optional, enables HTTPS
-      - TS_USERSPACE=true 
+      - TS_USERSPACE=true
     volumes:
       - tailscale-data-openwebui:/var/lib/tailscale
       - ${INFRA_ROOT}/mac-mini/ai/ts-openwebui-config:/config          # mount folder for serve.json
@@ -173,6 +172,7 @@ services:
       cd.doco.job.skip_running: "true"
 
 volumes:
+  tailscale-data-openwebui:
   tailscale-data-homepage:
     driver: local
   tailscale-data-vaultwarden:
@@ -183,8 +183,8 @@ volumes:
 secrets:
   ts_authkey:
     file: ../../secrets/ts-authkey.enc.txt
- webui-secret:
-    file: ../../secrets/webui-secret-key.enc.txt 
+  webui-secret:
+    file: ../../secrets/webui-secret-key.enc.txt
   restic-password:
     file: ../../secrets/restic.enc.txt
   discord-webhook:
