@@ -173,6 +173,7 @@ services:
 
 volumes:
   tailscale-data-openwebui:
+  openwebui-data:
   tailscale-data-homepage:
     driver: local
   tailscale-data-vaultwarden:
