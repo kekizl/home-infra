@@ -13,7 +13,7 @@ services:
       - TS_USERSPACE=true
     volumes:
       - tailscale-data-openwebui:/var/lib/tailscale
-      - ${INFRA_ROOT}/mac-mini/ai/ts-openwebui-config:/config          # mount folder for serve.json
+      - ${INFRA_ROOT}/mac-mini/services/ts-openwebui-config:/config
     cap_add:
       - NET_ADMIN
     restart: unless-stopped
