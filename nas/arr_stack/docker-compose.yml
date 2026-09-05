@@ -58,7 +58,7 @@ services:
       - arr-internal
 
   prowlarr:
-    image: lscr.io/linuxserver/prowlarr:2.5.2.5491-ls157
+    image: lscr.io/linuxserver/prowlarr:2.5.2.5491-ls158
     container_name: prowlarr
     network_mode: service:ts-prowlarr
     depends_on:
@@ -118,7 +118,7 @@ services:
       - arr-internal
 
   qbit-manage:
-    image: ghcr.io/stuffanthings/qbit_manage:v4.12.0
+    image: ghcr.io/stuffanthings/qbit_manage:v4.13.0
     container_name: qbit-manage
     environment:
       - PUID=568

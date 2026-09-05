@@ -19,7 +19,7 @@ services:
     restart: unless-stopped
 
   openwebui:
-    image: ghcr.io/open-webui/open-webui:v0.11.1
+    image: ghcr.io/open-webui/open-webui:v0.11.3
     container_name: openwebui
     restart: unless-stopped
     network_mode: service:ts-openwebui
@@ -55,7 +55,7 @@ services:
     restart: unless-stopped
 
   homepage:
-    image: ghcr.io/gethomepage/homepage:v2.1.2
+    image: ghcr.io/gethomepage/homepage:v2.2.0
     container_name: homepage
     user: "568:568"
     security_opt:
@@ -111,7 +111,7 @@ services:
       - "docker-volume-backup.stop-during-backup=true"
 
   renovate:
-    image: renovate/renovate:44.51.2
+    image: renovate/renovate:44.65.0
     container_name: renovate
     restart: no
     security_opt:
