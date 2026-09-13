@@ -33,6 +33,7 @@ DATASETS="
 abs-config
 abs-metadata
 navidrome-data
+navidrome-music
 immich-data
 immich-postgres
 syncthing-config
