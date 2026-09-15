@@ -93,7 +93,7 @@ services:
     restart: unless-stopped
 
   vaultwarden:
-    image: vaultwarden/server:1.37.2
+    image: vaultwarden/server:1.37.3
     container_name: vaultwarden
     restart: unless-stopped
     network_mode: service:ts-vaultwarden
@@ -111,7 +111,7 @@ services:
       - "docker-volume-backup.stop-during-backup=true"
 
   renovate:
-    image: renovate/renovate:44.82.4
+    image: renovate/renovate:44.93.5
     container_name: renovate
     restart: no
     security_opt:
