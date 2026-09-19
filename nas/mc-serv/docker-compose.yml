@@ -18,7 +18,7 @@ services:
       - NET_ADMIN
     restart: unless-stopped
     networks:
-      - arr-internal
+      - mc-net
 
   backup:
     image: itzg/mc-backup:2026.9.1
@@ -64,7 +64,7 @@ services:
     restart: unless-stopped
 
 networks:
-  arr-internal:
+  mc-net:
     driver: bridge
 
 volumes:
