@@ -21,7 +21,7 @@ services:
       - arr-internal
 
   mc:
-    image: itzg/minecraft-server:latest
+    image: itzg/minecraft-server:2026.9.1-java25
     container_name: mc
     network_mode: service:ts-mc
     depends_on:
