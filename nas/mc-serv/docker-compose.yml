@@ -1,0 +1,54 @@
+services:
+  ts-mc:
+    image: tailscale/tailscale:v1.102.3
+    container_name: ts-mc
+    hostname: mc
+    secrets:
+      - ts_authkey
+    environment:
+      - TS_AUTHKEY_FILE=/run/secrets/ts_authkey
+      - TS_STATE_DIR=/var/lib/tailscale
+      - TS_USERSPACE=false
+      - TS_AUTH_ONCE=true
+    devices:
+      - /dev/net/tun:/dev/net/tun
+    volumes:
+      - tailscale-data-mc:/var/lib/tailscale
+    cap_add:
+      - NET_ADMIN
+    restart: unless-stopped
+    networks:
+      - arr-internal
+
+  mc:
+    image: itzg/minecraft-server:latest
+    container_name: mc
+    network_mode: service:ts-mc
+    depends_on:
+      - ts-mc
+    secrets:
+      - rcon_password
+    environment:
+      EULA: "TRUE"
+      DIFFICULTY: "normal"
+      MEMORY: "4G"
+      RCON_PASSWORD_FILE: "/run/secrets/rcon_password" 
+      UID: "568"
+      GID: "568"
+      TZ: "Europe/Stockholm"
+    volumes:
+      - ${MC_ROOT}/data:/data
+    restart: unless-stopped
+
+networks:
+  arr-internal:
+    driver: bridge
+
+volumes:
+  tailscale-data-mc:
+
+secrets:
+  ts_authkey:
+    file: ../../secrets/ts-authkey.enc.txt
+  rcon_password:
+    file: ../../secrets/rcon-password.enc.txt
