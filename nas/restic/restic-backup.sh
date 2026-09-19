@@ -37,6 +37,7 @@ navidrome-music
 immich-data
 immich-postgres
 syncthing-config
+mc-backups
 "
 
 RETENTION="--keep-daily 7 --keep-weekly 4 --keep-monthly 3"
