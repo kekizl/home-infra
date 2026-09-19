@@ -20,6 +20,28 @@ services:
     networks:
       - arr-internal
 
+backup:
+  image: itzg/mc-backup:2026.9.1
+  container_name: mc-backup
+  restart: unless-stopped
+  depends_on:
+    - mc
+  user: "568:568"
+  secrets:
+    - rcon_password
+  environment:
+      RCON_HOST: "localhost"
+      RCON_PASSWORD_FILE: "/run/secrets/rcon_password"
+      TZ: "Europe/Stockholm"
+      BACKUP_METHOD: "rsync"
+      LINK_LATEST: "true"
+      BACKUP_INTERVAL: "6h"
+      INITIAL_DELAY: "2m"
+      BACKUP_ON_STARTUP: "true"
+  volumes:
+    - ${MC_ROOT}/data:/data:ro
+    - ${MC_ROOT}/backups:/backups
+
   mc:
     image: itzg/minecraft-server:2026.9.1-java25
     container_name: mc
