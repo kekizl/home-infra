@@ -32,7 +32,7 @@ services:
       EULA: "TRUE"
       DIFFICULTY: "normal"
       MEMORY: "4G"
-      RCON_PASSWORD_FILE: "/run/secrets/rcon_password" 
+      RCON_PASSWORD_FILE: "/run/secrets/rcon_password"
       UID: "568"
       GID: "568"
       TZ: "Europe/Stockholm"
