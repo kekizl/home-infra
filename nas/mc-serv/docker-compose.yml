@@ -30,7 +30,7 @@ services:
     secrets:
       - rcon_password
     environment:
-      RCON_HOST: "localhost"
+      RCON_HOST: "127.0.0.1"
       RCON_PASSWORD_FILE: "/run/secrets/rcon_password"
       TZ: "Europe/Stockholm"
       BACKUP_METHOD: "rsync"
