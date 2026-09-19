@@ -23,6 +23,7 @@ services:
   backup:
     image: itzg/mc-backup:2026.9.1
     container_name: mc-backup
+    network_mode: service:ts-mc
     restart: unless-stopped
     depends_on:
       - mc
