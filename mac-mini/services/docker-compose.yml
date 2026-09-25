@@ -1,7 +1,7 @@
 services:
 
   ts-openwebui:
-    image: tailscale/tailscale:v1.102.4
+    image: tailscale/tailscale:v1.102.5
     container_name: ts-openwebui
     hostname: openwebui
     secrets:
@@ -19,7 +19,7 @@ services:
     restart: unless-stopped
 
   openwebui:
-    image: ghcr.io/open-webui/open-webui:v0.11.3
+    image: ghcr.io/open-webui/open-webui:v0.11.4
     container_name: openwebui
     restart: unless-stopped
     network_mode: service:ts-openwebui
@@ -35,7 +35,7 @@ services:
       - "docker-volume-backup.stop-during-backup=true"
 
   ts-homepage:
-    image: tailscale/tailscale:v1.102.4
+    image: tailscale/tailscale:v1.102.5
     container_name: ts-homepage
     hostname: homepage                     # becomes homepage.<tailnet>.ts.net
     secrets:
@@ -75,7 +75,7 @@ services:
       - "docker-volume-backup.stop-during-backup=true"
 
   ts-vaultwarden:
-    image: tailscale/tailscale:v1.102.4
+    image: tailscale/tailscale:v1.102.5
     container_name: ts-vaultwarden
     hostname: vaultwarden
     secrets:
@@ -111,7 +111,7 @@ services:
       - "docker-volume-backup.stop-during-backup=true"
 
   renovate:
-    image: renovate/renovate:44.103.1
+    image: renovate/renovate:44.115.9
     container_name: renovate
     restart: no
     security_opt:

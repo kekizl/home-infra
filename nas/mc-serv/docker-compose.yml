@@ -1,6 +1,6 @@
 services:
   ts-mc:
-    image: tailscale/tailscale:v1.102.3
+    image: tailscale/tailscale:v1.102.5
     container_name: ts-mc
     hostname: mc
     secrets:
@@ -21,7 +21,7 @@ services:
       - mc-net
 
   backup:
-    image: itzg/mc-backup:2026.9.1
+    image: itzg/mc-backup:2026.9.2
     container_name: mc-backup
     network_mode: service:ts-mc
     restart: unless-stopped
@@ -44,7 +44,7 @@ services:
       - ${MC_ROOT}/backups:/backups
 
   mc:
-    image: itzg/minecraft-server:2026.9.1-java25
+    image: itzg/minecraft-server:2026.9.2-java25
     container_name: mc
     network_mode: service:ts-mc
     depends_on:
