@@ -21,7 +21,7 @@ services:
       - mc-net
 
   backup:
-    image: itzg/mc-backup:2026.9.2
+    image: itzg/mc-backup:2026.9.3
     container_name: mc-backup
     network_mode: service:ts-mc
     restart: unless-stopped
