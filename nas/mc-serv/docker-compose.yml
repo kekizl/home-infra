@@ -44,7 +44,7 @@ services:
       - ${MC_ROOT}/backups:/backups
 
   mc:
-    image: itzg/minecraft-server:2026.9.2-java25
+    image: itzg/minecraft-server:2026.10.0-java25
     container_name: mc
     network_mode: service:ts-mc
     depends_on:
