@@ -2,7 +2,7 @@ version: "3.8"
 
 services:
   ts-syncthing:
-    image: tailscale/tailscale:v1.102.5
+    image: tailscale/tailscale:v1.104.1
     container_name: ts-syncthing
     hostname: syncthing
     secrets:
@@ -20,7 +20,7 @@ services:
     restart: unless-stopped
 
   syncthing:
-    image: ghcr.io/vaskozl/syncthing:2.1.1@sha256:c8d0e573a419e80f0247ec7b1f3d726698d461f2070777cef7025b1b5c3de8ac
+    image: ghcr.io/vaskozl/syncthing:2.1.6@sha256:aef40d951e3ea67f41e31d4c7643ad9c66efdb3a047ca35a58ddeab8d5b80a57
     container_name: syncthing
     restart: unless-stopped
     network_mode: service:ts-syncthing

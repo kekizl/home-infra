@@ -1,6 +1,6 @@
 services:
   ts-qbittorrent:
-    image: tailscale/tailscale:v1.102.5
+    image: tailscale/tailscale:v1.104.1
     container_name: ts-qbittorrent
     hostname: qbittorrent
     secrets:
@@ -21,7 +21,7 @@ services:
       - arr-internal
 
   qbittorrent:
-    image: ghcr.io/vaskozl/qbittorrent-nox:5.2.3
+    image: ghcr.io/vaskozl/qbittorrent-nox:5.2.4
     container_name: qbittorrent
     network_mode: service:ts-qbittorrent
     depends_on:
@@ -38,7 +38,7 @@ services:
     restart: unless-stopped
 
   ts-prowlarr:
-    image: tailscale/tailscale:v1.102.5
+    image: tailscale/tailscale:v1.104.1
     container_name: ts-prowlarr
     hostname: prowlarr
     secrets:
@@ -72,7 +72,7 @@ services:
     restart: unless-stopped
 
   ts-lidarr:
-    image: tailscale/tailscale:v1.102.5
+    image: tailscale/tailscale:v1.104.1
     container_name: ts-lidarr
     hostname: lidarr
     secrets:
