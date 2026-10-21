@@ -26,7 +26,7 @@ notify_discord() {
 PRIMARY_REPO="${RESTIC_REPOSITORY}"
 OFFSITE_REPO="${OFFSITE_REPOSITORY}"
 
-BACKUP_SOURCES="/backup/openwebui /backup/grafana /backup/uptime-kuma /backup/vaultwarden /backup/adguard-conf /backup/obsidian"
+BACKUP_SOURCES="/backup/grafana /backup/uptime-kuma /backup/vaultwarden /backup/adguard-conf /backup/obsidian"
 RETENTION="--keep-daily 7 --keep-weekly 4 --keep-monthly 3"
 LABEL="docker-volume-backup.stop-during-backup=true"
 
