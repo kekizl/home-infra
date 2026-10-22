@@ -20,7 +20,7 @@ services:
     restart: unless-stopped
 
   syncthing:
-    image: ghcr.io/vaskozl/syncthing:2.1.6@sha256:aef40d951e3ea67f41e31d4c7643ad9c66efdb3a047ca35a58ddeab8d5b80a57
+    image: ghcr.io/vaskozl/syncthing:2.1.6@sha256:b01047218f80537cc8e3fe2207d06255d6e7efc8c17d4178406adb6305f1f45a
     container_name: syncthing
     restart: unless-stopped
     network_mode: service:ts-syncthing
