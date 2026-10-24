@@ -1,6 +1,6 @@
 services:
   ts-mc:
-    image: tailscale/tailscale:v1.104.1
+    image: tailscale/tailscale:v1.104.2
     container_name: ts-mc
     hostname: mc
     secrets:
