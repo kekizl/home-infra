@@ -9,7 +9,7 @@ discovery.relabel "containers" {
   // STAGE 3: delete this rule to collect from everything.
   rule {
     source_labels = ["__meta_docker_container_name"]
-    regex         = "/prometheus"
+    regex         = "/(prometheus|cadvisor)"
     action        = "keep"
   }
 
