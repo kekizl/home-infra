@@ -32,6 +32,7 @@ services:
       - ts-homepage
     volumes:
       - ${INFRA_ROOT}/mac-mini/services/homepage/config:/app/config:ro
+      - ${INFRA_ROOT}/mac-mini/services/homepage/images:/app/public/images
     restart: unless-stopped
     environment:
       HOMEPAGE_ALLOWED_HOSTS: homepage.${TS_TAILNET}.ts.net
