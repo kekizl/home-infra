@@ -139,7 +139,7 @@ services:
 
   # ---- Loki ----
   ts-loki:
-    image: tailscale/tailscale:v1.104.1
+    image: tailscale/tailscale:v1.104.2
     container_name: ts-loki
     hostname: loki
     secrets:
