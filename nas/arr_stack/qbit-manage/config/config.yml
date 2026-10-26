@@ -80,6 +80,6 @@ webhooks:
 orphaned:
   empty_after_x_days: 2
   exclude_patterns:
-  max_orphaned_files_to_delete: 1500
+  max_orphaned_files_to_delete: 500
 
   min_file_age_minutes: 0
