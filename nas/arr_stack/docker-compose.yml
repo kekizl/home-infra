@@ -121,7 +121,7 @@ services:
     image: ghcr.io/stuffanthings/qbit_manage:v4.14.0
     container_name: qbit-manage
     env_file:
-      - ${INFRA_ROOT}/secrets/qbt.enc.env
+      - ../../secrets/qbt.enc.env
     environment:
       - PUID=568
       - PGID=568
