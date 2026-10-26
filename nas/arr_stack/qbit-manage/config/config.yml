@@ -12,7 +12,7 @@ commands:
     skip_cleanup: false
     skip_qb_version_check: false
 qbt:
-    host: ts-qbittorrent:55555
+    host: "ts-qbittorrent:55555"
     user: !ENV QBT_USER
     pass: !ENV QBT_PASS
 settings:
