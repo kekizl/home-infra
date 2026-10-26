@@ -1,72 +1,85 @@
 commands:
-    dry_run: true
-    cross_seed: false
-    recheck: false
-    cat_update: false
-    tag_update: false
-    rem_unregistered: true
-    tag_tracker_error: false
-    rem_orphaned: true
-    tag_nohardlinks: true
-    share_limits: true
-    skip_cleanup: false
-    skip_qb_version_check: false
+  dry_run: false
+  cross_seed: false
+  recheck: false
+  cat_update: false
+  tag_update: false
+  rem_unregistered: true
+  tag_tracker_error: false
+  rem_orphaned: true
+  tag_nohardlinks: true
+  share_limits: true
+  skip_cleanup: false
+  skip_qb_version_check: false
 qbt:
-    host: "ts-qbittorrent:55555"
-    user: !ENV QBT_USER
-    pass: !ENV QBT_PASS
+  host: ts-qbittorrent:55555
+  user: !ENV QBT_USER
+  pass: !ENV QBT_PASS
 settings:
-    force_auto_tmm: false
-    tracker_error_tag: issue
-    nohardlinks_tag: noHL
-    share_limits_suffix_tag: share_limit
-    ignoreTags_OnUpdate:
-        - noHL
-        - issue
-        - cross-seed
-    stalled_tag: stalledDL
-    tag_stalled_torrents: true    
+  force_auto_tmm: false
+  tracker_error_tag: issue
+  nohardlinks_tag: noHL
+  stalled_tag: stalledDL
+  private_tag:
+  share_limits_tag: ~share_limit
+  share_limits_min_seeding_time_tag: MinSeedTimeNotReached
+  share_limits_min_num_seeds_tag: MinSeedsNotMet
+  share_limits_last_active_tag: LastActiveLimitNotReached
+  cat_filter_completed: true
+  share_limits_filter_completed: true
+  tag_nohardlinks_filter_completed: true
+  rem_unregistered_filter_completed: false
+  cat_update_all: true
+  force_auto_tmm_ignore_tags: []
+  disable_qbt_default_share_limits: true
+  tag_stalled_torrents: true
+  rem_unregistered_ignore_list: []
+  rem_unregistered_grace_minutes: 10
+  rem_unregistered_max_torrents: 10
 directory:
-    root_dir: /downloads/
-    orphaned_dir: /downloads/orphaned_data
-    recycle_bin: /downloads/.RecycleBin
+  root_dir: /downloads/
+  orphaned_dir: /downloads/orphaned_data
+  recycle_bin: /downloads/.RecycleBin
+  torrents_dir:
 cat:
-    lidarr: /downloads
+  lidarr: /downloads
 tracker:
-    other:
-        tag: other
+  other:
+    tag: other
 nohardlinks:
-    - lidarr
+- lidarr
 share_limits:
-    noHL:
-        priority: 1
-        include_all_tags:
-            - noHL
-        categories:
-            - lidarr
-        max_seeding_time: 6h
-        cleanup: true
+  noHL:
+    priority: 1
+    include_all_tags:
+    - noHL
+    categories:
+    - lidarr
+    max_seeding_time: 14d
+    cleanup: true
 recyclebin:
-    enabled: true
-    empty_after_x_days: 14
-    save_torrents: false
-    split_by_category: false
+  enabled: true
+  empty_after_x_days: 14
+  save_torrents: false
+  split_by_category: false
 webhooks:
-    error: null
-    run_start: null
-    run_end: null
-    function:
-        cross_seed: null
-        recheck: null
-        cat_update: null
-        tag_update: null
-        rem_unregistered: null
-        tag_tracker_error: null
-        rem_orphaned: null
-        tag_nohardlinks: null
-        cleanup_dirs: null
+  error:
+  run_start:
+  run_end:
+  function:
+    cross_seed:
+    recheck:
+    cat_update:
+    tag_update:
+    rem_unregistered:
+    tag_tracker_error:
+    rem_orphaned:
+    tag_nohardlinks:
+    cleanup_dirs:
+    share_limits:
 orphaned:
-    empty_after_x_days: 2
-    exclude_patterns: null
-    max_orphaned_files_to_delete: 500
+  empty_after_x_days: 2
+  exclude_patterns:
+  max_orphaned_files_to_delete: 100
 
+  min_file_age_minutes: 0
