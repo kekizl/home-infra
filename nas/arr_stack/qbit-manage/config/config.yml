@@ -12,9 +12,9 @@ commands:
     skip_cleanup: false
     skip_qb_version_check: false
 qbt:
-    host: ENC[AES256_GCM,data:poCln926OIwjU/G6FmXDF7hwSR0=,iv:s2L1/URcp9EN8Vis905+qBD3zry0NTb1Gvb2/xjAnog=,tag:MAZeMI88JOuZOxNXNvb7PA==,type:str]
-    user: ENC[AES256_GCM,data:6jNupO4=,iv:SvoGZMGDJxEbM0Jv7wIXiHb/Ae1PnlPvzrDxHvG9j5w=,tag:JgLMmH29/EW6GK1mPmAd4g==,type:str]
-    pass: ENC[AES256_GCM,data:59CoTJl6GwUsTpCAB4cr/Q==,iv:rI26/bgasJSTrPWQ5Hxmk3tEaSj0Z7so9vVUCjOiDek=,tag:XGwDNmkBTWThC4gH7ZRXxQ==,type:str]
+    host: ts-qbittorrent:55555
+    user: !ENV QBT_USER
+    pass: !ENV QBT_PASS
 settings:
     force_auto_tmm: false
     tracker_error_tag: issue
@@ -35,7 +35,7 @@ cat:
     lidarr: /downloads
 tracker:
     passthepopcorn:
-        tag: ENC[AES256_GCM,data:912/,iv:ib4di5Jxqk+B9WlVKlIxzS5t6bYy5r1Djkn48CxlD/A=,tag:QrKxzKfikeuatGmsvkdXtA==,type:str]
+        tag: PTP
     torrentleech:
         tag: TorrentLeech
     other:
@@ -74,18 +74,4 @@ orphaned:
     empty_after_x_days: 2
     exclude_patterns: null
     max_orphaned_files_to_delete: 500
-sops:
-    age:
-        - recipient: age10sgtrf8euyn5ph0qvvuy8vfvu9fs45d4e3yxheg0h2pdfluvns9s8a2qut
-          enc: |
-            -----BEGIN AGE ENCRYPTED FILE-----
-            YWdlLWVuY3J5cHRpb24ub3JnL3YxCi0+IFgyNTUxOSBDSTJhMEhJUjNnQTJvM3N5
-            aTBrV2F4d1NNcjJWUlVUazUzT1VMc05GVjBrCjBQaE9aeVRHWDBWajc1YnFycit2
-            WXZKVGdMWG9pb3MzV1FXUFZ3cFFjelEKLS0tIHlPZXJLWnd1Vng1NjlzSWJRMFpy
-            TWNjWUxiUlUyNE9rTjJ1ZXJqU3c3Z2MKNPmLJR52W139NBAjDuPVXl8ZIRcFbG/3
-            GOCr86Nq+1MIsvF5WTNuk8ZKrazzkXlO2KPwvhNgLT7NFwKhyJ/Duw==
-            -----END AGE ENCRYPTED FILE-----
-    lastmodified: "2026-07-26T16:38:35Z"
-    mac: ENC[AES256_GCM,data:Lt6GuPLOaWC7XR9MvSvTDoxMLEeig8ItHpjEzhYJCXIHrjasNwkMHNxq06fu4a+ZgkHp0NWKy/oXqJQoDQ0W3YX4ZwTg1ql6VGZUDiX6/tOR9Jomp4Tn38KFlh61m+sNUXKW0L/kRfJ9dak/EQo+/ZkAc/DCe1MW62yLWS/9OdM=,iv:TAl5MlhAwbWPPbcUsYhICgNSYjVNDcWdeH4TvFcvayo=,tag:5pCliraJNQK4HpiagQc4HA==,type:str]
-    encrypted_regex: (pass|user|host)
-    version: 3.12.2
+
