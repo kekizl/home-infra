@@ -1,5 +1,5 @@
 commands:
-    dry_run: false
+    dry_run: true
     cross_seed: false
     recheck: false
     cat_update: false
@@ -24,20 +24,15 @@ settings:
         - noHL
         - issue
         - cross-seed
+    stalled_tag: stalledDL
+    tag_stalled_torrents: true    
 directory:
     root_dir: /downloads/
-    remote_dir: /mnt/Pool/downloads/
     orphaned_dir: /downloads/orphaned_data
     recycle_bin: /downloads/.RecycleBin
-    cross_seed: null
-    torrents_dir: null
 cat:
     lidarr: /downloads
 tracker:
-    passthepopcorn:
-        tag: PTP
-    torrentleech:
-        tag: TorrentLeech
     other:
         tag: other
 nohardlinks:
@@ -49,7 +44,7 @@ share_limits:
             - noHL
         categories:
             - lidarr
-        max_seeding_time: 360
+        max_seeding_time: 6h
         cleanup: true
 recyclebin:
     enabled: true
