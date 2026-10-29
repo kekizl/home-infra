@@ -58,14 +58,12 @@ services:
       - arr-internal
 
   prowlarr:
-    image: lscr.io/linuxserver/prowlarr:2.7.0.5723-ls166
+    image: ghcr.io/vaskozl/prowlarr:2.6.6.5717-r0
     container_name: prowlarr
     network_mode: service:ts-prowlarr
     depends_on:
       - ts-prowlarr
     environment:
-      - PUID=568
-      - PGID=568
       - TZ=Europe/Stockholm
     volumes:
       - ${INFRA_ROOT}/nas/arr_stack/prowlarr/config:/config
