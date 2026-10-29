@@ -3,7 +3,7 @@ version: "3.8"
 services:
   # ---- Prometheus ----
   ts-prometheus:
-    image: tailscale/tailscale:v1.104.2
+    image: tailscale/tailscale:v1.104.4
     container_name: ts-prometheus
     hostname: prometheus
     secrets:
@@ -37,7 +37,7 @@ services:
 
   # ---- Grafana ----
   ts-grafana:
-    image: tailscale/tailscale:v1.104.2
+    image: tailscale/tailscale:v1.104.4
     container_name: ts-grafana
     hostname: grafana
     secrets:
@@ -55,7 +55,7 @@ services:
     restart: unless-stopped
 
   grafana:
-    image: ghcr.io/vaskozl/grafana:13.0.11
+    image: ghcr.io/vaskozl/grafana:13.0.12
     container_name: grafana
     restart: unless-stopped
     network_mode: service:ts-grafana
@@ -71,7 +71,7 @@ services:
 
   # ---- cAdvisor ----
   ts-cadvisor:
-    image: tailscale/tailscale:v1.104.2
+    image: tailscale/tailscale:v1.104.4
     container_name: ts-cadvisor
     hostname: cadvisor
     secrets:
@@ -104,7 +104,7 @@ services:
 
   # ---- node-exporter ----
   ts-node-exporter:
-    image: tailscale/tailscale:v1.104.2
+    image: tailscale/tailscale:v1.104.4
     container_name: ts-node-exporter
     hostname: node-exporter
     secrets:
@@ -139,7 +139,7 @@ services:
 
   # ---- Loki ----
   ts-loki:
-    image: tailscale/tailscale:v1.104.2
+    image: tailscale/tailscale:v1.104.4
     container_name: ts-loki
     hostname: loki
     secrets:
@@ -177,7 +177,7 @@ services:
 
   # ---- Alloy ----
   alloy:
-    image: grafana/alloy:v1.21.2
+    image: grafana/alloy:v1.21.3
     container_name: alloy
     security_opt:
       - no-new-privileges:true
@@ -197,7 +197,7 @@ services:
 
   # ---- uptime-kuma ----
   ts-uptime-kuma:
-    image: tailscale/tailscale:v1.104.2
+    image: tailscale/tailscale:v1.104.4
     container_name: ts-uptime-kuma
     hostname: uptime-kuma
     secrets:
@@ -215,7 +215,7 @@ services:
     restart: unless-stopped
 
   uptime-kuma:
-    image: louislam/uptime-kuma:2.5.7
+    image: louislam/uptime-kuma:2.5.8
     container_name: uptime-kuma
     restart: unless-stopped
     network_mode: service:ts-uptime-kuma
