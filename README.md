@@ -17,6 +17,7 @@ Services running on TrueNAS via Docker. This is the primary storage and media ho
 | Restic | Restic-Server, where I store snapshots |
 | Syncthing | For storing remote files when needed |
 | Prowlarr, Lidarr, qBittorrent | For automating my media library |
+| MC Server and Backups | For a fun forever-world |
 
 ### `mac-mini/`
 Services running on a Mac Mini.
@@ -82,6 +83,8 @@ home-infra/
 │   │   ├── Dockerfile.restic    # Custom Dockerfile for restic
 │   │   ├── restic-backup.sh     # Bash script to start, stop and backup relevant containers
 │   │   └── docker-compose.yml   # Restic Server
+│   ├── mc-serv/
+│   │   └── docker-compose.yml   # Minecraft Server and Backups
 │   └── nas-services/
 │       └── docker-compose.yml   # Immich, FreshRSS, Navidrome and Audiobookshelf and Otterwiki
 ├── secrets/                     # SOPS age encrypted secrets used in containers 
