@@ -138,62 +138,62 @@ services:
       - '--collector.filesystem.ignored-mount-points='
 
   # ---- Loki ----
-  ts-loki:
-    image: tailscale/tailscale:v1.104.4
-    container_name: ts-loki
-    hostname: loki
-    secrets:
-      - ts_authkey
-    environment:
-      - TS_AUTHKEY_FILE=/run/secrets/ts_authkey
-      - TS_STATE_DIR=/var/lib/tailscale
-      - TS_SERVE_CONFIG=/config/serve.json
-      - TS_USERSPACE=true
-    volumes:
-      - tailscale-data-loki:/var/lib/tailscale
-      - ${INFRA_ROOT}/mac-mini/monitoring/ts-loki-config:/config
-    cap_add:
-      - NET_ADMIN
-    restart: unless-stopped
+#  ts-loki:
+#    image: tailscale/tailscale:v1.104.4
+#    container_name: ts-loki
+#    hostname: loki
+#    secrets:
+#      - ts_authkey
+#    environment:
+#      - TS_AUTHKEY_FILE=/run/secrets/ts_authkey
+#      - TS_STATE_DIR=/var/lib/tailscale
+#      - TS_SERVE_CONFIG=/config/serve.json
+#      - TS_USERSPACE=true
+#    volumes:
+#      - tailscale-data-loki:/var/lib/tailscale
+#      - ${INFRA_ROOT}/mac-mini/monitoring/ts-loki-config:/config
+#    cap_add:
+#      - NET_ADMIN
+#    restart: unless-stopped
 
-  loki:
-    image: grafana/loki:3.7.9
-    container_name: loki
-    platform: linux/arm64
-    security_opt:
-      - no-new-privileges:true
-    cap_drop:
-      - ALL
-    restart: unless-stopped
-    network_mode: service:ts-loki
-    depends_on:
-      - ts-loki
-    command: ["-config.file=/etc/loki/config.yml"]
-    volumes:
-      - ${INFRA_ROOT}/mac-mini/monitoring/loki.yml:/etc/loki/config.yml:ro
-      - loki_data:/loki
-    labels:
-      - "docker-volume-backup.stop-during-backup=true"
+#  loki:
+#    image: grafana/loki:3.7.9
+#    container_name: loki
+#    platform: linux/arm64
+#    security_opt:
+#      - no-new-privileges:true
+#    cap_drop:
+#      - ALL
+#    restart: unless-stopped
+#    network_mode: service:ts-loki
+#    depends_on:
+#      - ts-loki
+#    command: ["-config.file=/etc/loki/config.yml"]
+#    volumes:
+#      - ${INFRA_ROOT}/mac-mini/monitoring/loki.yml:/etc/loki/config.yml:ro
+#      - loki_data:/loki
+#    labels:
+#      - "docker-volume-backup.stop-during-backup=true"
 
   # ---- Alloy ----
-  alloy:
-    image: grafana/alloy:v1.21.3
-    container_name: alloy
-    security_opt:
-      - no-new-privileges:true
-    cap_drop:
-      - ALL
-    restart: unless-stopped
-    depends_on:
-      - loki
-    command:
-      - run
-      - /etc/alloy/config.alloy
-      - --storage.path=/var/lib/alloy/data
-    volumes:
-      - ${INFRA_ROOT}/mac-mini/monitoring/config.alloy:/etc/alloy/config.alloy:ro
-      - /var/run/docker.sock:/var/run/docker.sock:ro
-      - alloy_data:/var/lib/alloy/data
+#  alloy:
+#    image: grafana/alloy:v1.21.3
+#    container_name: alloy
+#    security_opt:
+#      - no-new-privileges:true
+#    cap_drop:
+#      - ALL
+#    restart: unless-stopped
+#    depends_on:
+#      - loki
+#    command:
+#      - run
+#      - /etc/alloy/config.alloy
+#      - --storage.path=/var/lib/alloy/data
+#    volumes:
+#      - ${INFRA_ROOT}/mac-mini/monitoring/config.alloy:/etc/alloy/config.alloy:ro
+#      - /var/run/docker.sock:/var/run/docker.sock:ro
+#      - alloy_data:/var/lib/alloy/data
 
   # ---- uptime-kuma ----
   ts-uptime-kuma:
