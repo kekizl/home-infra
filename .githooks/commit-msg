@@ -1,0 +1,7 @@
+#!/usr/bin/env bash
+# Local commit-msg hook. Enable once per clone with:
+#   git config core.hooksPath .githooks
+set -euo pipefail
+
+header=$(grep -v '^#' "$1" | head -n 1 || true)
+exec bash "$(git rev-parse --show-toplevel)/scripts/validate-commit-msg.sh" "$header"

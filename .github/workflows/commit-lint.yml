@@ -1,0 +1,64 @@
+name: Commit Lint
+
+on:
+  pull_request:
+    branches: [main]
+    # 'edited' re-runs the check when the PR title changes
+    types: [opened, edited, synchronize, reopened]
+  push:
+    branches: [main]
+
+# Deliberately no paths-ignore: docs-only commits still need valid messages.
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
+
+permissions: {}
+
+jobs:
+  commit-lint:
+    name: Validate commit messages
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    permissions:
+      contents: read
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          persist-credentials: false
+
+      # Matters if you squash-merge: the PR title becomes the commit on main
+      # (and therefore the changelog entry).
+      - name: Validate PR title
+        if: github.event_name == 'pull_request'
+        env:
+          PR_TITLE: ${{ github.event.pull_request.title }}
+        run: bash ./scripts/validate-commit-msg.sh "$PR_TITLE"
+
+      - name: Validate commits
+        env:
+          BASE_SHA: ${{ github.event.pull_request.base.sha || github.event.before }}
+          HEAD_SHA: ${{ github.event.pull_request.head.sha || github.sha }}
+        run: |
+          set -euo pipefail
+
+          # New branch / force-push: 'before' is all zeros or missing, so check head only
+          if [[ "$BASE_SHA" =~ ^0+$ ]] || ! git cat-file -e "$BASE_SHA^{commit}" 2>/dev/null; then
+            range="-1 $HEAD_SHA"
+          else
+            range="$BASE_SHA..$HEAD_SHA"
+          fi
+
+          failed=0
+          while read -r sha; do
+            subject=$(git log -1 --format=%s "$sha")
+            echo "→ ${sha:0:7} $subject"
+            bash ./scripts/validate-commit-msg.sh "$subject" || failed=1
+          done < <(git rev-list --no-merges $range)
+
+          exit $failed
+
