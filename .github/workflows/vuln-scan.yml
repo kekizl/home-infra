@@ -67,11 +67,6 @@ jobs:
           version: v0.76.1
           cache: true
 
-      # -----------------------------------------------------------------------
-      # Dockerfile misconfiguration scan (e.g. running as root, :latest tags,
-      # missing HEALTHCHECK). Limited to the dockerfile scanner so other IaC
-      # files in the repo are not picked up.
-      # -----------------------------------------------------------------------
       - name: Scan Dockerfiles for misconfigurations
         run: |
           set -euo pipefail
@@ -105,30 +100,38 @@ jobs:
             --skip-dirs .git \
             .
 
-      # Images are resolved by Compose itself rather than grepping for
-      # "image:", so anchors, extends and multi-line YAML are handled.
-      # Images using ${VARS} (e.g. ${TAG:-latest}) are left unresolved by
-      # --no-interpolate and are skipped, with a notice in the log.
       - name: Discover images from Compose files
         if: ${{ !cancelled() }}
         run: |
           set -euo pipefail
-
+ 
           find . -type f \( \
             -name "docker-compose.yml" -o -name "docker-compose.yaml" -o \
             -name "compose.yml" -o -name "compose.yaml" \
           \) -not -path "./.git/*" | sort > "$RUNNER_TEMP/compose-files.txt"
-
+ 
           if [ ! -s "$RUNNER_TEMP/compose-files.txt" ]; then
             echo "⚠ No Compose files found"
             : > "$RUNNER_TEMP/images.txt"
             exit 0
           fi
-
+ 
+          # Read image: values straight from the YAML with yq. explode(.)
+          # expands anchors and merge keys. Unlike `docker compose config`,
+          # this does not fail on missing env_files or required variables.
+          : > "$RUNNER_TEMP/images.txt"
           while IFS= read -r file; do
-            docker compose -f "$file" config --images --no-interpolate 2>/dev/null || true
-          done < "$RUNNER_TEMP/compose-files.txt" | sort -u > "$RUNNER_TEMP/images.txt"
-
+            echo "→ $file"
+            images=$(yq 'explode(.) | .services[].image // ""' "$file" | grep -v '^$' || true)
+            if [ -z "$images" ]; then
+              echo "   (no image: entries – services may use build: only)"
+            else
+              echo "$images" | sed 's/^/   /'
+              echo "$images" >> "$RUNNER_TEMP/images.txt"
+            fi
+          done < "$RUNNER_TEMP/compose-files.txt"
+          sort -u "$RUNNER_TEMP/images.txt" -o "$RUNNER_TEMP/images.txt"
+ 
           echo "Discovered images:"
           sed 's/^/   - /' "$RUNNER_TEMP/images.txt"
 
