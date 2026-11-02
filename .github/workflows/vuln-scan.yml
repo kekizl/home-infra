@@ -1,0 +1,214 @@
+name: Trivy Scan & SBOM
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - '**/docker-compose.yml'
+      - '**/docker-compose.yaml'
+      - '**/compose.yml'
+      - '**/compose.yaml'
+      - '**/Dockerfile'
+      - '**/Dockerfile.*'
+      - '**/*.dockerfile'
+      - '**/*.Dockerfile'
+      - '.github/workflows/trivy-scan.yml'
+  pull_request:
+    branches: [main]
+    paths:
+      - '**/docker-compose.yml'
+      - '**/docker-compose.yaml'
+      - '**/compose.yml'
+      - '**/compose.yaml'
+      - '**/Dockerfile'
+      - '**/Dockerfile.*'
+      - '**/*.dockerfile'
+      - '**/*.Dockerfile'
+      - '.github/workflows/trivy-scan.yml'
+  # New CVEs are published against images that haven't changed, so also
+  # re-scan weekly (Mondays 06:00 UTC) and allow manual runs.
+  schedule:
+    - cron: '0 6 * * 1'
+  workflow_dispatch:
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
+
+permissions: {}
+
+jobs:
+  trivy-scan:
+    name: Scan Dockerfiles, Images & SBOMs
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    permissions:
+      contents: read
+
+    env:
+      # "0" = report only, "1" = fail the build when findings match SEVERITY.
+      # Switch to "1" once existing findings are triaged.
+      TRIVY_IMAGE_EXIT_CODE: "0"
+      # Same idea for Dockerfile misconfiguration findings.
+      TRIVY_DOCKERFILE_EXIT_CODE: "0"
+      SEVERITY: "CRITICAL,HIGH"
+      # Hide vulnerabilities that have no fix available yet (less noise).
+      IGNORE_UNFIXED: "true"
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+
+      - name: Install Trivy
+        uses: aquasecurity/setup-trivy@v0.2.6
+        with:
+          version: v0.76.1
+          cache: true
+
+      # -----------------------------------------------------------------------
+      # Dockerfile misconfiguration scan (e.g. running as root, :latest tags,
+      # missing HEALTHCHECK). Limited to the dockerfile scanner so other IaC
+      # files in the repo are not picked up.
+      # -----------------------------------------------------------------------
+      - name: Scan Dockerfiles for misconfigurations
+        run: |
+          set -euo pipefail
+
+          found=$(find . -type f \( -name "Dockerfile" -o -name "Dockerfile.*" -o -iname "*.dockerfile" \) \
+            -not -path "./.git/*" -print -quit)
+
+          if [ -z "$found" ]; then
+            echo "⚠ No Dockerfiles found – skipping"
+            exit 0
+          fi
+
+          mkdir -p trivy-reports
+
+          # Machine-readable report first (never blocks)
+          trivy config \
+            --misconfig-scanners dockerfile \
+            --severity "$SEVERITY" \
+            --format json \
+            --output trivy-reports/dockerfile-misconfig.json \
+            --exit-code 0 \
+            --skip-dirs .git \
+            .
+
+          # Human-readable table; exit code controlled by TRIVY_DOCKERFILE_EXIT_CODE
+          trivy config \
+            --misconfig-scanners dockerfile \
+            --severity "$SEVERITY" \
+            --format table \
+            --exit-code "$TRIVY_DOCKERFILE_EXIT_CODE" \
+            --skip-dirs .git \
+            .
+
+      # Images are resolved by Compose itself rather than grepping for
+      # "image:", so anchors, extends and multi-line YAML are handled.
+      # Images using ${VARS} (e.g. ${TAG:-latest}) are left unresolved by
+      # --no-interpolate and are skipped, with a notice in the log.
+      - name: Discover images from Compose files
+        if: ${{ !cancelled() }}
+        run: |
+          set -euo pipefail
+
+          find . -type f \( \
+            -name "docker-compose.yml" -o -name "docker-compose.yaml" -o \
+            -name "compose.yml" -o -name "compose.yaml" \
+          \) -not -path "./.git/*" | sort > "$RUNNER_TEMP/compose-files.txt"
+
+          if [ ! -s "$RUNNER_TEMP/compose-files.txt" ]; then
+            echo "⚠ No Compose files found"
+            : > "$RUNNER_TEMP/images.txt"
+            exit 0
+          fi
+
+          while IFS= read -r file; do
+            docker compose -f "$file" config --images --no-interpolate 2>/dev/null || true
+          done < "$RUNNER_TEMP/compose-files.txt" | sort -u > "$RUNNER_TEMP/images.txt"
+
+          echo "Discovered images:"
+          sed 's/^/   - /' "$RUNNER_TEMP/images.txt"
+
+      - name: Scan images and generate SBOMs
+        if: ${{ !cancelled() }}
+        run: |
+          set -euo pipefail
+
+          if [ ! -s "$RUNNER_TEMP/images.txt" ]; then
+            echo "⚠ No images to scan – skipping"
+            exit 0
+          fi
+
+          mkdir -p trivy-sboms trivy-reports
+
+          EXTRA_ARGS=()
+          if [ "$IGNORE_UNFIXED" = "true" ]; then
+            EXTRA_ARGS+=(--ignore-unfixed)
+          fi
+
+          SCAN_FAILED=0
+
+          while IFS= read -r img; do
+            if [[ -z "$img" || "$img" == *'$'* ]]; then
+              echo "::notice::Skipping unresolved image reference: $img"
+              continue
+            fi
+
+            safe_name=$(echo "$img" | tr '/:@' '___')
+            echo "::group::$img"
+
+            # Human-readable table; exit code controlled by TRIVY_IMAGE_EXIT_CODE
+            trivy image \
+              --scanners vuln \
+              --severity "$SEVERITY" \
+              "${EXTRA_ARGS[@]}" \
+              --format table \
+              --exit-code "$TRIVY_IMAGE_EXIT_CODE" \
+              "$img" || SCAN_FAILED=1
+
+            # Machine-readable vulnerability report (never blocks)
+            trivy image \
+              --scanners vuln \
+              --severity "$SEVERITY" \
+              "${EXTRA_ARGS[@]}" \
+              --format json \
+              --output "trivy-reports/${safe_name}-vuln.json" \
+              --exit-code 0 \
+              "$img" || true
+
+            # CycloneDX SBOM (full inventory, not filtered by severity)
+            trivy image \
+              --format cyclonedx \
+              --output "trivy-sboms/${safe_name}-sbom.cdx.json" \
+              "$img" || true
+
+            echo "::endgroup::"
+          done < "$RUNNER_TEMP/images.txt"
+
+          if [ "$SCAN_FAILED" -eq 1 ]; then
+            echo "❌ Vulnerabilities matching $SEVERITY found (TRIVY_IMAGE_EXIT_CODE=$TRIVY_IMAGE_EXIT_CODE)"
+            exit 1
+          fi
+          echo "✅ Scan complete"
+
+      # always() so reports and SBOMs are kept even when the gate fails.
+      - name: Upload SBOMs
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: sboms
+          path: trivy-sboms/
+          if-no-files-found: ignore
+          retention-days: 10
+
+      - name: Upload vulnerability reports
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: trivy-vulnerability-reports
+          path: trivy-reports/
+          if-no-files-found: ignore
+          retention-days: 10
