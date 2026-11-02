@@ -61,4 +61,3 @@ jobs:
           done < <(git rev-list --no-merges $range)
 
           exit $failed
-
