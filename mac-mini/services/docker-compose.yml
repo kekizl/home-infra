@@ -36,7 +36,7 @@ services:
     restart: unless-stopped
     environment:
       HOMEPAGE_ALLOWED_HOSTS: homepage.${TS_TAILNET}.ts.net
-      PGHOMEPAGE_VAR_YOURVAR: value # optional env vars for secrets
+      PGHOMEPAGE_VAR_YOURVAR: value  # optional env vars for secrets
     labels:
       - "docker-volume-backup.stop-during-backup=true"
 
@@ -158,7 +158,7 @@ secrets:
     file: ../../secrets/restic.enc.txt
   discord-webhook:
     file: ../../secrets/discord-webhook.enc.txt
-  renovate-token: #to create the pull requests
+  renovate-token:  # to create the pull requests
     file: ../../secrets/renovate-token.enc.txt
   vw-admin-token:
     file: ../../secrets/vw-admin-token.enc.txt

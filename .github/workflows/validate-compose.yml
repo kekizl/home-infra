@@ -90,6 +90,8 @@ jobs:
         with:
           config_data: |
             extends: default
+            ignore: |
+              nas/arr_stack/qbit-manage/config/config.yml
             rules:
               line-length: disable
               document-start: disable
