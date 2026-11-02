@@ -1,5 +1,6 @@
 {
   "extends": ["config:recommended"],
+  "semanticCommits": "enabled",
   "enabledManagers": ["docker-compose"],
   "timezone": "Europe/Stockholm",
   "dependencyDashboard": true,
