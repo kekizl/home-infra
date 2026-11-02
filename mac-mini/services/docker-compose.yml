@@ -115,6 +115,12 @@ services:
       - restic-password
       - discord-webhook
     environment:
+      BACKUP_HOST: mac-mini
+      BACKUP_TAG: mac-mini
+      BACKUP_PATHS: >-
+        /backup/grafana /backup/uptime-kuma /backup/vaultwarden
+        /backup/adguard-conf /backup/obsidian
+      STOP_LABEL: docker-volume-backup.stop-during-backup=true
       RESTIC_REPOSITORY: "rest:http://192.168.0.41:8000/mac-mini"
       OFFSITE_REPOSITORY: "rest:https://chris:I09KNiU1toH8cnH8m2nw6BYfkibjbrcy@restic.sko.ai/chris/mac-mini"
       RESTIC_PASSWORD_FILE: /run/secrets/restic-password
@@ -129,11 +135,11 @@ services:
       # Docker socket (to stop containers)
       - /var/run/docker.sock:/var/run/docker.sock
       # Backup script
-      - ./restic-backup.sh:/backup.sh:ro
+      - ${INFRA_ROOT}/scripts/restic-backup.sh:/backup.sh:ro
     labels:
       # doco‑cd scheduled job configuration
       cd.doco.job.enabled: "true"
-      cd.doco.job.schedule: "0 3 * * *"          # daily at 3 am
+  #    cd.doco.job.schedule: "0 3 * * *"          # daily at 3 am
       cd.doco.job.execution_mode: "one_off"
       cd.doco.job.skip_running: "true"
 

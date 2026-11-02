@@ -20,12 +20,17 @@ services:
       - restic-password
       - discord-webhook
     environment:
+      BACKUP_HOST: truenas
+      BACKUP_TAG: nas
+      BACKUP_PATHS: >-
+        abs-config abs-metadata navidrome-data navidrome-music
+        immich-data immich-postgres syncthing-config mc-backups
       RESTIC_REPOSITORY: "rest:http://192.168.0.41:8000/nas"
       OFFSITE_REPOSITORY: "rest:https://chris:I09KNiU1toH8cnH8m2nw6BYfkibjbrcy@restic.sko.ai/chris/nas"
       RESTIC_PASSWORD_FILE: /run/secrets/restic-password
       DISCORD_WEBHOOK_FILE: /run/secrets/discord-webhook
     volumes:
-      - ./restic-backup.sh:/backup.sh:ro
+      - ${INFRA_ROOT}/scripts/restic-backup.sh:/backup.sh:ro
       - ${APPSTORAGE_ROOT}/Audiobookshelf/config/.zfs/snapshot:/snapshots/abs-config:ro
       - ${APPSTORAGE_ROOT}/Audiobookshelf/metadata/.zfs/snapshot:/snapshots/abs-metadata:ro
       - ${APPSTORAGE_ROOT}/Navidrome/data/.zfs/snapshot:/snapshots/navidrome-data:ro
@@ -36,7 +41,7 @@ services:
       - ${MC_ROOT}/backups/.zfs/snapshot:/snapshots/mc-backups:ro
     labels:
       cd.doco.job.enabled: "true"
-      cd.doco.job.schedule: "0 2 * * *"         # daily at 02:00
+    #  cd.doco.job.schedule: "0 2 * * *"         # daily at 02:00
       cd.doco.job.execution_mode: "one_off"
       cd.doco.job.skip_running: "true"
 
