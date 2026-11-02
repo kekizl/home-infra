@@ -16,7 +16,7 @@ Services running on TrueNAS via Docker. This is the primary storage and media ho
 | Otterwiki | Lightweight git based wiki for local use |
 | Restic | Restic-Server, where I store snapshots |
 | Syncthing | For storing remote files when needed |
-| Prowlarr, Lidarr, qBittorrent | For automating my media library |
+| Prowlarr, Lidarr, qBittorrent, qbit-manage | For automating my media library |
 | MC Server and Backups | For a fun forever-world |
 
 ### `mac-mini/`
@@ -38,7 +38,7 @@ All services are paired with a Tailscale sidecar. This gives each service a uniq
 
 ## How it works
 
-This repo uses a **GitOps** workflow — pushing to `main` is all that's needed to deploy or update services. Two tools work together to make this happen automatically:
+This repo uses a **GitOps** workflow — pushing to `main` is all that's needed to deploy or update services. The following tools work together to make this happen automatically:
 
 ### [Doco-CD](https://github.com/kimdre/doco-cd)
 Doco-CD is a lightweight GitOps tool that polls this repository every 30 minutes and automatically runs `docker compose up` when it detects changes on `main`. It is deployed via the root `docker-compose.yml` on each host.
@@ -54,46 +54,14 @@ Once Renovate merges an update into `main`, Doco-CD picks it up on its next poll
 Restic handles automated snapshot-based backups of service data across both hosts. On each host, a cron job managed by Doco-CD runs restic-backup.sh on a schedule, which stops the relevant containers, takes a snapshot, and restarts them. Snapshots from both hosts are sent to the Restic Server running on the NAS and to remote.
 A custom Dockerfile.restic is used to give the container the permissions needed to stop and start other Docker containers during the backup process and also to execute the script.
 
-## Repository structure
+### [SOPS](https://github.com/getsops/sops) with [age](https://github.com/FiloSottile/age)
+SOPS encrypts secret files so they can be safely committed to this repository. Encryption uses age, a simple public/private key scheme: secrets are encrypted with a public key listed in `.sops.yaml`, and can only be decrypted with the matching private key. SOPS encrypts only the values and leaves keys readable, so diffs and PRs stay reviewable.
 
-```
-home-infra/
-├── docker-compose.yml        # Doco-CD itself
-├── mac-mini/
-│   ├── ha-stack/
-│   │   └── docker-compose.yml   # Home Assistant, Piper, Whisper
-│   ├── services/
-│   │   ├── Dockerfile.restic    # Custom Dockerfile to allow restic to start+stop containers
-│   │   ├── renovate-wrapper.sh  # Wrapper for Renovate to read my SOPS secrets.
-│   │   ├── restic-backup.sh     # Bash script to start, stop and backup relevant containers
-│   │   └── docker-compose.yml   # Homepage, Renovate, Restic and Vaultwarden
-│   ├── ai/
-│   ├── dns/
-│   │   └── docker-compose.yml   # Adguard Home
-│   └── monitoring/
-│       └── docker-compose.yml   # Uptime Kuma, Prometheus, Grafana
-├── nas/
-│   ├── arr_stack/
-│   │   └── docker-compose.yml   # Arr peripherals
-│   ├── monitoring/ 
-│   │   └── docker-compose.yml   # Node-Exporter
-│   ├── syncthing/
-│   │   └── docker-compose.yml   # Syncthing
-│   ├── restic/
-│   │   ├── Dockerfile.restic    # Custom Dockerfile for restic
-│   │   ├── restic-backup.sh     # Bash script to start, stop and backup relevant containers
-│   │   └── docker-compose.yml   # Restic Server
-│   ├── mc-serv/
-│   │   └── docker-compose.yml   # Minecraft Server and Backups
-│   └── nas-services/
-│       └── docker-compose.yml   # Immich, FreshRSS, Navidrome and Audiobookshelf and Otterwiki
-├── secrets/                     # SOPS age encrypted secrets used in containers 
-└── renovate.json                # Renovate configuration
-```
+Each host holds its own age private key outside the repo and passes it to the Doco-CD container. When Doco-CD deploys a stack, it decrypts any SOPS-encrypted files in memory and injects the secrets into the services. To add or change a secret, edit the file with `sops <file>`, commit the encrypted result and push to `main`.
 
 ## Secrets
 
-Secrets are **not stored in this repository**. Each host has a local `.env` file stored outside the repo that is mounted into the Doco-CD container. Services that require secrets reference them via an absolute `env_file` path pointing to this local file.
+Secrets are **not stored in this repository** apart from secrets encrypted with SOPS, see section above. Each host has a local `.env` file stored outside the repo that is mounted into the Doco-CD container. Services that require secrets reference them via an absolute `env_file` path pointing to this local file.
 
 ## Future Steps
 
@@ -101,5 +69,5 @@ Planned services and improvements to be added to the infrastructure:
 
 | Service | Host | Notes |
 |---|---|---|
-Adding Authelia for 2FA on all self hosted apps.
 Containerizing custom AI router
+System 1 Model real time log scanning
