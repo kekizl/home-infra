@@ -1,5 +1,2 @@
 FROM alpine:3.21
 RUN apk add --no-cache restic curl jq
-COPY restic-backup.sh /backup.sh
-RUN chmod +x /backup.sh
-
