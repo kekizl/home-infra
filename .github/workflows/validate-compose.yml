@@ -1,21 +1,129 @@
 name: Validate Compose Files
 
-on: [push, pull_request]
+on:
+  push:
+    branches: [main]
+    paths-ignore:
+      - '**.md'
+      - '.gitignore'
+      - 'LICENSE'
+  pull_request:
+    branches: [main]
+    paths-ignore:
+      - '**.md'
+      - '.gitignore'
+      - 'LICENSE'
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
+
+permissions: {}
 
 jobs:
   validate:
+    name: Validate Compose Files
     runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
+    timeout-minutes: 10
+    permissions:
+      contents: read
 
-      - name: Validate all compose files
+    env:
+      # Set to "true" to make compose-lint findings fail the build.
+      COMPOSE_LINT_ENFORCE: "false"
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+
+      # Find Compose files once and reuse the list in the checks below.
+      - name: Discover Compose files
         run: |
+          set -euo pipefail
           find . -type f \( \
-            -name "docker-compose.yml" -o \
-            -name "docker-compose.yaml" \
-          \) | while read -r file; do
+            -name "docker-compose.yml" -o -name "docker-compose.yaml" -o \
+            -name "compose.yml" -o -name "compose.yaml" \
+          \) -not -path "./.git/*" | sort > "$RUNNER_TEMP/compose-files.txt"
+
+          count=$(wc -l < "$RUNNER_TEMP/compose-files.txt")
+          echo "Found $count Compose file(s):"
+          cat "$RUNNER_TEMP/compose-files.txt"
+
+      # -----------------------------------------------------------------------
+      # Check 1: Compose schema, structure and references
+      # -----------------------------------------------------------------------
+      # Checks every file and reports all failures instead of stopping at the
+      # first. --no-interpolate keeps ${VARS} unresolved so unset CI env vars
+      # do not cause false failures.
+      - name: Validate Compose schema (docker compose config)
+        run: |
+          set -euo pipefail
+
+          if [ ! -s "$RUNNER_TEMP/compose-files.txt" ]; then
+            echo "⚠ No Compose files found – skipping"
+            exit 0
+          fi
+
+          FAILED=0
+          while IFS= read -r file; do
             echo "▶ Validating $file"
-            docker compose -f "$file" config --quiet --no-interpolate \
-              && echo "  ✓ OK" \
-              || { echo "  ✗ FAILED"; exit 1; }
-          done
+            if docker compose -f "$file" config --quiet --no-interpolate; then
+              echo "  ✓ OK"
+            else
+              echo "  ✗ FAILED"
+              FAILED=1
+            fi
+          done < "$RUNNER_TEMP/compose-files.txt"
+
+          exit "$FAILED"
+
+      # -----------------------------------------------------------------------
+      # Check 2: YAML syntax and style
+      # -----------------------------------------------------------------------
+      # !cancelled() lets this run even if the previous check failed, so you
+      # see every problem in a single run.
+      - name: Lint YAML (yamllint)
+        if: ${{ !cancelled() }}
+        uses: ibiqlik/action-yamllint@v3
+        with:
+          config_data: |
+            extends: default
+            rules:
+              line-length: disable
+              document-start: disable
+
+      # -----------------------------------------------------------------------
+      # Check 3: Security misconfigurations
+      # -----------------------------------------------------------------------
+      # Non-blocking by default. Set COMPOSE_LINT_ENFORCE to "true" at the top
+      # of the job once findings are fixed.
+      - name: Scan for security misconfigurations (compose-lint)
+        if: ${{ !cancelled() }}
+        run: |
+          set -euo pipefail
+
+          if [ ! -s "$RUNNER_TEMP/compose-files.txt" ]; then
+            echo "⚠ No Compose files found – skipping"
+            exit 0
+          fi
+
+          pip install --quiet compose-lint
+
+          FAILED=0
+          while IFS= read -r file; do
+            echo "▶ Scanning $file"
+            compose-lint "$file" || FAILED=1
+            echo
+          done < "$RUNNER_TEMP/compose-files.txt"
+
+          if [ "$FAILED" -eq 1 ]; then
+            if [ "$COMPOSE_LINT_ENFORCE" = "true" ]; then
+              echo "❌ compose-lint found security issues"
+              exit 1
+            fi
+            echo "⚠ compose-lint found security issues (non-blocking; set COMPOSE_LINT_ENFORCE=true to enforce)"
+          else
+            echo "✅ No Compose security issues found"
+          fi
