@@ -12,7 +12,7 @@ on:
       - '**/Dockerfile.*'
       - '**/*.dockerfile'
       - '**/*.Dockerfile'
-      - '.github/workflows/trivy-scan.yml'
+      - '.github/workflows/vuln-scan.yml'
   pull_request:
     branches: [main]
     paths:
@@ -24,7 +24,7 @@ on:
       - '**/Dockerfile.*'
       - '**/*.dockerfile'
       - '**/*.Dockerfile'
-      - '.github/workflows/trivy-scan.yml'
+      - '.github/workflows/vuln-scan.yml'
   # New CVEs are published against images that haven't changed, so also
   # re-scan weekly (Mondays 06:00 UTC) and allow manual runs.
   schedule:
