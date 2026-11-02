@@ -39,7 +39,7 @@ services:
       - ${APPSTORAGE_ROOT}/immich/immich_postgres16/.zfs/snapshot:/snapshots/immich-postgres:ro
       - ${APPSTORAGE_ROOT}/syncthing/config/.zfs/snapshot:/snapshots/syncthing-config:ro
       - ${MC_ROOT}/backups/.zfs/snapshot:/snapshots/mc-backups:ro
-    labels:
+    #labels:
     #  cd.doco.job.enabled: "true"
     #  cd.doco.job.schedule: "0 2 * * *"         # daily at 02:00
     #  cd.doco.job.execution_mode: "one_off"

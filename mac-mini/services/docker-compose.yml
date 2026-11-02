@@ -136,7 +136,7 @@ services:
       - /var/run/docker.sock:/var/run/docker.sock
       # Backup script
       - ${INFRA_ROOT}/scripts/restic-backup.sh:/backup.sh:ro
-    labels:
+  #  labels:
       # doco‑cd scheduled job configuration
   #    cd.doco.job.enabled: "true"
   #    cd.doco.job.schedule: "0 3 * * *"          # daily at 3 am
