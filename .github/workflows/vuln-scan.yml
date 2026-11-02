@@ -104,18 +104,17 @@ jobs:
         if: ${{ !cancelled() }}
         run: |
           set -euo pipefail
- 
           find . -type f \( \
             -name "docker-compose.yml" -o -name "docker-compose.yaml" -o \
             -name "compose.yml" -o -name "compose.yaml" \
           \) -not -path "./.git/*" | sort > "$RUNNER_TEMP/compose-files.txt"
- 
+
           if [ ! -s "$RUNNER_TEMP/compose-files.txt" ]; then
             echo "⚠ No Compose files found"
             : > "$RUNNER_TEMP/images.txt"
             exit 0
           fi
- 
+
           # Read image: values straight from the YAML with yq. explode(.)
           # expands anchors and merge keys. Unlike `docker compose config`,
           # this does not fail on missing env_files or required variables.
@@ -131,7 +130,7 @@ jobs:
             fi
           done < "$RUNNER_TEMP/compose-files.txt"
           sort -u "$RUNNER_TEMP/images.txt" -o "$RUNNER_TEMP/images.txt"
- 
+
           echo "Discovered images:"
           sed 's/^/   - /' "$RUNNER_TEMP/images.txt"
 
