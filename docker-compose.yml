@@ -13,6 +13,7 @@ services:
     ports:
       - "9080:80"  # optional health/metrics endpoint
     environment:
+      LOG_LEVEL: DEBUG
       PASS_ENV: "true"
       SOPS_AGE_KEY_FILE: /run/secrets/sops_age_key
       TZ: Europe/Stockholm
