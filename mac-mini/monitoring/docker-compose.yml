@@ -190,11 +190,11 @@ services:
     command:
       - run
       - /etc/alloy/config.alloy
-      - --storage.path=/var/lib/alloy/data
+      - --storage.path=/data
     volumes:
       - ${INFRA_ROOT}/mac-mini/monitoring/config.alloy:/etc/alloy/config.alloy:ro
       - /var/run/docker.sock:/var/run/docker.sock:ro
-      - ${INFRA_ROOT}/mac-mini/monitoring/alloy_data:/var/lib/alloy/data
+      - ${INFRA_ROOT}/mac-mini/monitoring/alloy_data:/data
 
   # ---- uptime-kuma ----
   ts-uptime-kuma:
