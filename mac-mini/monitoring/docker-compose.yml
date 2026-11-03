@@ -178,7 +178,6 @@ services:
   # ---- Alloy ----
   alloy:
     image: grafana/alloy:v1.21.3
-    user: "568:568"
     container_name: alloy
     security_opt:
       - no-new-privileges:true
