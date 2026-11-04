@@ -4,6 +4,10 @@ services:
   whisper:
     image: rhasspy/wyoming-whisper:3.8.1
     container_name: whisper
+    security_opt:
+      - no-new-privileges:true
+    cap_drop:
+      - ALL
     ports:
       - "10300:10300"
     volumes:
@@ -14,6 +18,10 @@ services:
   piper:
     image: rhasspy/wyoming-piper:2.5.2
     container_name: piper
+    security_opt:
+      - no-new-privileges:true
+    cap_drop:
+      - ALL
     ports:
       - "10200:10200"
     volumes:
@@ -24,6 +32,10 @@ services:
   openwakeword:
     image: rhasspy/wyoming-openwakeword:2.1.0
     container_name: openwakeword
+    security_opt:
+      - no-new-privileges:true
+    cap_drop:
+      - ALL
     ports:
       - "10400:10400"
     volumes:
