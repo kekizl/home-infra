@@ -63,6 +63,10 @@ services:
     container_name: vaultwarden
     restart: unless-stopped
     network_mode: service:ts-vaultwarden
+    security_opt:
+      - no-new-privileges:true
+    cap_drop:
+      - ALL
     depends_on:
       - ts-vaultwarden
     secrets:
