@@ -26,6 +26,10 @@ services:
     network_mode: service:ts-qbittorrent
     depends_on:
       - ts-qbittorrent
+    security_opt:
+      - no-new-privileges:true
+    cap_drop:
+      - ALL
     user: "568:568"
     environment:
       - HOME=/config
@@ -61,6 +65,10 @@ services:
     image: ghcr.io/vaskozl/prowlarr:2.6.6.5717-r0@sha256:184a374cf0e47c464b7d2c0d813c7f7877dd39f215c238a860f9a69022640d7d
     container_name: prowlarr
     network_mode: service:ts-prowlarr
+    security_opt:
+      - no-new-privileges:true
+    cap_drop:
+      - ALL
     depends_on:
       - ts-prowlarr
     environment:
@@ -95,6 +103,10 @@ services:
     network_mode: service:ts-lidarr
     depends_on:
       - ts-lidarr
+    security_opt:
+      - no-new-privileges:true
+    cap_drop:
+      - ALL
     environment:
       - TZ=Europe/Stockholm
     volumes:
@@ -116,6 +128,10 @@ services:
   qbit-manage:
     image: ghcr.io/stuffanthings/qbit_manage:v4.14.0@sha256:0153204c727b8cd219c87cd22d5e5833e392436923577455e3c84ceb73835c7d
     container_name: qbit-manage
+    security_opt:
+      - no-new-privileges:true
+    cap_drop:
+      - ALL
     env_file:
       - ../../secrets/qbt.enc.env
     environment:
