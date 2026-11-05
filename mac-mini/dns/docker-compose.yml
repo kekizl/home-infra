@@ -24,6 +24,10 @@ services:
     container_name: adguardhome
     restart: unless-stopped
     network_mode: service:ts-adguard
+    security_opt:
+      - no-new-privileges:true
+    cap_drop:
+      - ALL
     depends_on:
       - ts-adguard
     volumes:

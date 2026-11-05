@@ -28,6 +28,10 @@ services:
     depends_on:
       - mc
     user: "568:568"
+    security_opt:
+      - no-new-privileges:true
+    cap_drop:
+      - ALL
     secrets:
       - rcon_password
     environment:
@@ -49,6 +53,10 @@ services:
     network_mode: service:ts-mc
     depends_on:
       - ts-mc
+    security_opt:
+      - no-new-privileges:true
+    cap_drop:
+      - ALL
     secrets:
       - rcon_password
     environment:
