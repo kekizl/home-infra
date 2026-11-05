@@ -3,7 +3,7 @@ version: "3.8"
 services:
   # ---- node-exporter ----
   ts-nas-node-exporter:
-    image: tailscale/tailscale:v1.104.4
+    image: tailscale/tailscale:v1.104.4@sha256:ed6480b33c6eb67c9cbd203ed42b9fb57e361986725b6856def71b7a3d9e276c
     container_name: ts-nas-node-exporter
     hostname: nas-node-exporter
     secrets:
@@ -21,7 +21,7 @@ services:
     restart: unless-stopped
 
   node-exporter:
-    image: ghcr.io/vaskozl/prometheus-node-exporter:1.12.1
+    image: ghcr.io/vaskozl/prometheus-node-exporter:1.12.1@sha256:2635a9a7bbdad414f198234140ef9109a0bb8e8bea8a63a5e05d0515fa4d8f1d
     container_name: node-exporter
     restart: unless-stopped
     network_mode: service:ts-nas-node-exporter

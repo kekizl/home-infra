@@ -1,6 +1,6 @@
 services:
   ts-homepage:
-    image: tailscale/tailscale:v1.104.4
+    image: tailscale/tailscale:v1.104.4@sha256:ed6480b33c6eb67c9cbd203ed42b9fb57e361986725b6856def71b7a3d9e276c
     container_name: ts-homepage
     hostname: homepage                     # becomes homepage.<tailnet>.ts.net
     secrets:
@@ -20,7 +20,7 @@ services:
     restart: unless-stopped
 
   homepage:
-    image: ghcr.io/gethomepage/homepage:v2.7.0
+    image: ghcr.io/gethomepage/homepage:v2.7.0@sha256:19c5c09184458a41b7b5915e71463a39f36cd33540f41bdbed008791b8182d5f
     container_name: homepage
     user: "568:568"
     security_opt:
@@ -41,7 +41,7 @@ services:
       - "docker-volume-backup.stop-during-backup=true"
 
   ts-vaultwarden:
-    image: tailscale/tailscale:v1.104.4
+    image: tailscale/tailscale:v1.104.4@sha256:ed6480b33c6eb67c9cbd203ed42b9fb57e361986725b6856def71b7a3d9e276c
     container_name: ts-vaultwarden
     hostname: vaultwarden
     secrets:
@@ -59,7 +59,7 @@ services:
     restart: unless-stopped
 
   vaultwarden:
-    image: vaultwarden/server:1.37.5
+    image: vaultwarden/server:1.37.5@sha256:4fe17f415f90087377d37c755e0ea3cf189dcc6794e49cdd2a9adbb4937d9e1f
     container_name: vaultwarden
     restart: unless-stopped
     network_mode: service:ts-vaultwarden
@@ -81,7 +81,7 @@ services:
       - "docker-volume-backup.stop-during-backup=true"
 
   renovate:
-    image: renovate/renovate:44.210.0
+    image: renovate/renovate:44.210.0@sha256:59ee9d519b9fec428243f3b73f7fecebac59756888ce1838196bb5d40efe3559
     container_name: renovate
     restart: no
     security_opt:

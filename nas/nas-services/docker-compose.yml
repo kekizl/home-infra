@@ -2,7 +2,7 @@ version: '3.8'
 
 services:
   ts-immich:
-    image: tailscale/tailscale:v1.104.4
+    image: tailscale/tailscale:v1.104.4@sha256:ed6480b33c6eb67c9cbd203ed42b9fb57e361986725b6856def71b7a3d9e276c
     container_name: ts-immich
     hostname: immich
     secrets:
@@ -21,7 +21,7 @@ services:
 
   immich-server:
     container_name: immich_server
-    image: ghcr.io/immich-app/immich-server:v3.3.5
+    image: ghcr.io/immich-app/immich-server:v3.3.5@sha256:485d546a2e31d6a8b4db8423fcba5c109de8c218d93410af115fd1ccfc4352a6
     volumes:
       - ${APPSTORAGE_ROOT}/immich/data:/usr/src/app/upload
       - /etc/localtime:/etc/localtime:ro
@@ -38,7 +38,7 @@ services:
 
   immich-machine-learning:
     container_name: immich_machine_learning
-    image: ghcr.io/immich-app/immich-machine-learning:v3.3.5
+    image: ghcr.io/immich-app/immich-machine-learning:v3.3.5@sha256:5b28c9352c8374b8a1ed96fbdd8d6755fea6e43510ec43fdf6538aa02ea40f56
     env_file:
       - ./db_secrets.enc.env
     volumes:
@@ -47,12 +47,12 @@ services:
 
   redis:
     container_name: immich_redis
-    image: docker.io/valkey/valkey:9.1.3
+    image: docker.io/valkey/valkey:9.1.3@sha256:3add1a336a920ea54770a001ab6feb3da5fceea96a40373a3a2cd469b815f0b7
     restart: always
 
   database:
     container_name: immich_postgres
-    image: ghcr.io/immich-app/postgres:16-vectorchord0.4.3-pgvectors0.2.0
+    image: ghcr.io/immich-app/postgres:16-vectorchord0.4.3-pgvectors0.2.0@sha256:1a078b237c1d9b420b0ee59147386b4aa60d3a07a8e6a402fc84a57e41b043a4
     env_file:
       - ./db_secrets.enc.env
     environment:
@@ -65,7 +65,7 @@ services:
     restart: always
 
   ts-audiobookshelf:
-    image: tailscale/tailscale:v1.104.4
+    image: tailscale/tailscale:v1.104.4@sha256:ed6480b33c6eb67c9cbd203ed42b9fb57e361986725b6856def71b7a3d9e276c
     container_name: ts-audiobookshelf
     hostname: audiobookshelf
     secrets:
@@ -84,7 +84,7 @@ services:
 
   audiobookshelf:
     container_name: audiobookshelf
-    image: ghcr.io/advplyr/audiobookshelf:2.37.2
+    image: ghcr.io/advplyr/audiobookshelf:2.37.2@sha256:b897c33f05972fb1bf484f7487bc878fa91ec8691335c1db6e2929c3a7658efa
     user: "568:568"
     security_opt:
       - no-new-privileges:true
@@ -105,7 +105,7 @@ services:
     restart: unless-stopped
 
   ts-navidrome:
-    image: tailscale/tailscale:v1.104.4
+    image: tailscale/tailscale:v1.104.4@sha256:ed6480b33c6eb67c9cbd203ed42b9fb57e361986725b6856def71b7a3d9e276c
     container_name: ts-navidrome
     hostname: navidrome
     secrets:
@@ -123,7 +123,7 @@ services:
     restart: unless-stopped
 
   navidrome:
-    image: deluan/navidrome:0.64.2
+    image: deluan/navidrome:0.64.2@sha256:38dc2727bfcfd5ede290f8ada114fc90368146f265ae4701ddddbcbe2a44ee52
     container_name: navidrome
     network_mode: service:ts-navidrome
     depends_on:
@@ -144,7 +144,7 @@ services:
       - ${APPSTORAGE_ROOT}/Navidrome/music:/music:ro
 
   ts-freshrss:
-    image: tailscale/tailscale:v1.104.4
+    image: tailscale/tailscale:v1.104.4@sha256:ed6480b33c6eb67c9cbd203ed42b9fb57e361986725b6856def71b7a3d9e276c
     container_name: ts-freshrss
     hostname: freshrss
     secrets:
@@ -162,7 +162,7 @@ services:
     restart: unless-stopped
 
   freshrss:
-    image: lscr.io/linuxserver/freshrss:1.29.1
+    image: lscr.io/linuxserver/freshrss:1.29.1@sha256:7f7f276244da91720e40fee50dd0895b5d59d7888ea75a404ec7495c46fbfbb6
     container_name: freshrss
     network_mode: service:ts-freshrss
     environment:
@@ -176,7 +176,7 @@ services:
     restart: unless-stopped
 
   ts-otterwiki:
-    image: tailscale/tailscale:v1.104.4
+    image: tailscale/tailscale:v1.104.4@sha256:ed6480b33c6eb67c9cbd203ed42b9fb57e361986725b6856def71b7a3d9e276c
     container_name: ts-otterwiki
     hostname: otterwiki
     secrets:
@@ -194,7 +194,7 @@ services:
     restart: unless-stopped
 
   otterwiki:
-    image: redimp/otterwiki:2
+    image: redimp/otterwiki:2@sha256:adcee5acb165617fc47486c7549bbf5a64c0529fc2c439f08f9f27e5bbe1639c
     container_name: otterwiki
     restart: unless-stopped
     network_mode: service:ts-otterwiki
