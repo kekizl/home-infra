@@ -1,6 +1,6 @@
 services:
   ts-qbittorrent:
-    image: tailscale/tailscale:v1.104.4
+    image: tailscale/tailscale:v1.104.4@sha256:ed6480b33c6eb67c9cbd203ed42b9fb57e361986725b6856def71b7a3d9e276c
     container_name: ts-qbittorrent
     hostname: qbittorrent
     secrets:
@@ -21,7 +21,7 @@ services:
       - arr-internal
 
   qbittorrent:
-    image: ghcr.io/vaskozl/qbittorrent-nox:5.3.0
+    image: ghcr.io/vaskozl/qbittorrent-nox:5.3.0@sha256:ea1eef7fc05df59223cebdff87d2900d54225b535ca2ee26cac941918511dd65
     container_name: qbittorrent
     network_mode: service:ts-qbittorrent
     depends_on:
@@ -38,7 +38,7 @@ services:
     restart: unless-stopped
 
   ts-prowlarr:
-    image: tailscale/tailscale:v1.104.4
+    image: tailscale/tailscale:v1.104.4@sha256:ed6480b33c6eb67c9cbd203ed42b9fb57e361986725b6856def71b7a3d9e276c
     container_name: ts-prowlarr
     hostname: prowlarr
     secrets:
@@ -58,7 +58,7 @@ services:
       - arr-internal
 
   prowlarr:
-    image: ghcr.io/vaskozl/prowlarr:2.6.6.5717-r0
+    image: ghcr.io/vaskozl/prowlarr:2.6.6.5717-r0@sha256:184a374cf0e47c464b7d2c0d813c7f7877dd39f215c238a860f9a69022640d7d
     container_name: prowlarr
     network_mode: service:ts-prowlarr
     depends_on:
@@ -70,7 +70,7 @@ services:
     restart: unless-stopped
 
   ts-lidarr:
-    image: tailscale/tailscale:v1.104.4
+    image: tailscale/tailscale:v1.104.4@sha256:ed6480b33c6eb67c9cbd203ed42b9fb57e361986725b6856def71b7a3d9e276c
     container_name: ts-lidarr
     hostname: lidarr
     secrets:
@@ -90,7 +90,7 @@ services:
       - arr-internal
 
   lidarr:
-    image: ghcr.io/vaskozl/lidarr:3.2.0.5144-r0
+    image: ghcr.io/vaskozl/lidarr:3.2.0.5144-r0@sha256:3905c3d000f2c3fd2d6958b137b770a14bdec345a8305ffc67dcc80af4922f67
     container_name: lidarr
     network_mode: service:ts-lidarr
     depends_on:
@@ -104,7 +104,7 @@ services:
     restart: unless-stopped
 
   flaresolverr:
-    image: ghcr.io/flaresolverr/flaresolverr:v3.5.2
+    image: ghcr.io/flaresolverr/flaresolverr:v3.5.2@sha256:c80ae007ce2ccdcd217a12426e4f039ef763ff90738c808d38810c3e59323767
     container_name: flaresolverr
     environment:
       - LOG_LEVEL=info
@@ -114,7 +114,7 @@ services:
       - arr-internal
 
   qbit-manage:
-    image: ghcr.io/stuffanthings/qbit_manage:v4.14.0
+    image: ghcr.io/stuffanthings/qbit_manage:v4.14.0@sha256:0153204c727b8cd219c87cd22d5e5833e392436923577455e3c84ceb73835c7d
     container_name: qbit-manage
     env_file:
       - ../../secrets/qbt.enc.env

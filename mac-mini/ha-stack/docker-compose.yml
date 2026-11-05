@@ -2,7 +2,7 @@ version: "3.8"
 
 services:
   whisper:
-    image: rhasspy/wyoming-whisper:3.8.1
+    image: rhasspy/wyoming-whisper:3.8.1@sha256:ba6fcb6056ebe237d15a325381763a80af2fc8fcedaa04f6a714a7375eb20d80
     container_name: whisper
     security_opt:
       - no-new-privileges:true
@@ -16,7 +16,7 @@ services:
     restart: unless-stopped
 
   piper:
-    image: rhasspy/wyoming-piper:2.5.2
+    image: rhasspy/wyoming-piper:2.5.2@sha256:7d39aafac409c2b6b09d999ed04d84c311d632e558b35baa60fad6aac722af7a
     container_name: piper
     security_opt:
       - no-new-privileges:true
@@ -30,7 +30,7 @@ services:
     restart: unless-stopped
 
   openwakeword:
-    image: rhasspy/wyoming-openwakeword:2.1.0
+    image: rhasspy/wyoming-openwakeword:2.1.0@sha256:52cb1168731a1849fc28cf339c935fde58746bbabc94226668a40ef6ddf5d42b
     container_name: openwakeword
     security_opt:
       - no-new-privileges:true

@@ -3,7 +3,7 @@ version: "3.8"
 services:
   # ---- Prometheus ----
   ts-prometheus:
-    image: tailscale/tailscale:v1.104.4
+    image: tailscale/tailscale:v1.104.4@sha256:ed6480b33c6eb67c9cbd203ed42b9fb57e361986725b6856def71b7a3d9e276c
     container_name: ts-prometheus
     hostname: prometheus
     secrets:
@@ -21,7 +21,7 @@ services:
     restart: unless-stopped
 
   prometheus:
-    image: prom/prometheus:v3.15.1
+    image: prom/prometheus:v3.15.1@sha256:fa3302279710be2f21a8301ec17a8b4f2301fd829bd113839b3b6b02b6f191a2
     container_name: prometheus
     restart: unless-stopped
     network_mode: service:ts-prometheus
@@ -41,7 +41,7 @@ services:
 
   # ---- Grafana ----
   ts-grafana:
-    image: tailscale/tailscale:v1.104.4
+    image: tailscale/tailscale:v1.104.4@sha256:ed6480b33c6eb67c9cbd203ed42b9fb57e361986725b6856def71b7a3d9e276c
     container_name: ts-grafana
     hostname: grafana
     secrets:
@@ -59,7 +59,7 @@ services:
     restart: unless-stopped
 
   grafana:
-    image: ghcr.io/vaskozl/grafana:13.0.12
+    image: ghcr.io/vaskozl/grafana:13.0.12@sha256:6647e1e91d267d3ac5bf94baca08b3269606f1808f7f7c60a6694ccf22e8f993
     container_name: grafana
     restart: unless-stopped
     network_mode: service:ts-grafana
@@ -79,7 +79,7 @@ services:
 
   # ---- cAdvisor ----
   ts-cadvisor:
-    image: tailscale/tailscale:v1.104.4
+    image: tailscale/tailscale:v1.104.4@sha256:ed6480b33c6eb67c9cbd203ed42b9fb57e361986725b6856def71b7a3d9e276c
     container_name: ts-cadvisor
     hostname: cadvisor
     secrets:
@@ -97,7 +97,7 @@ services:
     restart: unless-stopped
 
   cadvisor:
-    image: gcr.io/cadvisor/cadvisor:v0.55.1
+    image: gcr.io/cadvisor/cadvisor:v0.55.1@sha256:3de2bd5203120b866d74a9b283b2ffb8ec382fbf9dc321814700c6ea6f44ec57
     container_name: cadvisor
     privileged: true
     restart: unless-stopped
@@ -112,7 +112,7 @@ services:
 
   # ---- node-exporter ----
   ts-node-exporter:
-    image: tailscale/tailscale:v1.104.4
+    image: tailscale/tailscale:v1.104.4@sha256:ed6480b33c6eb67c9cbd203ed42b9fb57e361986725b6856def71b7a3d9e276c
     container_name: ts-node-exporter
     hostname: node-exporter
     secrets:
@@ -130,7 +130,7 @@ services:
     restart: unless-stopped
 
   node-exporter:
-    image: ghcr.io/vaskozl/prometheus-node-exporter:1.12.1
+    image: ghcr.io/vaskozl/prometheus-node-exporter:1.12.1@sha256:2635a9a7bbdad414f198234140ef9109a0bb8e8bea8a63a5e05d0515fa4d8f1d
     container_name: node-exporter
     restart: unless-stopped
     network_mode: service:ts-node-exporter
@@ -205,7 +205,7 @@ services:
 
   # ---- uptime-kuma ----
   ts-uptime-kuma:
-    image: tailscale/tailscale:v1.104.4
+    image: tailscale/tailscale:v1.104.4@sha256:ed6480b33c6eb67c9cbd203ed42b9fb57e361986725b6856def71b7a3d9e276c
     container_name: ts-uptime-kuma
     hostname: uptime-kuma
     secrets:
@@ -223,7 +223,7 @@ services:
     restart: unless-stopped
 
   uptime-kuma:
-    image: louislam/uptime-kuma:2.5.9
+    image: louislam/uptime-kuma:2.5.9@sha256:e88415a90dd2f7efecdbc18de0490aff292764a3ac471531bf1d0481725591bd
     container_name: uptime-kuma
     restart: unless-stopped
     network_mode: service:ts-uptime-kuma
