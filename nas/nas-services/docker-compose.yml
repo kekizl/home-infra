@@ -194,7 +194,7 @@ services:
     restart: unless-stopped
 
   otterwiki:
-    image: redimp/otterwiki:2@sha256:adcee5acb165617fc47486c7549bbf5a64c0529fc2c439f08f9f27e5bbe1639c
+    image: redimp/otterwiki:2@sha256:74740588190fa25dcb01ba4bde11e53d7a3db544d25a8afcb2e385fb5fbce3d7
     container_name: otterwiki
     restart: unless-stopped
     network_mode: service:ts-otterwiki
