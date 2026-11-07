@@ -225,6 +225,7 @@ services:
     cap_add:
       - SETUID
       - SETGID
+      - CHOWN
     depends_on:
       - ts-otterwiki
     environment:
