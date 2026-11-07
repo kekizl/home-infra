@@ -5,6 +5,10 @@ services:
     image: tailscale/tailscale:v1.104.4@sha256:ed6480b33c6eb67c9cbd203ed42b9fb57e361986725b6856def71b7a3d9e276c
     container_name: ts-immich
     hostname: immich
+    security_opt:
+      - no-new-privileges:true
+    cap_drop:
+      - ALL
     secrets:
       - ts_authkey
     environment:
@@ -68,6 +72,10 @@ services:
     image: tailscale/tailscale:v1.104.4@sha256:ed6480b33c6eb67c9cbd203ed42b9fb57e361986725b6856def71b7a3d9e276c
     container_name: ts-audiobookshelf
     hostname: audiobookshelf
+    security_opt:
+      - no-new-privileges:true
+    cap_drop:
+      - ALL
     secrets:
       - ts_authkey
     environment:
@@ -108,6 +116,10 @@ services:
     image: tailscale/tailscale:v1.104.4@sha256:ed6480b33c6eb67c9cbd203ed42b9fb57e361986725b6856def71b7a3d9e276c
     container_name: ts-navidrome
     hostname: navidrome
+    security_opt:
+      - no-new-privileges:true
+    cap_drop:
+      - ALL
     secrets:
       - ts_authkey
     environment:
@@ -147,6 +159,10 @@ services:
     image: tailscale/tailscale:v1.104.4@sha256:ed6480b33c6eb67c9cbd203ed42b9fb57e361986725b6856def71b7a3d9e276c
     container_name: ts-freshrss
     hostname: freshrss
+    security_opt:
+      - no-new-privileges:true
+    cap_drop:
+      - ALL
     secrets:
       - ts_authkey
     environment:
@@ -179,6 +195,10 @@ services:
     image: tailscale/tailscale:v1.104.4@sha256:ed6480b33c6eb67c9cbd203ed42b9fb57e361986725b6856def71b7a3d9e276c
     container_name: ts-otterwiki
     hostname: otterwiki
+    security_opt:
+      - no-new-privileges:true
+    cap_drop:
+      - ALL
     secrets:
       - ts_authkey
     environment:
@@ -198,6 +218,10 @@ services:
     container_name: otterwiki
     restart: unless-stopped
     network_mode: service:ts-otterwiki
+    security_opt:
+      - no-new-privileges:true
+    cap_drop:
+      - ALL
     depends_on:
       - ts-otterwiki
     environment:
