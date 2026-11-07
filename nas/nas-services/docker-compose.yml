@@ -235,8 +235,6 @@ services:
       - DISABLE_REGISTRATION=False
       - AUTO_APPROVAL=False
       - EMAIL_NEEDS_CONFIRMATION=False
-    security_opt:
-      - no-new-privileges:true
     volumes:
       - ${INFRA_ROOT}/nas/nas-services/otterwiki:/app-data
 
