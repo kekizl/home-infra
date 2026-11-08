@@ -12,7 +12,6 @@ services:
       - no-new-privileges:true
     cap_drop:
       - ALL
-    secrets:
     environment:
       - TS_AUTHKEY_FILE=/run/secrets/ts_authkey
       - TS_STATE_DIR=/var/lib/tailscale
