@@ -4,6 +4,10 @@ services:
     container_name: restic-server
     restart: unless-stopped
     network_mode: host
+    security_opt:
+      - no-new-privileges:true
+    cap_drop:
+      - ALL
     user: "568:568"
     command: rest-server --listen :8000 --path /data --private-repos --no-auth
     volumes:
