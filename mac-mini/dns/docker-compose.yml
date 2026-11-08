@@ -19,8 +19,6 @@ services:
     volumes:
       - tailscale-data-adguard:/var/lib/tailscale
       - ${INFRA_ROOT}/mac-mini/dns/ts-adguard-config:/config          # mount folder for serve.json
-    cap_add:
-      - NET_ADMIN
     restart: unless-stopped
 
   adguard-home:
