@@ -19,8 +19,6 @@ services:
     volumes:
       - tailscale-data-syncthing:/var/lib/tailscale
       - ${INFRA_ROOT}/nas/syncthing/ts-syncthing-config:/config
-    cap_add:
-      - NET_ADMIN
     restart: unless-stopped
 
   syncthing:

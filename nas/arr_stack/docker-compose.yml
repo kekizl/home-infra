@@ -14,8 +14,6 @@ services:
     volumes:
       - tailscale-data-qbittorrent:/var/lib/tailscale
       - ${INFRA_ROOT}/nas/arr_stack/ts-qbittorrent-config:/config
-    cap_add:
-      - NET_ADMIN
     restart: unless-stopped
     networks:
       - arr-internal
@@ -55,8 +53,6 @@ services:
     volumes:
       - tailscale-data-prowlarr:/var/lib/tailscale
       - ${INFRA_ROOT}/nas/arr_stack/ts-prowlarr-config:/config
-    cap_add:
-      - NET_ADMIN
     restart: unless-stopped
     networks:
       - arr-internal
@@ -91,8 +87,6 @@ services:
     volumes:
       - tailscale-data-lidarr:/var/lib/tailscale
       - ${INFRA_ROOT}/nas/arr_stack/ts-lidarr-config:/config
-    cap_add:
-      - NET_ADMIN
     restart: unless-stopped
     networks:
       - arr-internal

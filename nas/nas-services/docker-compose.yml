@@ -19,8 +19,6 @@ services:
     volumes:
       - tailscale-data-immich:/var/lib/tailscale
       - ${INFRA_ROOT}/nas/nas-services/ts-immich-config:/config
-    cap_add:
-      - NET_ADMIN
     restart: unless-stopped
 
   immich-server:
@@ -86,8 +84,6 @@ services:
     volumes:
       - tailscale-data-audiobookshelf:/var/lib/tailscale
       - ${INFRA_ROOT}/nas/nas-services/ts-audiobookshelf-config:/config
-    cap_add:
-      - NET_ADMIN
     restart: unless-stopped
 
   audiobookshelf:
@@ -130,8 +126,6 @@ services:
     volumes:
       - tailscale-data-navidrome:/var/lib/tailscale
       - ${INFRA_ROOT}/nas/nas-services/ts-navidrome-config:/config
-    cap_add:
-      - NET_ADMIN
     restart: unless-stopped
 
   navidrome:
@@ -173,8 +167,6 @@ services:
     volumes:
       - tailscale-data-freshrss:/var/lib/tailscale
       - ${INFRA_ROOT}/nas/nas-services/ts-freshrss-config:/config
-    cap_add:
-      - NET_ADMIN
     restart: unless-stopped
 
   freshrss:
@@ -209,8 +201,6 @@ services:
     volumes:
       - tailscale-data-otterwiki:/var/lib/tailscale
       - ${INFRA_ROOT}/nas/nas-services/ts-otterwiki-config:/config
-    cap_add:
-      - NET_ADMIN
     restart: unless-stopped
 
   otterwiki:

@@ -18,8 +18,6 @@ services:
       - /dev/net/tun:/dev/net/tun
     volumes:
       - tailscale-data-mc:/var/lib/tailscale
-    cap_add:
-      - NET_ADMIN
     restart: unless-stopped
     networks:
       - mc-net
