@@ -19,8 +19,6 @@ services:
       - ${INFRA_ROOT}/mac-mini/services/ts-homepage-config:/config          # mount folder for serve.json
     devices:
       - /dev/net/tun:/dev/net/tun
-    cap_add:
-      - NET_ADMIN
     restart: unless-stopped
 
   homepage:
@@ -62,8 +60,6 @@ services:
     volumes:
       - tailscale-data-vaultwarden:/var/lib/tailscale
       - ${INFRA_ROOT}/mac-mini/services/ts-vaultwarden-config:/config
-    cap_add:
-      - NET_ADMIN
     restart: unless-stopped
 
   vaultwarden:

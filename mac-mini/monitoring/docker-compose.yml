@@ -20,8 +20,6 @@ services:
     volumes:
       - tailscale-data-prometheus:/var/lib/tailscale
       - ${INFRA_ROOT}/mac-mini/monitoring/ts-prometheus-config:/config
-    cap_add:
-      - NET_ADMIN
     restart: unless-stopped
 
   prometheus:
@@ -58,8 +56,6 @@ services:
     volumes:
       - tailscale-data-grafana:/var/lib/tailscale
       - ${INFRA_ROOT}/mac-mini/monitoring/ts-grafana-config:/config
-    cap_add:
-      - NET_ADMIN
     restart: unless-stopped
 
   grafana:
@@ -96,8 +92,6 @@ services:
     volumes:
       - tailscale-data-cadvisor:/var/lib/tailscale
       - ${INFRA_ROOT}/mac-mini/monitoring/ts-cadvisor-config:/config
-    cap_add:
-      - NET_ADMIN
     restart: unless-stopped
 
   cadvisor:
@@ -133,8 +127,6 @@ services:
     volumes:
       - tailscale-data-node-exporter:/var/lib/tailscale
       - ${INFRA_ROOT}/mac-mini/monitoring/ts-node-exporter-config:/config
-    cap_add:
-      - NET_ADMIN
     restart: unless-stopped
 
   node-exporter:
@@ -230,8 +222,6 @@ services:
     volumes:
       - tailscale-data-uptime-kuma:/var/lib/tailscale
       - ${INFRA_ROOT}/mac-mini/monitoring/ts-uptime-kuma-config:/config
-    cap_add:
-      - NET_ADMIN
     restart: unless-stopped
 
   uptime-kuma:
