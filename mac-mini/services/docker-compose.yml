@@ -122,6 +122,7 @@ services:
     secrets:
       - restic-password
       - discord-webhook
+      - restic-offsite-password
     environment:
       BACKUP_HOST: mac-mini
       BACKUP_TAG: mac-mini
@@ -130,12 +131,15 @@ services:
         /backup/adguard-conf /backup/obsidian
       STOP_LABEL: docker-volume-backup.stop-during-backup=true
       RESTIC_REPOSITORY: "rest:http://192.168.0.41:8000/mac-mini"
-      OFFSITE_REPOSITORY: "rest:https://chris:I09KNiU1toH8cnH8m2nw6BYfkibjbrcy@restic.sko.ai/chris/mac-mini"
+      OFFSITE_REPOSITORY: "rest:https://restic.sko.ai/chris/mac-mini"
+      OFFSITE_USER: chris
+      OFFSITE_PASSWORD_FILE: /run/secrets/restic-offsite-password
       RESTIC_PASSWORD_FILE: /run/secrets/restic-password
       DISCORD_WEBHOOK_FILE: /run/secrets/discord-webhook
     volumes:
       # Named volumes – direct, read‑only
       - monitoring_grafana_data:/backup/grafana:ro
+      - vaultwarden_data:/backup/vaultwarden:ro
       # Bind mounts – host paths
       - ${INFRA_ROOT}/mac-mini/data:/backup/uptime-kuma:ro
       - ${INFRA_ROOT}/mac-mini/dns/adguard/conf:/backup/adguard-conf:ro
@@ -146,10 +150,10 @@ services:
       - ${INFRA_ROOT}/scripts/restic-backup.sh:/backup.sh:ro
     labels:
       # doco‑cd scheduled job configuration
-      cd.doco.job.enabled: "true"
-      cd.doco.job.schedule: "0 3 * * *"          # daily at 3 am
-      cd.doco.job.execution_mode: "one_off"
-      cd.doco.job.skip_running: "true"
+      # cd.doco.job.enabled: "true"
+      # cd.doco.job.schedule: "0 3 * * *"          # daily at 3 am
+      # cd.doco.job.execution_mode: "one_off"
+      # cd.doco.job.skip_running: "true"
 
 volumes:
   tailscale-data-homepage:
@@ -164,6 +168,8 @@ secrets:
     file: ../../secrets/ts-authkey.enc.txt
   restic-password:
     file: ../../secrets/restic.enc.txt
+  restic-offsite-password:
+    file: ../../secrets/restic-offsite-password.enc.txt
   discord-webhook:
     file: ../../secrets/discord-webhook.enc.txt
   renovate-token:  # to create the pull requests

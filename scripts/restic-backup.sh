@@ -14,6 +14,7 @@ set -eu
 #   ZFS_SNAPSHOT_ROOT     default: /snapshots
 #   STOP_LABEL            docker label; matching containers are stopped during backup
 #   OFFSITE_REPOSITORY    if empty, offsite copy/prune is skipped
+#   OFFSITE_USER, OFFSITE_PASSWORD_FILE required if OFFSITE_REPOSITORY is set
 #   DISCORD_WEBHOOK_FILE  if missing, no notification is sent
 #   RETENTION             default: --keep-daily 7 --keep-weekly 4 --keep-monthly 3
 
@@ -72,7 +73,22 @@ cleanup() { restart_containers; rm -f "$CLEAN_PW"; }
 trap cleanup EXIT
 trap 'exit 143' INT TERM
 
-restic_offsite() { restic -r "$OFFSITE_REPO" "$@"; }
+# Offsite: OFFSITE_REPO is the clean URL (safe to log).
+# OFFSITE_REPO_AUTH embeds credentials and is only passed to restic.
+OFFSITE_REPO_AUTH="$OFFSITE_REPO"
+if [ -n "$OFFSITE_REPO" ] && [ -n "${OFFSITE_PASSWORD_FILE:-}" ]; then
+    if [ ! -f "$OFFSITE_PASSWORD_FILE" ]; then
+        log "FATAL: OFFSITE_PASSWORD_FILE set but $OFFSITE_PASSWORD_FILE not found"
+        notify_discord "❌ **Restic backup FAILED** \`${LABEL}\`: offsite password file missing"
+        exit 1
+    fi
+    : "${OFFSITE_USER:?OFFSITE_USER is required with OFFSITE_PASSWORD_FILE}"
+    OFFSITE_PASS=$(tr -d '[:space:]' < "$OFFSITE_PASSWORD_FILE")
+    OFFSITE_REPO_AUTH="${OFFSITE_REPO%%://*}://${OFFSITE_USER}:${OFFSITE_PASS}@${OFFSITE_REPO#*://}"
+    unset OFFSITE_PASS
+fi
+
+restic_offsite() { restic -r "$OFFSITE_REPO_AUTH" "$@"; }
 
 to_gib() { awk -v b="${1:-0}" 'BEGIN { printf "%.2f", b / 1073741824 }'; }
 
