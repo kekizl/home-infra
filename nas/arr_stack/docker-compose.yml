@@ -58,7 +58,7 @@ services:
       - arr-internal
 
   prowlarr:
-    image: ghcr.io/vaskozl/prowlarr:2.6.6.5717-r0@sha256:3b84e4618eca7393c8e916c3c889597755863624f42979c072f0bba77ba0c350
+    image: ghcr.io/vaskozl/prowlarr:2.6.6.5717-r0@sha256:068de4673984f04904b66a4383a1914faa0df1a614b82017ebc7b1cd36c9de81
     container_name: prowlarr
     network_mode: service:ts-prowlarr
     security_opt:
@@ -92,7 +92,7 @@ services:
       - arr-internal
 
   lidarr:
-    image: ghcr.io/vaskozl/lidarr:3.2.0.5144-r0@sha256:f6e9fb786bc963e6ac4c89e01b9fa035bc652ea506617c1aa10e9f40a13f6fe5
+    image: ghcr.io/vaskozl/lidarr:3.2.0.5144-r0@sha256:2e366ae7fce2760127cb144c2078b3b6fe5012816c7f5d2c83e2a4ead2bf42d2
     container_name: lidarr
     network_mode: service:ts-lidarr
     depends_on:
