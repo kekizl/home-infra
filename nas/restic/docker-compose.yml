@@ -23,6 +23,7 @@ services:
     secrets:
       - restic-password
       - discord-webhook
+      - restic-offsite-password
     environment:
       BACKUP_HOST: truenas
       BACKUP_TAG: nas
@@ -30,7 +31,9 @@ services:
         abs-config abs-metadata navidrome-data navidrome-music
         immich-data immich-postgres syncthing-config mc-backups
       RESTIC_REPOSITORY: "rest:http://192.168.0.41:8000/nas"
-      OFFSITE_REPOSITORY: "rest:https://chris:I09KNiU1toH8cnH8m2nw6BYfkibjbrcy@restic.sko.ai/chris/nas"
+      OFFSITE_REPOSITORY: "rest:https://restic.sko.ai/chris/mac-mini"
+      OFFSITE_USER: chris
+      OFFSITE_PASSWORD_FILE: /run/secrets/restic-offsite-password
       RESTIC_PASSWORD_FILE: /run/secrets/restic-password
       DISCORD_WEBHOOK_FILE: /run/secrets/discord-webhook
     volumes:
@@ -52,5 +55,7 @@ services:
 secrets:
   restic-password:
     file: ../../secrets/restic.enc.txt
+  restic-offsite-password:
+    file: ../../secrets/restic-offsite-password.enc.txt
   discord-webhook:
     file: ../../secrets/discord-webhook.enc.txt
