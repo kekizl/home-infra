@@ -73,22 +73,12 @@ cleanup() { restart_containers; rm -f "$CLEAN_PW"; }
 trap cleanup EXIT
 trap 'exit 143' INT TERM
 
-# Offsite: OFFSITE_REPO is the clean URL (safe to log).
-# OFFSITE_REPO_AUTH embeds credentials and is only passed to restic.
-OFFSITE_REPO_AUTH="$OFFSITE_REPO"
-if [ -n "$OFFSITE_REPO" ] && [ -n "${OFFSITE_PASSWORD_FILE:-}" ]; then
-    if [ ! -f "$OFFSITE_PASSWORD_FILE" ]; then
-        log "FATAL: OFFSITE_PASSWORD_FILE set but $OFFSITE_PASSWORD_FILE not found"
-        notify_discord "❌ **Restic backup FAILED** \`${LABEL}\`: offsite password file missing"
-        exit 1
-    fi
-    : "${OFFSITE_USER:?OFFSITE_USER is required with OFFSITE_PASSWORD_FILE}"
-    OFFSITE_PASS=$(tr -d '[:space:]' < "$OFFSITE_PASSWORD_FILE")
-    OFFSITE_REPO_AUTH="${OFFSITE_REPO%%://*}://${OFFSITE_USER}:${OFFSITE_PASS}@${OFFSITE_REPO#*://}"
-    unset OFFSITE_PASS
-fi
 
-restic_offsite() { restic -r "$OFFSITE_REPO_AUTH" "$@"; }
+OFFSITE_PASS=$(tr -d '[:space:]' < "$OFFSITE_PASSWORD_FILE")
+restic_offsite() {
+    RESTIC_REST_USERNAME="$OFFSITE_USER" RESTIC_REST_PASSWORD="$OFFSITE_PASS" \
+        restic -r "$OFFSITE_REPO" "$@"
+}
 
 to_gib() { awk -v b="${1:-0}" 'BEGIN { printf "%.2f", b / 1073741824 }'; }
 
