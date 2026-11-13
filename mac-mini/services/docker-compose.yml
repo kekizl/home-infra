@@ -129,7 +129,6 @@ services:
       BACKUP_PATHS: >-
         /backup/grafana /backup/uptime-kuma /backup/vaultwarden
         /backup/adguard-conf /backup/obsidian
-      STOP_LABEL: docker-volume-backup.stop-during-backup=true
       RESTIC_REPOSITORY: "rest:http://192.168.0.41:8000/mac-mini"
       OFFSITE_REPOSITORY: "rest:https://restic.sko.ai/chris/mac-mini"
       OFFSITE_USER: chris
@@ -148,11 +147,11 @@ services:
       - /var/run/docker.sock:/var/run/docker.sock
       # Backup script
       - ${INFRA_ROOT}/scripts/restic-backup.sh:/backup.sh:ro
-#    labels:
-#      cd.doco.job.enabled: "true"
-#      cd.doco.job.schedule: "19 0 * * *"          # daily at 3 am
-#      cd.doco.job.execution_mode: "one_off"
-#      cd.doco.job.skip_running: "true"
+    labels:
+      cd.doco.job.enabled: "true"
+      cd.doco.job.schedule: "0/2 * * * *"          # daily at 3 am
+      cd.doco.job.execution_mode: "one_off"
+      cd.doco.job.skip_running: "true"
 
 volumes:
   tailscale-data-homepage:
