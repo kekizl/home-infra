@@ -31,7 +31,7 @@ services:
         abs-config abs-metadata navidrome-data navidrome-music
         immich-data immich-postgres syncthing-config mc-backups
       RESTIC_REPOSITORY: "rest:http://192.168.0.41:8000/nas"
-      OFFSITE_REPOSITORY: "rest:https://restic.sko.ai/chris/mac-mini"
+      OFFSITE_REPOSITORY: "rest:https://restic.sko.ai/chris/nas"
       OFFSITE_USER: chris
       OFFSITE_PASSWORD_FILE: /run/secrets/restic-offsite-password
       RESTIC_PASSWORD_FILE: /run/secrets/restic-password
