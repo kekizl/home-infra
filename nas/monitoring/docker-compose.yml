@@ -23,7 +23,7 @@ services:
     restart: unless-stopped
 
   node-exporter:
-    image: ghcr.io/vaskozl/prometheus-node-exporter:1.12.1@sha256:d4a260d6964aa158857fd8fb7d219765bce628ff65fb9d1ec159f4335fb33167
+    image: ghcr.io/vaskozl/prometheus-node-exporter:1.12.1@sha256:c910949a9a4546103c5c6a8fb35e34c95bab0e08d844763987186f6c958931a4
     container_name: node-exporter
     restart: unless-stopped
     network_mode: service:ts-nas-node-exporter
