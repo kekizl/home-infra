@@ -9,6 +9,9 @@ services:
       - ALL
     cap_add:
       - NET_ADMIN
+    extends:
+      file: ../../common/limits.yml
+      service: tiny
     secrets:
       - ts_authkey
     environment:
