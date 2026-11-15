@@ -7,6 +7,9 @@ services:
       - no-new-privileges:true
     cap_drop:
       - ALL
+    extends:
+      file: ../../common/limits.yml
+      service: tiny
     secrets:
       - ts_authkey
     environment:
@@ -50,6 +53,9 @@ services:
       - no-new-privileges:true
     cap_drop:
       - ALL
+    extends:
+      file: ../../common/limits.yml
+      service: tiny
     secrets:
       - ts_authkey
     environment:
