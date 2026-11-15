@@ -1,0 +1,11 @@
+services:
+  tiny:
+    mem_limit: 128m
+    mem_reservation: 64m
+    cpus: 0.5
+    pids_limit: 200
+  small:
+    mem_limit: 512m
+    mem_reservation: 256m
+    cpus: 1
+    pids_limit: 500
