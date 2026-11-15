@@ -51,8 +51,10 @@ services:
     hostname: grafana
     security_opt:
       - no-new-privileges:true
-#    cap_drop:
-#      - ALL
+    cap_drop:
+      - ALL
+    cap_add:
+      - DAC_OVERRIDE
     secrets:
       - ts_authkey
     extends:
