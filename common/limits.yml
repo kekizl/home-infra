@@ -9,3 +9,8 @@ services:
     mem_reservation: 256m
     cpus: 1
     pids_limit: 500
+  medium:
+    mem_limit: 1g
+    mem_reservation: 512m
+    cpus: 2
+    pids_limit: 1000

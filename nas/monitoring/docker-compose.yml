@@ -30,6 +30,9 @@ services:
     container_name: node-exporter
     restart: unless-stopped
     network_mode: service:ts-nas-node-exporter
+    extends:
+      file: ../../common/limits.yml
+      service: tiny
     depends_on:
       - ts-nas-node-exporter
     volumes:

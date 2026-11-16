@@ -36,6 +36,9 @@ services:
       - no-new-privileges:true
     cap_drop:
       - ALL
+    extends:
+      file: ../../common/limits.yml
+      service: medium
     volumes:
       - ${INFRA_ROOT}/mac-mini/monitoring/prometheus.yml:/etc/prometheus/prometheus.yml:ro
       - ${INFRA_ROOT}/mac-mini/monitoring/ha-scrape.yml:/etc/prometheus/secrets/ha-scrape.yml:ro
@@ -79,6 +82,9 @@ services:
       - no-new-privileges:true
     cap_drop:
       - ALL
+    extends:
+      file: ../../common/limits.yml
+      service: medium
     depends_on:
       - ts-grafana
     environment:
@@ -119,6 +125,9 @@ services:
     privileged: true
     restart: unless-stopped
     network_mode: service:ts-cadvisor
+    extends:
+      file: ../../common/limits.yml
+      service: small
     depends_on:
       - ts-cadvisor
     volumes:
@@ -156,6 +165,9 @@ services:
     container_name: node-exporter
     restart: unless-stopped
     network_mode: service:ts-node-exporter
+    extends:
+      file: ../../common/limits.yml
+      service: tiny
     depends_on:
       - ts-node-exporter
     volumes:
