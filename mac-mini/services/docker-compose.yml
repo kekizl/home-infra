@@ -33,6 +33,9 @@ services:
     cap_drop:
       - ALL
     network_mode: service:ts-homepage
+    extends:
+      file: ../../common/limits.yml
+      service: small
     depends_on:
       - ts-homepage
     volumes:
@@ -77,6 +80,9 @@ services:
       - no-new-privileges:true
     cap_drop:
       - ALL
+    extends:
+      file: ../../common/limits.yml
+      service: small
     depends_on:
       - ts-vaultwarden
     secrets:
