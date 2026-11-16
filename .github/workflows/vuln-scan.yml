@@ -57,7 +57,7 @@ jobs:
 
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v4
+        uses: actions/checkout@v4.4.0
         with:
           persist-credentials: false
 
@@ -199,7 +199,7 @@ jobs:
       # always() so reports and SBOMs are kept even when the gate fails.
       - name: Upload SBOMs
         if: always()
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v4.6.2
         with:
           name: sboms
           path: trivy-sboms/
@@ -208,7 +208,7 @@ jobs:
 
       - name: Upload vulnerability reports
         if: always()
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v4.6.2
         with:
           name: trivy-vulnerability-reports
           path: trivy-reports/

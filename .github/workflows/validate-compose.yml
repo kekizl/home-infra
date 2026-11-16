@@ -34,7 +34,7 @@ jobs:
 
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v4
+        uses: actions/checkout@v4.4.0
         with:
           persist-credentials: false
 
@@ -86,7 +86,7 @@ jobs:
       # see every problem in a single run.
       - name: Lint YAML (yamllint)
         if: ${{ !cancelled() }}
-        uses: ibiqlik/action-yamllint@v3
+        uses: ibiqlik/action-yamllint@v3.1.1
         with:
           config_data: |
             extends: default
