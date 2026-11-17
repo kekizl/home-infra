@@ -251,6 +251,9 @@ services:
     extends:
       file: ../../common/limits.yml
       service: tiny
+    networks:
+      - default
+      - kuma-docker
     environment:
       - TS_AUTHKEY_FILE=/run/secrets/ts_authkey
       - TS_STATE_DIR=/var/lib/tailscale
@@ -261,6 +264,26 @@ services:
       - ${INFRA_ROOT}/mac-mini/monitoring/ts-uptime-kuma-config:/config
     restart: unless-stopped
 
+  # ---- uptime-kuma socket proxy ----
+  socket-proxy-kuma:
+    image: tecnativa/docker-socket-proxy:v1.0.0
+    container_name: socket-proxy-kuma
+    restart: unless-stopped
+    security_opt:
+      - no-new-privileges:true
+    cap_drop:
+      - ALL
+    read_only: true
+    environment:
+      - CONTAINERS=1
+      # everything else defaults to 0; POST defaults to 0 (read-only)
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+    networks:
+      - kuma-docker
+    tmpfs:
+      - /run
+
   uptime-kuma:
     image: louislam/uptime-kuma:2.5.11@sha256:7554dba313c84e44fee921ef3b5626ba1c711e412e82815e8c957517026112a9
     container_name: uptime-kuma
@@ -270,7 +293,6 @@ services:
       - ts-uptime-kuma
     volumes:
       - ${INFRA_ROOT}/mac-mini/data:/app/data
-      - /var/run/docker.sock:/var/run/docker.sock
     environment:
       - UPTIME_KUMA_HOST=0.0.0.0
       - UPTIME_KUMA_PORT=3001
@@ -288,6 +310,10 @@ volumes:
   loki_data:
   alloy_data:
   tailscale-data-loki:
+
+networks:
+  kuma-docker:
+    internal: true
 
 secrets:
   ts_authkey:
