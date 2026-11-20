@@ -26,7 +26,7 @@ services:
       - arr-internal
 
   qbittorrent:
-    image: ghcr.io/vaskozl/qbittorrent-nox:5.3.0@sha256:faffa8a7e540a45d8d7755b7d93240a5fcd2e8cee980a4ce20be0e6ee211e0ed
+    image: ghcr.io/vaskozl/qbittorrent-nox:5.3.0@sha256:37f69215df25d9bad4d1ec33a297e8752095f5c3c3565cdae4879e6a1483b5ce
     container_name: qbittorrent
     network_mode: service:ts-qbittorrent
     depends_on:
@@ -72,7 +72,7 @@ services:
       - arr-internal
 
   prowlarr:
-    image: ghcr.io/vaskozl/prowlarr:2.6.6.5717-r0@sha256:8ef3fa4fdfff638b48367f457a431e3824d22a8485137239ab7eee5875c1bfd0
+    image: ghcr.io/vaskozl/prowlarr:2.6.6.5717-r0@sha256:bb160ece6ae04b041c9155966659de44e4763f1d54e7f709722442706ffff88a
     container_name: prowlarr
     network_mode: service:ts-prowlarr
     security_opt:
@@ -113,7 +113,7 @@ services:
       - arr-internal
 
   lidarr:
-    image: ghcr.io/vaskozl/lidarr:3.2.0.5144-r0@sha256:11ada827f48cf2a3b6b7ebe55cf93014c66fb9e2699f07578c54aa562160ea45
+    image: ghcr.io/vaskozl/lidarr:3.2.0.5144-r0@sha256:0283c564b0d560ec98a9748021bfd1fba9dcd55387d0d50f63eb0d489e5ee96b
     container_name: lidarr
     network_mode: service:ts-lidarr
     depends_on:
