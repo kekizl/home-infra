@@ -74,7 +74,7 @@ services:
     restart: unless-stopped
 
   grafana:
-    image: ghcr.io/vaskozl/grafana:13.0.13@sha256:0038b6641575860e207545f31008c94fb6e2ac9fd1a788c5e9771016cc7e0002
+    image: ghcr.io/vaskozl/grafana:13.0.13@sha256:da0fc19bfcc3d588bf87a290f737dcd00c68f4bb979048b2f05d9c80711dd1b4
     container_name: grafana
     restart: unless-stopped
     network_mode: service:ts-grafana
@@ -161,7 +161,7 @@ services:
     restart: unless-stopped
 
   node-exporter:
-    image: ghcr.io/vaskozl/prometheus-node-exporter:1.12.1@sha256:4e72866fb3c4b00d4bf488f191f246822fa974f61db580b02ff1a173f4c1e5e4
+    image: ghcr.io/vaskozl/prometheus-node-exporter:1.12.1@sha256:dd0480716215456f8bc8ba0310ebd0964eff3950c6f9a3e9bccee40493d287b9
     container_name: node-exporter
     restart: unless-stopped
     network_mode: service:ts-node-exporter
