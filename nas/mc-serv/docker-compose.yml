@@ -132,9 +132,9 @@ services:
       TYPE: "AUTO_CURSEFORGE"
       CF_PAGE_URL: "https://www.curseforge.com/minecraft/modpacks/homestead-cozy"
       CF_API_KEY_FILE: "/run/secrets/cf_api_key"
-      # CF_FILENAME_MATCHER: "2.0"   # optional: pin to a specific pack version
-      DIFFICULTY: "normal"
-      MEMORY: "8G"
+      CF_FILENAME_MATCHER: "2.0.1"
+      DIFFICULTY: "hard"
+      MEMORY: "10G"
       RCON_PASSWORD_FILE: "/run/secrets/rcon_password"
       UID: "568"
       GID: "568"
