@@ -204,7 +204,7 @@ networks:
 
 volumes:
   tailscale-data-mc:
-  tailscale-data-homestead
+  tailscale-data-homestead:
 
 secrets:
   ts_authkey:
