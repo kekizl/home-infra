@@ -27,6 +27,10 @@ services:
   immich-server:
     container_name: immich_server
     image: ghcr.io/immich-app/immich-server:v3.4.2@sha256:fc880c1bf665b4aab1e74c15e56ab871225989cd546536e6b77e771869af06bd
+    extends:
+      file: ../../common/limits.yml
+      service: large
+    mem_limit: 3g
     volumes:
       - ${APPSTORAGE_ROOT}/immich/data:/usr/src/app/upload
       - /etc/localtime:/etc/localtime:ro
@@ -44,6 +48,11 @@ services:
   immich-machine-learning:
     container_name: immich_machine_learning
     image: ghcr.io/immich-app/immich-machine-learning:v3.4.2@sha256:739405742a79bd7447227c553bb62ed5491aa36acf00bc667af7f9c93b6fae91
+    extends:
+      file: ../../common/limits.yml
+      service: large
+    mem_limit: 4g
+    cpus: 2
     env_file:
       - ./db_secrets.enc.env
     volumes:
@@ -53,11 +62,17 @@ services:
   redis:
     container_name: immich_redis
     image: docker.io/valkey/valkey:9.2.0@sha256:1c2b25b09f354c66fe994733acdf12fcfd4bdf6f3bd92b88a93a70378d884056
+    extends:
+      file: ../../common/limits.yml
+      service: small
     restart: always
 
   database:
     container_name: immich_postgres
     image: ghcr.io/immich-app/postgres:16-vectorchord0.4.3-pgvectors0.2.0@sha256:1a078b237c1d9b420b0ee59147386b4aa60d3a07a8e6a402fc84a57e41b043a4
+    extends:
+      file: ../../common/limits.yml
+      service: large
     env_file:
       - ./db_secrets.enc.env
     environment:
@@ -100,6 +115,9 @@ services:
       - no-new-privileges:true
     cap_drop:
       - ALL
+    extends:
+      file: ../../common/limits.yml
+      service: small
     network_mode: service:ts-audiobookshelf
     depends_on:
       - ts-audiobookshelf
@@ -149,6 +167,9 @@ services:
       - no-new-privileges:true
     cap_drop:
       - ALL
+    extends:
+      file: ../../common/limits.yml
+      service: small
     environment:
       - ND_DATAFOLDER=/data
       - ND_MUSICFOLDER=/music
@@ -191,6 +212,9 @@ services:
       - TZ=Europe/Stockholm
     security_opt:
       - no-new-privileges:true
+    extends:
+      file: ../../common/limits.yml
+      service: small
     volumes:
       - ${INFRA_ROOT}/nas/nas-services/freshrss/config:/config
     restart: unless-stopped
@@ -227,6 +251,9 @@ services:
       - no-new-privileges:true
     cap_drop:
       - ALL
+    extends:
+      file: ../../common/limits.yml
+      service: small
     depends_on:
       - ts-otterwiki
     user: "568:568"
