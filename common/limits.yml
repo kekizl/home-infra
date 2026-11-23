@@ -14,3 +14,8 @@ services:
     mem_reservation: 512m
     cpus: 2
     pids_limit: 1000
+  large:
+    mem_limit: 2g
+    mem_reservation: 1g
+    cpus: 4
+    pids_limit: 2000
