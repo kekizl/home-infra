@@ -13,6 +13,8 @@ SNAPSHOT_DIRS=(
   "/mnt/Pool/App_Storage/immich/immich_postgres16/.zfs/snapshot"
   "/mnt/Pool/App_Storage/syncthing/config/.zfs/snapshot"
   "/mnt/SSDPool/MC/backups/.zfs/snapshot"
+  "/mnt/SSDPool/MC/homestead-backups/.zfs/snapshot"
+
 )
 
 HOLD_SECONDS=1200   # 20 minutes — bump this if backups run longer
