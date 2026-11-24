@@ -276,6 +276,9 @@ services:
       - no-new-privileges:true
     cap_drop:
       - ALL
+    extends:
+      file: ../../common/limits.yml
+      service: tiny
     read_only: true
     environment:
       - CONTAINERS=1
@@ -296,6 +299,9 @@ services:
       - no-new-privileges:true
     cap_drop:
       - ALL
+    extends:
+      file: ../../common/limits.yml
+      service: medium
     network_mode: service:ts-uptime-kuma
     depends_on:
       - ts-uptime-kuma

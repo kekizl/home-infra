@@ -35,6 +35,9 @@ services:
       - no-new-privileges:true
     cap_drop:
       - ALL
+    extends:
+      file: ../../common/limits.yml
+      service: large
     user: "568:568"
     environment:
       - HOME=/config
@@ -79,6 +82,9 @@ services:
       - no-new-privileges:true
     cap_drop:
       - ALL
+    extends:
+      file: ../../common/limits.yml
+      service: small
     depends_on:
       - ts-prowlarr
     environment:
@@ -122,6 +128,8 @@ services:
       - no-new-privileges:true
     cap_drop:
       - ALL
+      file: ../../common/limits.yml
+      service: medium
     environment:
       - TZ=Europe/Stockholm
     volumes:
@@ -133,6 +141,11 @@ services:
   flaresolverr:
     image: ghcr.io/flaresolverr/flaresolverr:v3.5.2@sha256:c80ae007ce2ccdcd217a12426e4f039ef763ff90738c808d38810c3e59323767
     container_name: flaresolverr
+    extends:
+      file: ../../common/limits.yml
+      service: medium
+    mem_limit: 1536m
+    shm_size: 256m
     environment:
       - LOG_LEVEL=info
       - TZ=Europe/Stockholm
@@ -150,6 +163,9 @@ services:
     cap_add:
       - SETUID
       - SETGID
+    extends:
+      file: ../../common/limits.yml
+      service: small
     env_file:
       - ../../secrets/qbt.enc.env
     environment:
