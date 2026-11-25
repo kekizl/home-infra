@@ -35,12 +35,10 @@ RETENTION="${RETENTION:---keep-daily 7 --keep-weekly 4 --keep-monthly 3}"
 
 STOPPED_IDS=""
 
-# ------------------------------------------------------------------
-# Password file cleanup (restricted perms, removed on exit)
-# ------------------------------------------------------------------
 CLEAN_PW="/tmp/restic-password-clean"
 ( umask 077; tr -d '[:space:]' < "$RESTIC_PASSWORD_FILE" > "$CLEAN_PW" )
 export RESTIC_PASSWORD_FILE="$CLEAN_PW"
+BACKUP_OUT="/tmp/restic-backup-out.json"
 
 # ------------------------------------------------------------------
 # Helpers
@@ -69,7 +67,7 @@ restart_containers() {
 
 # Safety net: containers always come back and the password copy is removed,
 # even if the script is killed or fails mid-way.
-cleanup() { restart_containers; rm -f "$CLEAN_PW"; }
+cleanup() { restart_containers; rm -f "$CLEAN_PW" "$BACKUP_OUT"; }
 trap cleanup EXIT
 trap 'exit 143' INT TERM
 
@@ -81,18 +79,6 @@ restic_offsite() {
 }
 
 to_gib() { awk -v b="${1:-0}" 'BEGIN { printf "%.2f", b / 1073741824 }'; }
-
-# Size of the latest snapshot for this host/tag (restored size, pre-dedup)
-snapshot_bytes() {
-    "$@" stats --mode restore-size --json --host "$HOST" --tag "$TAG" latest 2>/dev/null \
-        | jq -r '.total_size // 0' || echo 0
-}
-
-# Actual on-disk size of the whole repo (deduplicated, compressed)
-repo_bytes() {
-    "$@" stats --mode raw-data --json 2>/dev/null \
-        | jq -r '.total_size // 0' || echo 0
-}
 
 get_latest_snapshot() { ls -1 "$1" 2>/dev/null | sort | tail -n 1; }
 
@@ -146,12 +132,26 @@ log "Starting backup to primary: $PRIMARY_REPO"
 log "Sources: $SOURCES"
 
 PRIMARY_OK=0
+SNAPSHOT_ID=""
+SNAPSHOT_BYTES=0
+BACKUP_RC=0
+
 # shellcheck disable=SC2086
-if restic backup $SOURCES --host "$HOST" --tag "$TAG"; then
-    log "✓ Primary backup succeeded"
+restic backup --json $SOURCES --host "$HOST" --tag "$TAG" > "$BACKUP_OUT" || BACKUP_RC=$?
+
+# exit 0 = ok, exit 3 = snapshot created but some files unreadable (treat as success)
+if [ "$BACKUP_RC" -eq 0 ] || [ "$BACKUP_RC" -eq 3 ]; then
     PRIMARY_OK=1
+    [ "$BACKUP_RC" -eq 3 ] && log "WARNING: some files could not be read"
+    log "✓ Primary backup succeeded"
+
+    SUMMARY=$(jq -c 'select(.message_type=="summary")' "$BACKUP_OUT" | tail -n 1)
+    if [ -n "$SUMMARY" ]; then
+        SNAPSHOT_ID=$(printf '%s' "$SUMMARY" | jq -r '.snapshot_id // empty')
+        SNAPSHOT_BYTES=$(printf '%s' "$SUMMARY" | jq -r '.total_bytes_processed // 0')
+    fi
 else
-    log "✗ Primary backup FAILED"
+    log "✗ Primary backup FAILED (exit $BACKUP_RC)"
 fi
 
 # ------------------------------------------------------------------
@@ -205,14 +205,8 @@ fi
 # 7. Sizes
 # ------------------------------------------------------------------
 SIZE_LINE=""
-if [ "$PRIMARY_OK" -eq 1 ]; then
-    SNAP_GIB=$(to_gib "$(snapshot_bytes restic)")
-    PRIMARY_REPO_GIB=$(to_gib "$(repo_bytes restic)")
-    SIZE_LINE="📦 Snapshot: ${SNAP_GIB} GiB · Primary repo: ${PRIMARY_REPO_GIB} GiB"
-    if [ "$OFFSITE_OK" -eq 1 ]; then
-        OFFSITE_REPO_GIB=$(to_gib "$(repo_bytes restic_offsite)")
-        SIZE_LINE="${SIZE_LINE} · Offsite repo: ${OFFSITE_REPO_GIB} GiB"
-    fi
+if [ "$PRIMARY_OK" -eq 1 ] && [ -n "$SNAPSHOT_ID" ]; then
+    SIZE_LINE="📦 Snapshot $(printf '%s' "$SNAPSHOT_ID" | cut -c1-8): $(to_gib "$SNAPSHOT_BYTES") GiB"
     log "$SIZE_LINE"
 fi
 
