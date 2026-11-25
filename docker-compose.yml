@@ -10,7 +10,7 @@ services:
     volumes:
       - ./doco-cd-data:/data       # persistent logs/cache
       - /var/run/docker.sock:/var/run/docker.sock  # needed for docker-compose deploys
-    ports:
+#    ports:
 #      - "9080:80"  # optional health/metrics endpoint. Unnecessary if used with polling
     environment:
       LOG_LEVEL: DEBUG
