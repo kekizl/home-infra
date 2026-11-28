@@ -28,7 +28,7 @@ services:
       - mc-net
 
   backup:
-    image: itzg/mc-backup:2026.11.1@sha256:d731fa58822525cc65a23fbd82f472be4fc74854ee313da36bb4872bdba722c7
+    image: itzg/mc-backup:2026.11.2@sha256:f8da37bc50d2f29451d0ad6a7b4decf541bba86493cba8336b203bb03cfc4aaa
     container_name: mc-backup
     network_mode: service:ts-mc
     restart: unless-stopped
@@ -55,7 +55,7 @@ services:
       - ${MC_ROOT}/backups:/backups
 
   mc:
-    image: itzg/minecraft-server:2026.11.0-java25@sha256:8d5080d8dcd0a2629c2e4f248678373a337a40537ad6ef2857c7dbcda6e3eadd
+    image: itzg/minecraft-server:2026.11.1-java25@sha256:0634ff76eee896c7e9760a35117d24fad394857d10bc8c1d9bc7f7ff7deef3c2
     container_name: mc
     network_mode: service:ts-mc
     depends_on:
@@ -111,7 +111,7 @@ services:
       - mc-net
 
   homestead-mc:
-    image: itzg/minecraft-server:2026.11.0-java17@sha256:35f069ed801f4b14655acb52fdb7745dccfe69399867f57608ae4136a32c3c9e   # pin a @sha256 digest after pulling
+    image: itzg/minecraft-server:2026.11.1-java17@sha256:94e447e5154d17c3bc3afb4dc8a339a67ade040c780c25572214f88df8048085   # pin a @sha256 digest after pulling
     container_name: homestead-mc
     network_mode: service:ts-homestead
     depends_on:
@@ -147,7 +147,7 @@ services:
     restart: unless-stopped
 
   homestead-backup:
-    image: itzg/mc-backup:2026.11.1@sha256:d731fa58822525cc65a23fbd82f472be4fc74854ee313da36bb4872bdba722c7
+    image: itzg/mc-backup:2026.11.2@sha256:f8da37bc50d2f29451d0ad6a7b4decf541bba86493cba8336b203bb03cfc4aaa
     container_name: homestead-backup
     network_mode: service:ts-homestead
     restart: unless-stopped
