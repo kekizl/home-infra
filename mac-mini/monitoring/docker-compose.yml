@@ -74,7 +74,7 @@ services:
     restart: unless-stopped
 
   grafana:
-    image: ghcr.io/vaskozl/grafana:13.0.13@sha256:da0fc19bfcc3d588bf87a290f737dcd00c68f4bb979048b2f05d9c80711dd1b4
+    image: ghcr.io/vaskozl/grafana:13.0.14@sha256:3f5d463f805ce07590a75a7f643f712e1b1011bd1893d8774835c5457c077140
     container_name: grafana
     restart: unless-stopped
     network_mode: service:ts-grafana
